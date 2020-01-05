@@ -2,13 +2,15 @@ package frc.robot.userinterface;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class XboxController {
+public class RumbleXboxController extends XboxController {
 
     private Joystick joystick;
     public final JoystickButton A, B, X, Y, LB, RB, BACK, START;
 
-    public XboxController(int port) {
+    public RumbleXboxController(int port) {
+        super(port);
         this.joystick = new Joystick(port);
         this.A = new JoystickButton(joystick, 1);
         this.B = new JoystickButton(joystick, 2);
@@ -34,5 +36,10 @@ public class XboxController {
 
     public int getPOVAngle() {
         return joystick.getPOV(0);
+    }
+
+    public void setRumble(double intensity) {
+        this.setRumble(RumbleType.kLeftRumble, intensity);
+        this.setRumble(RumbleType.kRightRumble, intensity);
     }
 }

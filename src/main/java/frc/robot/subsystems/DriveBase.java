@@ -19,17 +19,11 @@ public class DriveBase extends Subsystem {
     public Victor leftRearFollower;
     public Victor rightFrontFollower;
     public Victor rightRearFollower;        
-    
-    // public Talon leftFrontFollower;
-    // public Talon leftRearFollower;
-    // public Talon rightFrontFollower;
-    // public Talon rightRearFollower;
 
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
     public DifferentialDrive cheesyDrive; 
-    //public DifferentialDriveCorrection cheesyDrive; 
     private static final SPI.Port kGyroPort = SPI.Port.kOnboardCS0;
 
     public DriveBase() {
@@ -42,12 +36,6 @@ public class DriveBase extends Subsystem {
         this.rightFrontFollower = new Victor(RobotMap.rightFrontFollower);
         this.rightRearFollower = new Victor(RobotMap.rightRearFollower);
 
-        //PBOT
-        // this.leftFrontFollower = new WPI_TalonSRX(RobotMap.leftFrontFollower);
-        // this.leftRearFollower = new WPI_TalonSRX(RobotMap.leftRearFollower);
-        // this.rightFrontFollower = new WPI_TalonSRX(RobotMap.rightFrontFollower);
-        // this.rightRearFollower = new WPI_TalonSRX(RobotMap.rightRearFollower);
-
         leftMiddleMaster.setInverted(true);
         leftFrontFollower.setInverted(true);
         leftRearFollower.setInverted(true);
@@ -56,7 +44,6 @@ public class DriveBase extends Subsystem {
         this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollower, leftRearFollower);
         this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollower, rightRearFollower);        
         this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
-        //this.cheesyDrive = new DifferentialDriveCorrection(leftSide, rightSide);
     }
 
     public void initDefaultCommand() {this.setDefaultCommand(new TankDrive());}

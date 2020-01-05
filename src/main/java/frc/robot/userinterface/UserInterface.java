@@ -4,7 +4,7 @@ import frc.robot.RobotMap;
 
 public class UserInterface {
 
-    public static final XboxController driverController = new XboxController(RobotMap.driverXboxController);
-    public static final XboxController operatorController = new XboxController(RobotMap.operatorXboxController);
+    public static final RumbleXboxController driverController = new RumbleXboxController(RobotMap.driverXboxController);
+    public static final RumbleXboxController operatorController = new RumbleXboxController(RobotMap.operatorXboxController);
 
 }

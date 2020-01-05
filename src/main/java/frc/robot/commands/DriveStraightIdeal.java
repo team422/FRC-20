@@ -43,8 +43,8 @@ public class DriveStraightIdeal extends Command {
 
   @Override
   protected boolean isFinished() {
-    int leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
-    int rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
+    double leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
+    double rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
     return (leftPosition > ticks) || (rightPosition > ticks) || isTimedOut();
   }
 
