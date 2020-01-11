@@ -1,16 +1,7 @@
 package frc.robot;
 
 public class RobotMap {
-    /**
-     * Whether or not this is the competition bot. Changing this variable
-     * will change all ports accordingly. MAKE SURE YOU GO THROUGH DRIVEBASE
-     * AND CARGO SUBSYSTEMS AND CHANGE VICTOR/TALON CLASSES ACCORDINGLY.
-     */
-    public static final boolean isCompBot = true;
-    
-    /**
-     * Sets additional settings/booleans.
-     */
+
     public static String botName = (isCompBot) ? "Comp bot" : "Practice bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
@@ -23,12 +14,12 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
-    public static final int leftFrontFollower = (isCompBot) ? 3 : 20;
-    public static final int leftMiddleMaster = (isCompBot) ? 2 : 21;
-    public static final int leftRearFollower = (isCompBot) ? 6 : 22;
-    public static final int rightFrontFollower = (isCompBot) ? 5 : 35;
-    public static final int rightMiddleMaster = (isCompBot) ? 14 : 34;
-    public static final int rightRearFollower = (isCompBot) ? 4 : 33;
+    public static final int leftFrontFollower = 3;
+    public static final int leftMiddleMaster = 2;
+    public static final int leftRearFollower = 6;
+    public static final int rightFrontFollower = 5;
+    public static final int rightMiddleMaster = 14;
+    public static final int rightRearFollower = 4;
     
     // Double Solenoid Values (PCM 0)
 
