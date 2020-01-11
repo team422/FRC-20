@@ -2,7 +2,6 @@ package frc.robot;
 
 public class RobotMap {
 
-    public static String botName = (isCompBot) ? "Comp bot" : "Practice bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
