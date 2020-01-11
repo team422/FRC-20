@@ -3,8 +3,10 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.TankDrive;
-import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.Talon;
+// import edu.wpi.first.wpilibj.Victor;
+// import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -12,13 +14,13 @@ import edu.wpi.first.wpilibj.SPI;
 
 public class DriveBase extends Subsystem {
 
-    public Talon leftMiddleMaster;
-    public Talon rightMiddleMaster;
+    public WPI_TalonSRX leftMiddleMaster;
+    public WPI_TalonSRX rightMiddleMaster;
 
-    public Victor leftFrontFollower;
-    public Victor leftRearFollower;
-    public Victor rightFrontFollower;
-    public Victor rightRearFollower;        
+    public WPI_VictorSPX leftFrontFollower;
+    public WPI_VictorSPX leftRearFollower;
+    public WPI_VictorSPX rightFrontFollower;
+    public WPI_VictorSPX rightRearFollower;        
 
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
@@ -28,13 +30,13 @@ public class DriveBase extends Subsystem {
 
     public DriveBase() {
         super("DriveBase");
-        this.leftMiddleMaster = new Talon(RobotMap.leftMiddleMaster); 
-        this.rightMiddleMaster = new Talon(RobotMap.rightMiddleMaster);
+        this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster); 
+        this.rightMiddleMaster = new WPI_TalonSRX(RobotMap.rightMiddleMaster);
         
-        this.leftFrontFollower = new Victor(RobotMap.leftFrontFollower);
-        this.leftRearFollower = new Victor(RobotMap.leftRearFollower);
-        this.rightFrontFollower = new Victor(RobotMap.rightFrontFollower);
-        this.rightRearFollower = new Victor(RobotMap.rightRearFollower);
+        this.leftFrontFollower = new WPI_VictorSPX(RobotMap.leftFrontFollower);
+        this.leftRearFollower = new WPI_VictorSPX(RobotMap.leftRearFollower);
+        this.rightFrontFollower = new WPI_VictorSPX(RobotMap.rightFrontFollower);
+        this.rightRearFollower = new WPI_VictorSPX(RobotMap.rightRearFollower);
 
         leftMiddleMaster.setInverted(true);
         leftFrontFollower.setInverted(true);
@@ -59,11 +61,11 @@ public class DriveBase extends Subsystem {
     }
 
     public double getLeftPosition() {
-        return leftMiddleMaster.getPosition();
+        return leftMiddleMaster.getSelectedSensorPosition(0);
     }
 
     public double getRightPosition() {
-        return rightMiddleMaster.getPosition();
+        return rightMiddleMaster.getSelectedSensorPosition(0);
     }
 
     public double getGyroAngle() {
@@ -71,8 +73,8 @@ public class DriveBase extends Subsystem {
     }
 
     public void zeroEncoderPosition() {
-        leftMiddleMaster.setPosition(0);
-        rightMiddleMaster.setPosition(0);
+        leftMiddleMaster.setSelectedSensorPosition(0,0,10);
+        rightMiddleMaster.setSelectedSensorPosition(0,0,10);
     }
 
     public void zeroGyroAngle() {
