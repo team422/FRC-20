@@ -33,7 +33,6 @@ public class RightAutonomous extends CommandGroup {
       }
     } else { //push other robot
         //code for if we have to push an allybot across the initiation line
-      }
     }
   }
 }
