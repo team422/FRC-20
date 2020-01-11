@@ -23,12 +23,12 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
-    public static final int leftFrontFollower = (isCompBot) ? 4 : 20;
-    public static final int leftMiddleMaster = (isCompBot) ? 11 : 21;
+    public static final int leftFrontFollower = (isCompBot) ? 3 : 20;
+    public static final int leftMiddleMaster = (isCompBot) ? 2 : 21;
     public static final int leftRearFollower = (isCompBot) ? 6 : 22;
-    public static final int rightFrontFollower = (isCompBot) ? 3 : 35;
-    public static final int rightMiddleMaster = (isCompBot) ? 12 : 34;
-    public static final int rightRearFollower = (isCompBot) ? 5 : 33;
+    public static final int rightFrontFollower = (isCompBot) ? 5 : 35;
+    public static final int rightMiddleMaster = (isCompBot) ? 14 : 34;
+    public static final int rightRearFollower = (isCompBot) ? 4 : 33;
     
     // Double Solenoid Values (PCM 0)
 
