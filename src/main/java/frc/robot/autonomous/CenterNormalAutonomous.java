@@ -9,7 +9,7 @@ public class CenterNormalAutonomous extends CommandGroup {
   public final double robotX = 34; //robotX is full width of robot including bumpers (left to right)
   public final double robotY = 38.25;  //robotY is full length of robot including bumpers (front to back)
   public double crossLine = 8; //distance to cross line (should be no more than 82.625+robotY)
-  public double distanceToGoalX = 8; //replace with actual value
+  public double distanceToGoalX = 8; //replace with actual value, measured from right position
   public double distanceToGoalY = 8; //replace with actual value
   public double timeout = 8; //replace with actual value
   public double speed = 0.8;
@@ -22,7 +22,7 @@ public class CenterNormalAutonomous extends CommandGroup {
     } else {
       addSequential(new DriveStraight(crossLine, speed, true, timeout));
       addSequential(new Turn(-90, speed, timeout));
-      addSequential(new DriveStraight(distanceToGoalX, speed, true, timeout));
+      addSequential(new DriveStraight((distanceToGoalX/2), speed, true, timeout));
       addSequential(new Turn(-90, speed, timeout));   
       addSequential(new DriveStraight(distanceToGoalY, speed, true, timeout));
       //addSequential(new Shoot()); //shoot
