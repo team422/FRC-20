@@ -39,7 +39,7 @@ public class RobotMap {
         return idealAngle;
     }
     
-    public static void setIdealAngle(double angle) {
+    public static void setIdealAngle(final double angle) {
         idealAngle = angle;
         System.out.println("Ideal angle is now " + idealAngle);
     }
@@ -52,12 +52,12 @@ public class RobotMap {
         return rotationCap;
     }
     
-    public static void setSpeedAndRotationCaps(double newSpeedCap, double newRotationCap) {
+    public static void setSpeedAndRotationCaps(final double newSpeedCap, final double newRotationCap) {
         speedCap = newSpeedCap;
         rotationCap = newRotationCap;
     }
     
-    public static void setDriveOffset(double offset) {
+    public static void setDriveOffset(final double offset) {
         driveOffset = offset;
         System.out.println("Drive offset is now " + driveOffset);
     }
@@ -70,7 +70,7 @@ public class RobotMap {
         return turnDirection;
     }
     
-    public static void setTurnDirection(double direction) {
+    public static void setTurnDirection(final double direction) {
         turnDirection = direction;
     }
 }
