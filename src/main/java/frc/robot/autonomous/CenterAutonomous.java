@@ -32,7 +32,7 @@ public class CenterAutonomous extends CommandGroup {
         //addSequential(new DriveStraight()); //go to intake more balls
       }
     }
-  if (isJenky = true){
+  else {
     //code for if we have to push an allybot across the initiation line
     }
   }

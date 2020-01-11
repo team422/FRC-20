@@ -16,20 +16,19 @@ public class LeftAutonomous extends CommandGroup {
   public double speed = 0.8;
 
   public LeftAutonomous() {
-    if (isJenky = false){
-    if (crossLine > 82.625+robotY) {
-      //((field length minus 2*(sector depth) minus (trench run depth))/2) -4 (amount by which dimensions can vary)
-      //to prevent us from going too far back
-      addSequential(new DriveStraight(robotY, speed, true, timeout)); //DO NOT CHANGE
-    } else {
-      addSequential(new DriveStraight(crossLine, speed, true, timeout));
-      addSequential(new Turn(180, speed, timeout));
-      addSequential(new DriveStraight(distanceToGoalY, speed, true, timeout));
-      //addSequential(new Shoot()); //shoot
-      //addSequential(new DriveStraight()); //go to intake more balls
+    if (isJenky = false) {
+      if (crossLine > 82.625+robotY) {
+        //((field length minus 2*(sector depth) minus (trench run depth))/2) -4 (amount by which dimensions can vary)
+        //to prevent us from going too far back
+        addSequential(new DriveStraight(robotY, speed, true, timeout)); //DO NOT CHANGE
+      } else {
+        addSequential(new DriveStraight(crossLine, speed, true, timeout));
+        addSequential(new Turn(180, speed, timeout));
+        addSequential(new DriveStraight(distanceToGoalY, speed, true, timeout));
+        //addSequential(new Shoot()); //shoot
+        //addSequential(new DriveStraight()); //go to intake more balls
       }
-    }
-    if (isJenky = true){
+    } else {
       //code for if we have to push an allybot across the initiation line
     }
   }
