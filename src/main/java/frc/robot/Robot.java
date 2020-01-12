@@ -13,7 +13,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        System.out.println("Initializing " + RobotMap.botName + "\n");
+        System.out.println("Initializing robot\n");
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
     }
 
