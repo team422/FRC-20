@@ -2,7 +2,7 @@ package frc.robot;
 
 public class RobotMap {
 
-    public static String botName = "Toaster Bot";
+    public static String botName = "Practice Bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
@@ -14,12 +14,12 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
-    public static final int leftFrontFollower = 3;
-    public static final int leftMiddleMaster = 2;
-    public static final int leftRearFollower = 6;
-    public static final int rightFrontFollower = 5;
-    public static final int rightMiddleMaster = 14;
-    public static final int rightRearFollower = 4;
+    public static final int leftFrontFollower = 43;
+    public static final int leftMiddleMaster = 20;
+    public static final int leftRearFollower = 26;
+    public static final int rightFrontFollower = 13;
+    public static final int rightMiddleMaster = 31;
+    public static final int rightRearFollower = 34;
     
     // Double Solenoid Values (PCM 0)
 
