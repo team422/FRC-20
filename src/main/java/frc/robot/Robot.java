@@ -2,25 +2,23 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.subsystems.*;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTable;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 public class Robot extends TimedRobot {
 
     private UsbCamera camera;
 
-    private NetworkTableEntry bigger;
-    /*private NetworkTableEntry lineX1;
-    private NetworkTableEntry lineY0;
-    private NetworkTableEntry lineY1;*/
+    private NetworkTableEntry blockX;
+    private NetworkTableEntry blockY;
+
+    private TrackObject trackObject;
 
     public Robot() {
         super(0.06);
@@ -33,8 +31,10 @@ public class Robot extends TimedRobot {
         
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         NetworkTable pie = inst.getTable("pie");
-        bigger = pie.getEntry("bigger");
-       
+        blockX = pie.getEntry("blockX");
+        blockY = pie.getEntry("blockY");
+
+        trackObject = new TrackObject();
 
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
     }
@@ -52,6 +52,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
+
+        trackObject.start();
     }
 
     public void autonomousPeriodic() {
@@ -70,9 +72,7 @@ public class Robot extends TimedRobot {
     }
 
     private void printDataToSmartDashboard() {
-
-        SmartDashboard.putNumber("bigger", bigger.getDouble(-404));
-               
-
+        SmartDashboard.putNumber("blockX", blockX.getDouble(-404));
+        SmartDashboard.putNumber("blockY", blockY.getDouble(-404));
     }
 }
