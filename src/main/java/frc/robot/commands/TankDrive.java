@@ -9,7 +9,7 @@ public class TankDrive extends Command {
 
   private double updatedSpeed = 0;
   private double updatedRotation = 0;
-  private static final double maxChange = 0.06;
+  private static final double maxChange = 0.5;
   
   public TankDrive() {
     super("TankDrive");
@@ -41,7 +41,7 @@ public class TankDrive extends Command {
       rotation = 0;
     }
 
-    updatedRotation = -rotation;    
+    updatedRotation = -rotation;  
 
     double speedDifference = speed - updatedSpeed;
     if (speedDifference > maxChange) {
