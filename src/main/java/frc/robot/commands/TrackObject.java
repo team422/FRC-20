@@ -37,7 +37,6 @@ public class TrackObject extends Command {
         correction *= 0.17d;
         correction += 1d;
 
-        System.out.println(correction);
         if (Math.abs(correction) > 0.2) {
             Subsystems.driveBase.setMotors(0.25*correction, -0.25*correction);
         }

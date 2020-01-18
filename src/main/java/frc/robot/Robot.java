@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -10,6 +11,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.commands.autonomous.*;
 
 public class Robot extends TimedRobot {
 
@@ -18,7 +20,7 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry blockX;
     private NetworkTableEntry blockY;
 
-    private TrackObject trackObject;
+    private TestAutonomous autonomous;
 
     public Robot() {
         super(0.06);
@@ -34,7 +36,7 @@ public class Robot extends TimedRobot {
         blockX = pie.getEntry("blockX");
         blockY = pie.getEntry("blockY");
 
-        trackObject = new TrackObject();
+        autonomous = new TestAutonomous();
 
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
     }
@@ -52,8 +54,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
-
-        trackObject.start();
+        
+        autonomous.start();
     }
 
     public void autonomousPeriodic() {

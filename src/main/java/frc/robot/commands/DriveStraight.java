@@ -31,9 +31,9 @@ public void execute() {
     correction *= 0.075;
     correction += 1.0;
     if (forward) {
-        Subsystems.driveBase.setMotors(-speed, -speed * correction);
+        Subsystems.driveBase.setMotors(-speed, -speed);
     } else {
-        Subsystems.driveBase.setMotors(speed * correction, speed);
+        Subsystems.driveBase.setMotors(speed, speed);
     }
 }
 
