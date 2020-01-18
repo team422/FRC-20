@@ -25,7 +25,8 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        System.out.println("Initializing " + RobotMap.botName + "\n");
+      
+       System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
         
@@ -35,7 +36,7 @@ public class Robot extends TimedRobot {
         blockY = pie.getEntry("blockY");
 
         trackObject = new TrackObject();
-
+      
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
     }
 
