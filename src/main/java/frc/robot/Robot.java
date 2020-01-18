@@ -10,8 +10,11 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
+import frc.robot.Pixy;
 
 public class Robot extends TimedRobot {
+
+    
 
     private UsbCamera camera;
 
@@ -26,7 +29,10 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
       
-       System.out.println("Initializing " + RobotMap.botName + "\n");
+        System.out.println("Initializing " + RobotMap.botName + "\n");
+
+        Pixy pixy = new Pixy();
+        pixy.readPixy();
 
         camera = CameraServer.getInstance().startAutomaticCapture();
         
