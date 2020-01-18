@@ -6,14 +6,18 @@ public class RobotMap {
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
-    public static double speedCap = 0.2;
-    public static double rotationCap = 0.2;
+    public static double speedCap = 0.25;
+    public static double rotationCap = 0.5;
     
     /**
      * Various Ports
      */
     
     // Talon/Victor IDs
+
+    
+    
+    
 
     /* //VALUES FOR TOASTER
     public static final int leftFrontFollower = 3;
@@ -23,13 +27,14 @@ public class RobotMap {
     public static final int rightMiddleMaster = 14;
     public static final int rightRearFollower = 4;
     */
-    //PORTS FOR REAL BASE THING
-    public static final int leftFrontFollower = 34;
-    public static final int leftMiddleMaster = 31;
-    public static final int leftRearFollower = 13;
-    public static final int rightFrontFollower = 26;
+    //PORTS FOR PRACTIVE BOT
+    public static final int rightRearFollower = 1;
     public static final int rightMiddleMaster = 20;
-    public static final int rightRearFollower = 43;
+    public static final int rightFrontFollower = 26;
+    public static final int leftRearFollower = 35;
+    public static final int leftMiddleMaster = 34;
+    public static final int leftFrontFollower = 31;
+
     // Double Solenoid Values (PCM 0)
 
     // Double Solenoid Values (PCM 1)
