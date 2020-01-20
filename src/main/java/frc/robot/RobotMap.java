@@ -2,40 +2,69 @@ package frc.robot;
 
 public class RobotMap {
 
-    public static String botName = "Practice Bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
     
-    
+    public static int leftFrontFollower;
+    public static int leftMiddleMaster;
+    public static int leftRearFollower;
+    public static int rightFrontFollower;
+    public static int rightMiddleMaster;
+    public static int rightRearFollower;
 
-    /**
-     * Various Ports
-     */
+    String botName = "Toaster";
     
-    // Talon/Victor IDs
-
+/*     enum Bot {TOASTER, PBOT; //COMPBOT}
+    Bot botName;
+    public void switchBotName(){
+        switch (botName){
+            case TOASTER:
+            leftFrontFollower = 3;
+            leftMiddleMaster = 2;
+            leftRearFollower = 6;
+            rightFrontFollower = 5;
+            rightMiddleMaster = 14;
+            rightRearFollower = 4;
+            break;
+            case PBOT:
+            rightRearFollower = 1;
+            rightMiddleMaster = 20;
+            rightFrontFollower = 26;
+            leftRearFollower = 35;
+            leftMiddleMaster = 34;
+            leftFrontFollower = 31;
+            break;
+            /* case COMPBOT:
+            break; */
     
     
+    public String bot = "toaster";
     
-
-    /* //VALUES FOR TOASTER
-    public static final int leftFrontFollower = 3;
-    public static final int leftMiddleMaster = 2;
-    public static final int leftRearFollower = 6;
-    public static final int rightFrontFollower = 5;
-    public static final int rightMiddleMaster = 14;
-    public static final int rightRearFollower = 4;
-    */
-    //PORTS FOR PRACTIVE BOT
-    public static final int rightRearFollower = 1;
-    public static final int rightMiddleMaster = 20;
-    public static final int rightFrontFollower = 26;
-    public static final int leftRearFollower = 35;
-    public static final int leftMiddleMaster = 34;
-    public static final int leftFrontFollower = 31;
+    public void setBot(String bot) {
+        if (bot == "toaster") {
+            leftFrontFollower = 3;
+            leftMiddleMaster = 2;
+            leftRearFollower = 6;
+            rightFrontFollower = 5;
+            rightMiddleMaster = 14;
+            rightRearFollower = 4;
+        } else if (bot == "practice") {
+            rightRearFollower = 1;
+            rightMiddleMaster = 20;
+            rightFrontFollower = 26;
+            leftRearFollower = 35;
+            leftMiddleMaster = 34;
+            leftFrontFollower = 31;
+        } //else if (bot = "compBot"){
+            // compBot port numbers}
+        else {
+            System.out.println("Not bot, try again");
+        }
+    
+    } 
 
     // Double Solenoid Values (PCM 0)
 

@@ -8,10 +8,15 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.I2C;
 import frc.robot.RobotMap;
+import io.github.pseudoresonance.pixy2api.*;
+import io.github.pseudoresonance.pixy2api.links.*;
+import java.util.ArrayList;
 
 public class TrackObject extends Command {
 
-    private NetworkTableEntry blockX;
+    Pixy2CCC.Block biggestBlock;
+    private double blockX;
+    //private NetworkTableEntry blockX;
     // private NetworkTableEntry blockY;
     // private double oldX;
     // private double oldY;
@@ -23,9 +28,8 @@ public class TrackObject extends Command {
 
     @Override
     public void initialize() {
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable pie = inst.getTable("pie");
-        blockX = pie.getEntry("blockX");
+        
+       // blockX = pie.getEntry("blockX");
         // blockY = pie.getEntry("blockY");
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
@@ -34,9 +38,18 @@ public class TrackObject extends Command {
 
     @Override
     public void execute() {
-        double correction = (160.0d - blockX.getDouble(-404)) / 160.0d;
+
+        try {
+            biggestBlock = Subsystems.pixy.getBiggestBlock();
+            blockX = biggestBlock.getX();
+        } catch (java.lang.NullPointerException e) {
+            
+        }
+
+
+        double correction = (blockX-180)/130;
         correction *= 0.17d;
-        correction += 1d;
+        
 
         System.out.println(correction);
         if (Math.abs(correction) > 0.2) {

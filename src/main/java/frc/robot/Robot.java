@@ -10,16 +10,16 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.Pixy;
+
+import io.github.pseudoresonance.pixy2api.*;
+import io.github.pseudoresonance.pixy2api.links.*;
 
 public class Robot extends TimedRobot {
 
-    
-
     private UsbCamera camera;
 
-    private NetworkTableEntry blockX;
-    private NetworkTableEntry blockY;
+    // private NetworkTableEntry blockX;
+    // private NetworkTableEntry blockY;
 
     private TrackObject trackObject;
 
@@ -28,18 +28,15 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-      
-        System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        Pixy pixy = new Pixy();
-        pixy.readPixy();
+        Subsystems.pixy.initialize();
 
         camera = CameraServer.getInstance().startAutomaticCapture();
         
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable pie = inst.getTable("pie");
-        blockX = pie.getEntry("blockX");
-        blockY = pie.getEntry("blockY");
+        // NetworkTableInstance inst = NetworkTableInstance.getDefault();
+        // NetworkTable pie = inst.getTable("pie");
+        // blockX = pie.getEntry("blockX");
+        // blockY = pie.getEntry("blockY");
 
         trackObject = new TrackObject();
       
@@ -65,6 +62,7 @@ public class Robot extends TimedRobot {
 
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        // pixy.readPixy();
         printDataToSmartDashboard();
     }
 
@@ -75,11 +73,22 @@ public class Robot extends TimedRobot {
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        // pixy.readPixy();
         printDataToSmartDashboard();
     }
 
+    
+
     private void printDataToSmartDashboard() {
-        SmartDashboard.putNumber("blockX", blockX.getDouble(-404));
-        SmartDashboard.putNumber("blockY", blockY.getDouble(-404));
+        Pixy2CCC.Block biggestBlock;
+        try {
+            biggestBlock = Subsystems.pixy.getBiggestBlock();
+            biggestBlock.print();
+        } catch (java.lang.NullPointerException e) {
+            return;
+        }
+        
+        //SmartDashboard.putNumber("blockX", pixy.getBiggestBlock().getX());
+        //SmartDashboard.putNumber("blockY", pixy.getBiggestBlock().getY());
     }
 }
