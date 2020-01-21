@@ -22,6 +22,7 @@ public class Turn extends Command {
     }
 
     public void initialize() {
+        System.out.println("Starting turn!");
         Subsystems.driveBase.zeroGyroAngle();
         Subsystems.driveBase.zeroEncoderPosition();
     }

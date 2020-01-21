@@ -17,9 +17,6 @@ public class Robot extends TimedRobot {
 
     private UsbCamera camera;
 
-    private NetworkTableEntry blockX;
-    private NetworkTableEntry blockY;
-
     private TestAutonomous autonomous;
 
     public Robot() {
@@ -30,13 +27,6 @@ public class Robot extends TimedRobot {
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
-        
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable pie = inst.getTable("pie");
-        blockX = pie.getEntry("blockX");
-        blockY = pie.getEntry("blockY");
-
-        autonomous = new TestAutonomous();
 
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
     }
@@ -55,6 +45,7 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
         
+        autonomous = new TestAutonomous();
         autonomous.start();
     }
 
@@ -74,7 +65,5 @@ public class Robot extends TimedRobot {
     }
 
     private void printDataToSmartDashboard() {
-        SmartDashboard.putNumber("blockX", blockX.getDouble(-404));
-        SmartDashboard.putNumber("blockY", blockY.getDouble(-404));
     }
 }

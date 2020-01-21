@@ -14,9 +14,18 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
+    //VALUES FOR TOASTER
+    // public static final int leftFrontFollower = 3;
+    // public static final int leftMiddleMaster = 2;
+    // public static final int leftRearFollower = 6;
+    // public static final int rightFrontFollower = 5;
+    // public static final int rightMiddleMaster = 14;
+    // public static final int rightRearFollower = 4;
+
+    //PORTS FOR PRACTIVE BOT
     public static final int rightRearFollower = 1;
-    public static final int rightMiddleMaster = 20;
-    public static final int rightFrontFollower = 26;
+    public static final int rightMiddleMaster = 26; //switched with 20
+    public static final int rightFrontFollower = 20; //switched with 26
     public static final int leftRearFollower = 35;
     public static final int leftMiddleMaster = 34;
     public static final int leftFrontFollower = 31;

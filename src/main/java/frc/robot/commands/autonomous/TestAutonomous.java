@@ -7,8 +7,8 @@ import frc.robot.commands.*;
 
 public class TestAutonomous extends CommandGroup {
 
-  public double timeout = 2; //replace with actual value
-  public double speed = 0.3;
+  private final double timeout = 9; //replace with actual value
+  private final double speed = 0.3;
 
   public TestAutonomous() {
    System.out.println("Start auto.");
