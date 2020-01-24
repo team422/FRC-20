@@ -28,12 +28,12 @@ public class RobotMap {
     public static final int rightRearFollower = 4;
     */
     //PORTS FOR PRACTIVE BOT
-    public static final int rightRearFollower = 1;
-    public static final int rightMiddleMaster = 20;
-    public static final int rightFrontFollower = 26;
-    public static final int leftRearFollower = 35;
+    public static final int rightRearFollower = 20;
+    public static final int rightMiddleMaster = 26;
+    public static final int rightFrontFollower = 1;
+    public static final int leftRearFollower = 31;
     public static final int leftMiddleMaster = 34;
-    public static final int leftFrontFollower = 31;
+    public static final int leftFrontFollower = 35;
 
     // Double Solenoid Values (PCM 0)
 
