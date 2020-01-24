@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -43,13 +44,15 @@ public class TrackObject extends Command {
             biggestBlock = Subsystems.pixy.getBiggestBlock();
             blockX = biggestBlock.getX();
         } catch (java.lang.NullPointerException e) {
-            
+            return;
         }
+
+        int frameWidth = Subsystems.pixy.readFrameWidth();
+        System.out.println(frameWidth);
 
 
         double correction = (blockX-180)/130;
-        correction *= 0.17d;
-        
+        correction *= 0.17d;        
 
         System.out.println(correction);
         if (Math.abs(correction) > 0.2) {

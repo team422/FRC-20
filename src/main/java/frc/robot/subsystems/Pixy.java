@@ -4,6 +4,8 @@ import io.github.pseudoresonance.pixy2api.*;
 import io.github.pseudoresonance.pixy2api.links.*;
 import java.util.ArrayList;
 
+
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
@@ -11,6 +13,8 @@ public class Pixy {
 
     private Pixy2 pixy;
     private Pixy2CCC pixyCCC;  
+	protected int frameWidth = -1;
+	protected int frameHeight = -1;
 
 	public void initialize() {
         pixy = Pixy2.createInstance(new I2CLink()); // Creates a new Pixy2 camera using I2C
@@ -21,9 +25,14 @@ public class Pixy {
         pixy.setLED(0, 255, 0); // Sets the RGB LED to full white
         pixyCCC = pixy.getCCC();
         System.out.println(pixy);
-        System.out.println("Hello There");
+		System.out.println("Hello There");
+	}
+	 
+	public int readFrameWidth(){
+		return pixy.getFrameWidth();
 	}
 
+	
 	public Pixy2CCC.Block getBiggestBlock() {
 		// Gets the number of "blocks", identified targets, that match signature 1 on the Pixy2,
 		// does not wait for new data if none is available,
