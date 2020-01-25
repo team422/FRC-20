@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
 
     private UsbCamera camera;
 
-    private TestAutonomous autonomous;
+    private CenterNormalAutonomous autonomous;
 
     public Robot() {
         super(0.06);
@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
         
-        autonomous = new TestAutonomous();
+        autonomous = new CenterNormalAutonomous();
         autonomous.start();
     }
 

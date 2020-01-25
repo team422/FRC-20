@@ -10,11 +10,11 @@ public class DriveStraight extends Command {
     private double speed;
     private boolean hasZeroed = false;
 
-    public DriveStraight(double inches, double Speed, boolean Forward, double Timeout) {
+    public DriveStraight(double inches, double Speed, double Timeout) {
         super("DriveStraight");
         requires(Subsystems.driveBase);
-        ticks = convertToTicks(inches);
-        forward = Forward;
+        ticks = convertToTicks(Math.abs(inches));
+        forward = inches > 0;
         speed = Speed;
     }
 
@@ -27,12 +27,10 @@ public class DriveStraight extends Command {
 
     @Override
     public void execute() {
-        //test this next?
         if (!hasZeroed) {
-            if (Math.abs(Subsystems.driveBase.getLeftPosition()) < 100 && Math.abs(Subsystems.driveBase.getRightPosition()) < 100) {
+            if (Math.abs(Subsystems.driveBase.getLeftPosition()) < 150 && Math.abs(Subsystems.driveBase.getRightPosition()) < 150) {
               hasZeroed = true;
             } else {
-              System.out.println("waiting to zero on driveStraight... currently " + Subsystems.driveBase.getLeftPosition() + " and " + Subsystems.driveBase.getRightPosition());
               return;
             }
         }

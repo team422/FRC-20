@@ -87,33 +87,6 @@ public class DriveBase extends Subsystem {
     public void zeroEncoderPosition() {
         leftMiddleMaster.setSelectedSensorPosition(0,0,10);
         rightMiddleMaster.setSelectedSensorPosition(0,0,10);
-        //The below generally doesn't work.
-        // int leftPos = getLeftPosition();
-        // if (leftMiddleMaster.setSelectedSensorPosition(0,0,10).value != 0) {
-        //     System.out.println("ahhhhhh on left");
-        // }
-        // for(int i = 0; Math.abs(getLeftPosition()) > 100 && i < 1000; i++) {
-        //     if (i == 999) {
-        //         System.out.println("Took too long to zero left encoder (" + getLeftPosition() + ")");
-        //     } else {
-        //         if (leftPos != getLeftPosition()) {
-        //             System.out.println("LChanged from " + leftPos + " to " + getLeftPosition() + " at " + i);
-        //         }
-        //     }
-        // }
-        // int rightPos = getRightPosition();
-        // if (rightMiddleMaster.setSelectedSensorPosition(0,0,10).value != 0) {
-        //     System.out.println("ahjdsgfhg on right");
-        // }
-        // for(int i = 0; Math.abs(getRightPosition()) > 100 && i < 1000; i++) {
-        //     if (i == 999) {
-        //         System.out.println("Took too long to zero right encoder (" + getRightPosition() + ")");
-        //     } else {
-        //         if (rightPos != getRightPosition()) {
-        //             System.out.println("RChanged from " + rightPos + " to " + getRightPosition() + " at " + i);
-        //         }
-        //     }
-        // }
     }
 
     public void zeroGyroAngle() {
