@@ -28,14 +28,14 @@ public class RobotMap {
     public static final int rightRearFollower = 4;
     */
     
-    public static final boolean isCompBot = false;
-    
-    public static final int rightRearFollower = (isCompBot) ? 1: 20;
-    public static final int rightMiddleMaster = (isCompBot) ? 2: 26;
-    public static final int rightFrontFollower = (isCompBot) ? 3: 1;
-    public static final int leftRearFollower = (isCompBot) ? 4 : 31;
-    public static final int leftMiddleMaster = (isCompBot) ? 5 : 34;
-    public static final int leftFrontFollower = (isCompBot) ? 6 : 35;
+    public static final boolean isCompBot = true;
+
+    public static final int rightRearFollower = (isCompBot) ? 45 : 20;
+    public static final int rightMiddleMaster = (isCompBot) ? 10 : 26; 
+    public static final int rightFrontFollower = (isCompBot) ? 1 : 9; 
+    public static final int leftRearFollower = (isCompBot) ? 45 : 31;
+    public static final int leftMiddleMaster = (isCompBot) ? 19 : 34;
+    public static final int leftFrontFollower = (isCompBot) ? 7 : 35;
 
     // Double Solenoid Values (PCM 0)
 
