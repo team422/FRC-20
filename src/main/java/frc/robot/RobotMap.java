@@ -12,19 +12,6 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
-
-    
-    
-    
-
-    /* //VALUES FOR TOASTER
-    public static final int leftFrontFollower = 3;
-    public static final int leftMiddleMaster = 2;
-    public static final int leftRearFollower = 6;
-    public static final int rightFrontFollower = 5;
-    public static final int rightMiddleMaster = 14;
-    public static final int rightRearFollower = 4;
-    */
     
     public static int leftFrontFollower;
     public static int leftMiddleMaster;
@@ -34,8 +21,6 @@ public class RobotMap {
     public static int rightRearFollower;
     
     // Talon/Victor IDs
-
-    public static String botName = "Practice Bot";
     
     public static String botName = "";
     
@@ -55,7 +40,7 @@ public class RobotMap {
             rightFrontFollower = 30;
             rightMiddleMaster = 31;
             rightRearFollower = 34;            
-        } else if (bot.equals("compBot")){
+        } else if (bot.equals("comp")){
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
             leftRearFollower = 8;
