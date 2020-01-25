@@ -17,10 +17,9 @@ public class TrackObject extends Command {
 
     Pixy2CCC.Block biggestBlock;
     private double blockX;
-    //private NetworkTableEntry blockX;
-    // private NetworkTableEntry blockY;
-    // private double oldX;
-    // private double oldY;
+    private double blockWidth;
+    private int frameWidth;
+    private int counter;
 
     public TrackObject() {
         super("TrackObject");
@@ -43,20 +42,30 @@ public class TrackObject extends Command {
         try {
             biggestBlock = Subsystems.pixy.getBiggestBlock();
             blockX = biggestBlock.getX();
+            blockWidth = biggestBlock.getWidth();
+            frameWidth = Subsystems.pixy.readFrameWidth();
+            counter = 0;
         } catch (java.lang.NullPointerException e) {
+            if (counter < 10){
+                counter ++;                
+            }
+            else {
+                Subsystems.driveBase.stopMotors();
+            }
             return;
         }
 
-        int frameWidth = Subsystems.pixy.readFrameWidth();
-        System.out.println(frameWidth);
 
+        
+        
+        double blockCenter = (blockWidth/2)+blockX;
+        double correction = blockCenter-(frameWidth/2);
+        correction *= 0.00632911d; //sets correction to -1 to 1 value        
 
-        double correction = (blockX-180)/130;
-        correction *= 0.17d;        
-
-        System.out.println(correction);
-        if (Math.abs(correction) > 0.2) {
-            Subsystems.driveBase.setMotors(0.25*correction, -0.25*correction);
+        System.out.println("correction is" + correction);
+        if (Math.abs(correction) > 0.25) {
+            Subsystems.driveBase.setMotors(-0.25*correction, 0.25*correction);
+            Subsystems.pixy.setLED(255,255,0);
         }
     }
 

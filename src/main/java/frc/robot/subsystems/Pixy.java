@@ -28,10 +28,13 @@ public class Pixy {
 		System.out.println("Hello There");
 	}
 	 
-	public int readFrameWidth(){
-		return pixy.getFrameWidth();
+	public byte setLED(int r, int g, int b) {
+		return pixy.setLED(r, g, b);
 	}
 
+	public int readFrameWidth() {
+		return pixy.getFrameWidth();
+	}
 	
 	public Pixy2CCC.Block getBiggestBlock() {
 		// Gets the number of "blocks", identified targets, that match signature 1 on the Pixy2,
@@ -47,7 +50,7 @@ public class Pixy {
             System.out.println("oops):");
             return null;
         }
-		System.out.println("Found " + blockCount + " blocks!"); // Reports number of blocks found
+		// System.out.println("Found " + blockCount + " blocks!"); // Reports number of blocks found
 		if (blockCount <= 0) {
 			return null; // If blocks were not found, stop processing
 		}

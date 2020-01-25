@@ -14,50 +14,25 @@ public class RobotMap {
     public static int rightFrontFollower;
     public static int rightMiddleMaster;
     public static int rightRearFollower;
-
-    String botName = "Toaster";
     
-/*     enum Bot {TOASTER, PBOT; //COMPBOT}
-    Bot botName;
-    public void switchBotName(){
-        switch (botName){
-            case TOASTER:
+    public static String botName = "toaster";
+    
+    public static void setBot(String bot) {
+        RobotMap.botName = bot;
+        if (bot.equals("toaster")) {
             leftFrontFollower = 3;
             leftMiddleMaster = 2;
             leftRearFollower = 6;
             rightFrontFollower = 5;
             rightMiddleMaster = 14;
             rightRearFollower = 4;
-            break;
-            case PBOT:
-            rightRearFollower = 1;
-            rightMiddleMaster = 20;
-            rightFrontFollower = 26;
-            leftRearFollower = 35;
-            leftMiddleMaster = 34;
-            leftFrontFollower = 31;
-            break;
-            /* case COMPBOT:
-            break; */
-    
-    
-    public String bot = "toaster";
-    
-    public void setBot(String bot) {
-        if (bot == "toaster") {
-            leftFrontFollower = 3;
-            leftMiddleMaster = 2;
-            leftRearFollower = 6;
-            rightFrontFollower = 5;
-            rightMiddleMaster = 14;
-            rightRearFollower = 4;
-        } else if (bot == "practice") {
-            rightRearFollower = 1;
-            rightMiddleMaster = 20;
-            rightFrontFollower = 26;
-            leftRearFollower = 35;
-            leftMiddleMaster = 34;
-            leftFrontFollower = 31;
+        } else if (bot.equals("practice")) {
+            leftRearFollower = 1;
+            leftMiddleMaster = 20;
+            leftFrontFollower = 26;
+            rightRearFollower = 30;
+            rightMiddleMaster = 31;
+            rightFrontFollower = 34;
         } //else if (bot = "compBot"){
             // compBot port numbers}
         else {

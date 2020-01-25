@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.userinterface.UserInterface;
 import frc.robot.commands.*;
 
 import io.github.pseudoresonance.pixy2api.*;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
+        RobotMap.setBot("toaster");
 
         Subsystems.pixy.initialize();
 
@@ -56,7 +58,6 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
-
         trackObject.start();
     }
 
@@ -69,17 +70,19 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
+
+        UserInterface.driverController.X.whileHeld(trackObject);
     }
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        // pixy.readPixy();
         printDataToSmartDashboard();
     }
 
     
 
     private void printDataToSmartDashboard() {
+        
         Pixy2CCC.Block biggestBlock;
         try {
             biggestBlock = Subsystems.pixy.getBiggestBlock();
