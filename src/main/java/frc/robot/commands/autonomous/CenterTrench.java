@@ -9,7 +9,7 @@ import frc.robot.commands.*;
  * <dd>1. Shoot preloaded power cells</dd>
  * <dd>2. Drive to trench</dd>
  * <dd>3. Intake five power cells</dd>
- * <dd>4. Return to original starting position</dd> Okay I actually think that's it
+ * <dd>4. Return to original starting position</dd>
  * <dd>5. Shoot intaken power cells</dd>
  */
 public class CenterTrench extends CommandGroup {
