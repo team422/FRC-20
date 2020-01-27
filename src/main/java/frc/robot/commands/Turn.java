@@ -1,26 +1,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Subsystems;
 
 public class Turn extends Command {
 
     private double degrees;
     private double speed;
-    private double timeout;
     private boolean isCorrecting = false;
 
-
-    public Turn(double Degrees, double Speed, double Timeout){
+    /** 
+     * Turns the bot a set number of degrees.
+     * @param Degrees The number of degrees to turn - negative to the left, positive to the right.
+     * @param Speed The speed at which to turn (0 to 1). Speeds over x are not recommended for maximal accuracy.
+     * @param Timeout The timeout, in seconds. 
+     */
+    public Turn(double Degrees, double Speed, double timeout){
         super("Turn");
         requires(Subsystems.driveBase);
         degrees = Degrees;
         speed = Speed;
-        timeout = Timeout;
         setTimeout(timeout);
     }
-
+    
     public void initialize() {
         Subsystems.driveBase.zeroGyroAngle();
         Subsystems.driveBase.zeroEncoderPosition();
