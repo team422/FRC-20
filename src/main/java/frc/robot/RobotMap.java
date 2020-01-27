@@ -1,8 +1,6 @@
 package frc.robot;
 
 public class RobotMap {
-
-    public static String botName = "Practice Bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
@@ -14,26 +12,45 @@ public class RobotMap {
      */
     
     // Talon/Victor IDs
-
     
+    public static int leftFrontFollower;
+    public static int leftMiddleMaster;
+    public static int leftRearFollower;
+    public static int rightFrontFollower;
+    public static int rightMiddleMaster;
+    public static int rightRearFollower;
     
+    // Talon/Victor IDs
     
-
-    /* //VALUES FOR TOASTER
-    public static final int leftFrontFollower = 3;
-    public static final int leftMiddleMaster = 2;
-    public static final int leftRearFollower = 6;
-    public static final int rightFrontFollower = 5;
-    public static final int rightMiddleMaster = 14;
-    public static final int rightRearFollower = 4;
-    */
-    //PORTS FOR PRACTIVE BOT
-    public static final int rightRearFollower = 1;
-    public static final int rightMiddleMaster = 20;
-    public static final int rightFrontFollower = 26;
-    public static final int leftRearFollower = 35;
-    public static final int leftMiddleMaster = 34;
-    public static final int leftFrontFollower = 31;
+    public static String botName = "";
+    
+    public static void setBot(String bot) {
+            botName = bot;
+        if (bot.equals("toaster")) {
+            leftFrontFollower = 3;
+            leftMiddleMaster = 2;
+            leftRearFollower = 6;
+            rightFrontFollower = 5;
+            rightMiddleMaster = 14;
+            rightRearFollower = 4;
+        } else if (bot.equals("practice")) {
+            leftFrontFollower = 1;
+            leftMiddleMaster = 20;
+            leftRearFollower = 26;
+            rightFrontFollower = 30;
+            rightMiddleMaster = 31;
+            rightRearFollower = 34;            
+        } else if (bot.equals("comp")){
+            leftFrontFollower = 7;
+            leftMiddleMaster = 29;
+            leftRearFollower = 8;
+            rightFrontFollower = 9;
+            rightMiddleMaster = 10;
+            rightRearFollower = 45;
+        } else {
+            System.out.println("Not bot, try again");
+        }
+    }
 
     // Double Solenoid Values (PCM 0)
 
