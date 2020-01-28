@@ -5,16 +5,17 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.userinterface.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
-import frc.robot.userinterface.*;
+import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
 
 public class Robot extends TimedRobot {
 
     private UsbCamera camera;
 
-    private TrackObject autonomous;
+    private CenterTrench autonomous;
 
     public Robot() {
         super(0.06);
@@ -43,8 +44,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
-
-        autonomous = new TrackObject();
+        
+        autonomous = new CenterTrench();
         autonomous.start();
     }
 
