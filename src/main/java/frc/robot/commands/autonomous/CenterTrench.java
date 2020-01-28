@@ -7,8 +7,10 @@ import frc.robot.commands.*;
 public class CenterTrench extends CommandGroup {
 
   public CenterTrench() {
-    // 1. shoot preloaded power cells
+    // 1. shoot balls at wall
+    addSequential(new DriveStraight(88, 0.5, 5));//drive to wall
     //addSequential(new Shoot(3)); //shoot 3
+    addSequential(new DriveStraight(120, 0.5, 5));//drive back to line
     // 2. go to trench
     addSequential(new Turn(-43.45, 0.3, 3)); //turn towards trench
     addSequential(new DriveStraight(97.29, 0.5, 5)); //drive to trench
@@ -23,7 +25,8 @@ public class CenterTrench extends CommandGroup {
     addSequential(new Turn(-20.53, 0.3, 3));//turn towards center
     addSequential(new DriveStraight(-190.75, 0.5, 5));//drive straight
     addSequential(new Turn(20.53, 0.3, 3));//turn towards goal
-    // 5. shoot power cells
+    // 5. shoot cells at wall
+    addSequential(new DriveStraight(120, 0.5, 5));//drive to wall
     //addSequential(new Shoot(5)); //shoot 5
   }
 }

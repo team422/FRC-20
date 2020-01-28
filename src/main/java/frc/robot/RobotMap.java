@@ -2,7 +2,7 @@ package frc.robot;
 
 public class RobotMap {
 
-    public static String botName = "Practice Bot";
+    public static String botName = "Toaster Bot";
     public static double idealAngle = 0;
     public static double driveOffset = 0;
     public static double turnDirection = 0;
@@ -15,20 +15,20 @@ public class RobotMap {
     
     // Talon/Victor IDs
     //VALUES FOR TOASTER
-    // public static final int leftFrontFollower = 3;
-    // public static final int leftMiddleMaster = 2;
-    // public static final int leftRearFollower = 6;
-    // public static final int rightFrontFollower = 5;
-    // public static final int rightMiddleMaster = 14;
-    // public static final int rightRearFollower = 4;
+    public static final int leftFrontFollower = 3;
+    public static final int leftMiddleMaster = 2;
+    public static final int leftRearFollower = 6;
+    public static final int rightFrontFollower = 5;
+    public static final int rightMiddleMaster = 14;
+    public static final int rightRearFollower = 4;
 
     //PORTS FOR PRACTIVE BOT
-    public static final int rightRearFollower = 1;
-    public static final int rightMiddleMaster = 20;
-    public static final int rightFrontFollower = 26;
-    public static final int leftRearFollower = 30;
-    public static final int leftMiddleMaster = 31;
-    public static final int leftFrontFollower = 34;
+    // public static final int rightRearFollower = 1;
+    // public static final int rightMiddleMaster = 20;
+    // public static final int rightFrontFollower = 26;
+    // public static final int leftRearFollower = 30;
+    // public static final int leftMiddleMaster = 31;
+    // public static final int leftFrontFollower = 34;
     
     
     // Double Solenoid Values (PCM 0)

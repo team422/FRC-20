@@ -8,7 +8,6 @@ public class DriveStraight extends Command {
     private double ticks;
     private boolean forward;
     private double speed;
-    private boolean hasZeroed = false;
 
     public DriveStraight(double inches, double Speed, double Timeout) {
         super("DriveStraight");
@@ -26,15 +25,7 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public void execute() {
-        if (!hasZeroed) {
-            if (Math.abs(Subsystems.driveBase.getLeftPosition()) < 150 && Math.abs(Subsystems.driveBase.getRightPosition()) < 150) {
-              hasZeroed = true;
-            } else {
-              return;
-            }
-        }
-          
+    public void execute() {          
         double correction = Subsystems.driveBase.getGyroAngle();
         correction *= 0.075;
         correction += 1.0;
@@ -47,10 +38,6 @@ public class DriveStraight extends Command {
 
     @Override
     public boolean isFinished() {
-        if (!hasZeroed) {
-            return false;
-        }
-          
         int leftPosition = (int) Math.abs(Subsystems.driveBase.getLeftPosition());
         int rightPosition = (int) Math.abs(Subsystems.driveBase.getRightPosition());
         return (leftPosition > ticks) || (rightPosition > ticks) || isTimedOut();
