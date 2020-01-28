@@ -11,6 +11,9 @@ import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
 
+/**
+ * The main Robot class whence all things come.
+ */
 public class Robot extends TimedRobot {
 
     private UsbCamera camera;

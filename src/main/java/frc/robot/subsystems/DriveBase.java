@@ -95,14 +95,14 @@ public class DriveBase extends Subsystem {
      * @return Left side position in ticks.
      */
     public int getLeftPosition() {
-        return leftMiddleMaster.getSelectedSensorPosition(0);
+        return leftMiddleMaster.getSelectedSensorPosition(0) - leftMotorTicks;
     }
 
     /**
      * @return Right side position in ticks.
      */
     public int getRightPosition() {
-        return rightMiddleMaster.getSelectedSensorPosition(0);
+        return rightMiddleMaster.getSelectedSensorPosition(0) - rightMotorTicks;
     }
 
     /**

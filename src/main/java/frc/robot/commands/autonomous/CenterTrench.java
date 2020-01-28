@@ -16,11 +16,6 @@ public class CenterTrench extends CommandGroup {
 
   /**
    * Autonomous routine starting in front of the power port & intaking from the trench run.
-   * <dd>1. Shoot balls at wall</dd>
-   * <dd>2. Drive to trench</dd>
-   * <dd>3. Intake five power cells</dd>
-   * <dd>4. Return to original starting position</dd>
-   * <dd>5. Shoot intaken power cells at wall</dd>
    */
   public CenterTrench() {
     // 1. shoot balls at wall

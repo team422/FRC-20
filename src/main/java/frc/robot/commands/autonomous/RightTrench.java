@@ -16,11 +16,6 @@ public class RightTrench extends CommandGroup {
 
   /**
    * Autonomous routine starting aligned with the center of the trench run & intaking from the trench run.
-   * <dd>1. Shoot balls at wall</dd>
-   * <dd>2. Drive to trench</dd>
-   * <dd>3. Intake five power cells</dd>
-   * <dd>4. Return to original starting position</dd>
-   * <dd>5. Shoot intaken power cells at wall</dd>
    */
   public RightTrench() {
     // 1. shoot balls at wall

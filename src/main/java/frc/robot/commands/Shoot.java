@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.*;
 
+/**
+ * A Command to shoot lemonade cargo at power port.
+ */
 public class Shoot extends Command {
 
   private int numOfBalls;

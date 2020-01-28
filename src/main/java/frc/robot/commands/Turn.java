@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
+/**
+ * A Command to turn the bot a set number of degrees.
+ */
 public class Turn extends Command {
 
     private double degrees;
@@ -15,12 +18,12 @@ public class Turn extends Command {
      * @param Speed The speed at which to turn (0 to 1). Speeds over x are not recommended for maximal accuracy.
      * @param Timeout The timeout, in seconds. 
      */
-    public Turn(double Degrees, double Speed, double timeout){
+    public Turn(double Degrees, double Speed, double Timeout){
         super("Turn");
         requires(Subsystems.driveBase);
         degrees = Degrees;
         speed = Speed;
-        setTimeout(timeout);
+        setTimeout(Timeout);
     }
     
     public void initialize() {

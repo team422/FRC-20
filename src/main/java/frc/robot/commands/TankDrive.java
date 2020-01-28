@@ -5,15 +5,15 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 
+/**
+ * Uses joystick values to drive the bot in teleop.
+ */
 public class TankDrive extends Command {
 
   private double updatedSpeed = 0;
   private double updatedRotation = 0;
   private static final double maxChange = 0.5; //maxChange is acceleration 
   
-  /**
-   * Uses joystick values to drive the bot in teleop.
-   */
   public TankDrive() {
     super("TankDrive");
     requires(Subsystems.driveBase);

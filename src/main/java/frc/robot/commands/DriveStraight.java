@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
+/**
+ * A Command to drive the robot in a straight line.
+ */
 public class DriveStraight extends Command {
 
     private double ticks;
@@ -11,15 +14,15 @@ public class DriveStraight extends Command {
 
     /**
      * Drives the robot in a straight line.
-     * @param inches Distance forwards or backwards in inches.
+     * @param Inches Distance forwards or backwards in inches.
      * @param Speed Speed at which the bot travels (0 to 1).
      * @param Timeout The timeout, in seconds.  
      */
-    public DriveStraight(double inches, double Speed, double Timeout) {
+    public DriveStraight(double Inches, double Speed, double Timeout) {
         super("DriveStraight");
         requires(Subsystems.driveBase);
-        ticks = convertToTicks(Math.abs(inches));
-        forward = inches > 0;
+        ticks = convertToTicks(Math.abs(Inches));
+        forward = Inches > 0;
         speed = Speed;
         setTimeout(Timeout);
     }

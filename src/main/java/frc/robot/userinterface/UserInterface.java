@@ -2,6 +2,9 @@ package frc.robot.userinterface;
 
 import frc.robot.RobotMap;
 
+/**
+ * Contains instances of all UI elements.
+ */
 public class UserInterface {
 
     /**
