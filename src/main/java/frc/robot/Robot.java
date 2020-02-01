@@ -31,8 +31,6 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         RobotMap.setBot("toaster");
 
-        Subsystems.pixy.initialize();
-
         camera = CameraServer.getInstance().startAutomaticCapture();
         
         // NetworkTableInstance inst = NetworkTableInstance.getDefault();
@@ -51,6 +49,7 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledPeriodic() {
+        Subsystems.linePixy.printIntersection();
         printDataToSmartDashboard();
         Scheduler.getInstance().run();
     }
@@ -82,14 +81,16 @@ public class Robot extends TimedRobot {
     
 
     private void printDataToSmartDashboard() {
-        
-        Pixy2CCC.Block biggestBlock;
-        try {
-            biggestBlock = Subsystems.pixy.getBiggestBlock();
-            biggestBlock.print();
-        } catch (java.lang.NullPointerException e) {
-            return;
-        }
+
+
+
+        // Pixy2CCC.Block biggestBlock;
+        // try {
+        //     biggestBlock = Subsystems.colorPixy.getBiggestBlock();
+        //     biggestBlock.print();
+        // } catch (java.lang.NullPointerException e) {
+        //     return;
+        // }
         
         //SmartDashboard.putNumber("blockX", pixy.getBiggestBlock().getX());
         //SmartDashboard.putNumber("blockY", pixy.getBiggestBlock().getY());

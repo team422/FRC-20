@@ -40,10 +40,10 @@ public class TrackObject extends Command {
     public void execute() {
 
         try {
-            biggestBlock = Subsystems.pixy.getBiggestBlock();
+            biggestBlock = Subsystems.colorPixy.getBiggestBlock();
             blockX = biggestBlock.getX();
             blockWidth = biggestBlock.getWidth();
-            frameWidth = Subsystems.pixy.readFrameWidth();
+            frameWidth = Subsystems.colorPixy.getFrameWidth();
             counter = 0;
         } catch (java.lang.NullPointerException e) {
             if (counter < 10){
@@ -65,7 +65,7 @@ public class TrackObject extends Command {
         System.out.println("correction is" + correction);
         if (Math.abs(correction) > 0.25) {
             Subsystems.driveBase.setMotors(-0.25*correction, 0.25*correction);
-            Subsystems.pixy.setLED(255,255,0);
+            Subsystems.colorPixy.setLED(255,255,0);
         }
     }
 
