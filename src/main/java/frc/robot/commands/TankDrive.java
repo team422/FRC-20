@@ -5,11 +5,14 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 
+/**
+ * Uses joystick values to drive the bot in teleop.
+ */
 public class TankDrive extends Command {
 
   private double updatedSpeed = 0;
   private double updatedRotation = 0;
-  private static final double maxChange = 0.5;
+  private static final double maxChange = 0.5; //maxChange is acceleration 
   
   public TankDrive() {
     super("TankDrive");
@@ -22,8 +25,8 @@ public class TankDrive extends Command {
     double speed;
     double rotation;
     
-    /** Sets throttle for driveBase to the left stick Y-axis and sets the rotation
-     *  for driveBase to the right stick X-axis on on the driverXboxController*/ 
+    /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
+     * for driveBase to the right stick X-axis on on the driverXboxController */
     if (UserInterface.driverController.getLeftJoystickY() < -0.1) {
       speed = -(Math.pow(UserInterface.driverController.getLeftJoystickY(), 2));
     } else if (UserInterface.driverController.getLeftJoystickY() > 0.1) {
@@ -33,10 +36,10 @@ public class TankDrive extends Command {
     }
     updatedSpeed = speed;
 
-    if (UserInterface.driverController.getRightJoystickX() < -0.05) {
-      rotation = (Math.pow(UserInterface.driverController.getRightJoystickX(), 5));
-    } else if (UserInterface.driverController.getRightJoystickX() > 0.05) {
-      rotation = (Math.pow(UserInterface.driverController.getRightJoystickX(), 5));
+    if (UserInterface.driverController.getLeftJoystickX() < -0.05) {
+      rotation = (Math.pow(UserInterface.driverController.getLeftJoystickX(), 5));
+    } else if (UserInterface.driverController.getLeftJoystickX() > 0.05) {
+      rotation = (Math.pow(UserInterface.driverController.getLeftJoystickX(), 5));
     } else {
       rotation = 0;
     }
@@ -60,7 +63,6 @@ public class TankDrive extends Command {
      *  the rotation actually goes in as the first input, followed by the speed,
      *  rather than speed then rotation */
     Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
-    // Subsystems.driveBase.setMotors(0.5, 0.5);
   }
 
   protected boolean isFinished() {

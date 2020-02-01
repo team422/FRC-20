@@ -2,18 +2,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
-// import frc.robot.userinterface.UserInterface;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTable;
-// import frc.robot.RobotMap;
+import io.github.pseudoresonance.pixy2api.*;
 
+/**
+ * Uses pixy to face towards a power cell and prepare to consume.
+ */
 public class TrackObject extends Command {
 
-    private NetworkTableEntry blockX;
-    // private NetworkTableEntry blockY;
-    // private double oldX;
-    // private double oldY;
+    private Pixy2CCC.Block biggestBlock;
+    private double blockX;
+    private double blockWidth;
+    private int frameWidth;
+    private int counter;
 
     public TrackObject() {
         super("TrackObject");
@@ -22,24 +22,37 @@ public class TrackObject extends Command {
 
     @Override
     public void initialize() {
-        NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        NetworkTable pie = inst.getTable("pie");
-        blockX = pie.getEntry("blockX");
-        // blockY = pie.getEntry("blockY");
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
-        //this.setInterruptible(true);
+        
+        frameWidth = Subsystems.pixy.getFrameWidth();
     }
 
     @Override
     public void execute() {
-        double correction = (160.0d - blockX.getDouble(-404)) / 160.0d;
-        correction *= 0.17d;
-        correction += 1d;
+        // Attempts to get biggest block
+        try {
+            biggestBlock = Subsystems.pixy.getBiggestBlock();
+            blockX = biggestBlock.getX();
+            blockWidth = biggestBlock.getWidth();
+            counter = 0;
+        } catch (java.lang.NullPointerException e) {
+            //if no block found for 10 loops, stop motors
+            if (counter < 10){
+                counter++;                
+            } else {
+                Subsystems.driveBase.stopMotors();
+            }
+            return;
+        }
+        
+        double blockCenter = (blockWidth/2)+blockX;
+        double correction = blockCenter-(frameWidth/2);
+        correction *= 0.00632911; //shrinks correction to a -1 to 1 value (calculated with width of 316)
 
-        System.out.println(correction);
-        if (Math.abs(correction) > 0.2) {
-            Subsystems.driveBase.setMotors(0.25*correction, -0.25*correction);
+        if (Math.abs(correction) > 0.25) {
+            Subsystems.driveBase.setMotors(-0.25*correction, 0.25*correction);
+            Subsystems.pixy.setLED(255,255,0);
         }
     }
 

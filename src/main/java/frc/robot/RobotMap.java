@@ -1,17 +1,14 @@
 package frc.robot;
 
+/**
+ * Ports for motor controllers, caps for speed and rotation, and turn direction.
+ */
 public class RobotMap {
-    public static double idealAngle = 0;
-    public static double driveOffset = 0;
-    public static double turnDirection = 0;
+
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
-    
-    /**
-     * Various Ports
-     */
-    
-    // Talon/Victor IDs
+
+    // Drive base ports
     
     public static int leftFrontFollower;
     public static int leftMiddleMaster;
@@ -20,17 +17,23 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
     
-    // Talon/Victor IDs
-    
+    /**
+     * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
+     * Please note that this is case sensitive.
+     */
     public static String botName = "";
     
-    public static void setBot(String bot) {
+    /**
+     * Sets the bot's ports based off of the bot's name. You will still have to comment out code in DriveBase.java that determines whether your motors are victors or talons.
+     * @param bot The name of the bot. <code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.
+     */
+    public static void setBot(String bot) { 
             botName = bot;
         if (bot.equals("toaster")) {
             leftFrontFollower = 3;
             leftMiddleMaster = 2;
-            leftRearFollower = 6;
-            rightFrontFollower = 5;
+            leftRearFollower = 6; 
+            rightFrontFollower = 5; 
             rightMiddleMaster = 14;
             rightRearFollower = 4;
         } else if (bot.equals("practice")) {
@@ -52,56 +55,38 @@ public class RobotMap {
         }
     }
 
-    // Double Solenoid Values (PCM 0)
+    // Subsystem motor controller ports (Talons/Victors)
 
-    // Double Solenoid Values (PCM 1)
+    public static final int leftFlywheel = 11;
+    public static final int rightFlywheel = 24;
 
-    // Digital IO Ports
-    
     // UI Ports
-    public static final int launchpad = 0;
+
     public static final int driverXboxController = 1;
     public static final int operatorXboxController = 2;
+    
     /**
-     * End Port Setting
+     * @return The speed cap for the drive base in teleop.
      */
-   
-    public static double getIdealAngle() {
-        return idealAngle;
-    }
-    
-    public static void setIdealAngle(final double angle) {
-        idealAngle = angle;
-        System.out.println("Ideal angle is now " + idealAngle);
-    }
-    
     public static double getSpeedCap() {
         return speedCap;
     }
     
+    /**
+     * @return The rotation speed cap for the drive base in teleop.
+     */
     public static double getRotationCap() {
         return rotationCap;
     }
-    
+
+    /**
+     * Sets the caps on speed & rotation for the drive base in teleop.
+     * @param newSpeedCap The speed cap to set.
+     * @param newRotationCap The rotation speed cap to set.
+     */
     public static void setSpeedAndRotationCaps(final double newSpeedCap, final double newRotationCap) {
         speedCap = newSpeedCap;
         rotationCap = newRotationCap;
-    }
-    
-    public static void setDriveOffset(final double offset) {
-        driveOffset = offset;
-        System.out.println("Drive offset is now " + driveOffset);
-    }
-    
-    public static double getDriveOffset() {
-        return driveOffset;
-    }
-    
-    public static double getTurnDirection() {
-        return turnDirection;
-    }
-    
-    public static void setTurnDirection(final double direction) {
-        turnDirection = direction;
-    }
+    }  
+
 }
