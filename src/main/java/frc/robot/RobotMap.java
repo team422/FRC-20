@@ -9,31 +9,31 @@ public class RobotMap {
     public static double rotationCap = 0.5;
 
     // Drive base ports
-    
+
     public static int leftFrontFollower;
     public static int leftMiddleMaster;
     public static int leftRearFollower;
     public static int rightFrontFollower;
     public static int rightMiddleMaster;
     public static int rightRearFollower;
-    
+
     /**
      * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
      * Please note that this is case sensitive.
      */
     public static String botName = "";
-    
+
     /**
      * Sets the bot's ports based off of the bot's name. You will still have to comment out code in DriveBase.java that determines whether your motors are victors or talons.
      * @param bot The name of the bot. <code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.
      */
-    public static void setBot(String bot) { 
+    public static void setBot(String bot) {
             botName = bot;
         if (bot.equals("toaster")) {
             leftFrontFollower = 3;
             leftMiddleMaster = 2;
-            leftRearFollower = 6; 
-            rightFrontFollower = 5; 
+            leftRearFollower = 6;
+            rightFrontFollower = 5;
             rightMiddleMaster = 14;
             rightRearFollower = 4;
         } else if (bot.equals("practice")) {
@@ -42,7 +42,7 @@ public class RobotMap {
             leftRearFollower = 26;
             rightFrontFollower = 30;
             rightMiddleMaster = 31;
-            rightRearFollower = 34;            
+            rightRearFollower = 34;
         } else if (bot.equals("comp")){
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -64,14 +64,14 @@ public class RobotMap {
 
     public static final int driverXboxController = 1;
     public static final int operatorXboxController = 2;
-    
+
     /**
      * @return The speed cap for the drive base in teleop.
      */
     public static double getSpeedCap() {
         return speedCap;
     }
-    
+
     /**
      * @return The rotation speed cap for the drive base in teleop.
      */
@@ -87,6 +87,6 @@ public class RobotMap {
     public static void setSpeedAndRotationCaps(final double newSpeedCap, final double newRotationCap) {
         speedCap = newSpeedCap;
         rotationCap = newRotationCap;
-    }  
+    }
 
 }

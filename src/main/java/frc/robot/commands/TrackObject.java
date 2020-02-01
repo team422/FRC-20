@@ -24,7 +24,7 @@ public class TrackObject extends Command {
     public void initialize() {
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
-        
+
         frameWidth = Subsystems.pixy.getFrameWidth();
     }
 
@@ -39,13 +39,13 @@ public class TrackObject extends Command {
         } catch (java.lang.NullPointerException e) {
             //if no block found for 10 loops, stop motors
             if (counter < 10){
-                counter++;                
+                counter++;
             } else {
                 Subsystems.driveBase.stopMotors();
             }
             return;
         }
-        
+
         double blockCenter = (blockWidth/2)+blockX;
         double correction = blockCenter-(frameWidth/2);
         correction *= 0.00632911; //shrinks correction to a -1 to 1 value (calculated with width of 316)
@@ -69,5 +69,5 @@ public class TrackObject extends Command {
     @Override
     public void end() {
         Subsystems.driveBase.setMotors(0, 0);
-    } 
-} 
+    }
+}

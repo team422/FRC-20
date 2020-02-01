@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
-      
+
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
     }
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
-        
+
         autonomous = new CenterTrench();
         autonomous.start();
     }
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
         }
     }
 
-    /** 
+    /**
      * Puts data into the Smart Dashboard. This will be updated even if the robot is disabled.
      */
     private void printDataToSmartDashboard() {

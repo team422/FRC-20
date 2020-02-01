@@ -12,11 +12,11 @@ public class Turn extends Command {
     private double speed;
     private boolean isCorrecting = false;
 
-    /** 
+    /**
      * Turns the bot a set number of degrees.
      * @param Degrees The number of degrees to turn - negative to the left, positive to the right.
      * @param Speed The speed at which to turn (0 to 1). Speeds over x are not recommended for maximal accuracy.
-     * @param Timeout The timeout, in seconds. 
+     * @param Timeout The timeout, in seconds.
      */
     public Turn(double Degrees, double Speed, double Timeout){
         super("Turn");
@@ -25,7 +25,7 @@ public class Turn extends Command {
         speed = Speed;
         setTimeout(Timeout);
     }
-    
+
     public void initialize() {
         System.out.println("Starting turn!");
         Subsystems.driveBase.zeroGyroAngle();
