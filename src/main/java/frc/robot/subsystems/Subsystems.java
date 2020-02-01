@@ -11,5 +11,6 @@ public class Subsystems {
     //public static final Intake intake = new Intake();
     //public static final Climber climber = new Climber();
     public static final Pixy pixy = new Pixy();
+    public static final Ultrasonic ultrasonic = new Ultrasonic();
 
 }

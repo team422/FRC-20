@@ -17,6 +17,8 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
 
+    public static int ultrasonicAnalogPort = 3;
+
     /**
      * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
      * Please note that this is case sensitive.
