@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
         printDataToSmartDashboard();
 
         //Run flywheel when operator Y pressed down (change on operator request)
-        if (UserInterface.driverController.Y.get()) {
+        if (UserInterface.operatorController.Y.get()) {
             Subsystems.flyboi.spinWheel(0.5);
         } else {
             Subsystems.flyboi.stopWheel();
