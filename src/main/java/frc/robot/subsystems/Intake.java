@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -11,11 +12,13 @@ import frc.robot.Direction;
 
 public class Intake extends Subsystem {   
 
-    private WPI_TalonSRX intake;
+    public WPI_TalonSRX intake;
+    public DoubleSolenoid intakeExtension;
     
     public Intake(){
         super("Intake");
         this.intake = new WPI_TalonSRX(RobotMap.intake);
+        this.intakeExtension = new DoubleSolenoid(RobotMap.intakeExtensionOut, RobotMap.intakeExtensionIn);
     }
 
     protected void initDefaultCommand() {} 
@@ -26,8 +29,6 @@ public class Intake extends Subsystem {
         intake.set(ControlMode.PercentOutput, 0.0);
     }
 
-
-
     public void intake(double power, Direction direction) {
         if (direction == Direction.Up) {
             intake.set(ControlMode.PercentOutput, -power);
@@ -36,5 +37,13 @@ public class Intake extends Subsystem {
         } else {
             intake.set(ControlMode.PercentOutput, 0.0);
         }
+    }
+
+    public void intakeOut() {
+        intakeExtension.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void intakeIn() {
+        intakeExtension.set(DoubleSolenoid.Value.kReverse);
     }
 }

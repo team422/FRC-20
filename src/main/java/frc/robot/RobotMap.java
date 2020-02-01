@@ -12,6 +12,10 @@ public class RobotMap {
     /**
      * Various Ports
      */
+    // UI Ports
+
+    public static final int driverXboxController = 1;
+    public static final int operatorXboxController = 2;
     
     // Talon/Victor IDs
     public static final int leftFrontFollower = 3;
@@ -21,33 +25,17 @@ public class RobotMap {
     public static final int rightMiddleMaster = 14;
     public static final int rightRearFollower = 4;
     public static final int intake = 999; //replace with actual value
+    public static final int intakeExtensionOut = 3003;
+    public static final int intakeExtensionIn = 4004;
 
-    
-    // UI Ports
-    public static final int launchpad = 0;
-    public static final int driverXboxController = 1;
-    public static final int operatorXboxController = 2;
-    /**
-     * End Port Setting
-     */
-   
-    public static double getIdealAngle() {
-        return idealAngle;
-    }
-    
-    public static void setIdealAngle(final double angle) {
-        idealAngle = angle;
-        System.out.println("Ideal angle is now " + idealAngle);
+    public static double getRotationCap() {
+        return rotationCap;
     }
     
     public static double getSpeedCap() {
         return speedCap;
     }
-    
-    public static double getRotationCap() {
-        return rotationCap;
-    }
-    
+
     public static void setSpeedAndRotationCaps(final double newSpeedCap, final double newRotationCap) {
         speedCap = newSpeedCap;
         rotationCap = newRotationCap;
