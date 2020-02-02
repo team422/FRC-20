@@ -59,6 +59,17 @@ public class RobotMap {
 
     public static final int leftFlywheel = 11;
     public static final int rightFlywheel = 24;
+    public static int crankyCrank = 422;
+
+    // Double solenoid ports
+
+    public static final int brakeyBrakeIn = 422;
+    public static final int brakeyBrakeOut = 422;
+    public static final int pinPullerTopIn = 422;
+    public static final int pinPullerTopOut = 422;
+    public static final int pinPullerBottomIn = 422;
+    public static final int pinPullerBottomOut = 422;
+
 
     // UI Ports
 
