@@ -4,6 +4,8 @@ import io.github.pseudoresonance.pixy2api.*;
 import io.github.pseudoresonance.pixy2api.links.*;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.databind.util.EnumValues;
+
 /**
  * A Pixy2 camera connected to the roborio via an I2C port, setup to track lines.
  */
@@ -25,21 +27,65 @@ public class LinePixy {
     
     private Pixy2Line.Vector[] vectors;
 
-    public void printVectors(){
+    public void printIntersection(){
         pixyLine.getAllFeatures();
         vectors = pixyLine.getVectors();
         try {for(int i = 0; i < vectors.length; i++) {
             for (int j = i + 1; j < vectors.length; j++){
-                int Vec1X = Math.abs(vectors[i].getX0()-vectors[i].getX1());
-                int Vec1Y = Math.abs(vectors[i].getY0()-vectors[i].getY1());
-                int Vec2X = Math.abs(vectors[j].getX0()-vectors[j].getX1());
-                int Vec2Y = Math.abs(vectors[j].getY0()-vectors[j].getY1());
+                int Vec1X0 = vectors[i].getX0();
+                int Vec1X1 = vectors[i].getX1();
+                int Vec1Y0 = vectors[i].getY0();
+                int Vec1Y1 = vectors[i].getY1();
+                int Vec2X0 = vectors[j].getX0();
+                int Vec2X1 = vectors[j].getX1();
+                int Vec2Y0 = vectors[j].getY0();
+                int Vec2Y1 = vectors[j].getY1();
+                
+                int Vec1X = Math.abs(Vec1X0-Vec1X1);
+                int Vec1Y = Math.abs(Vec1Y0-Vec1Y1);
+                int Vec2X = Math.abs(Vec2X0-Vec2X1);
+                int Vec2Y = Math.abs(Vec2Y0-Vec2Y1);
                 double angle1 = Math.atan(Vec1Y/(Vec1X+.01));
                 double angle2 = Math.atan(Vec1Y/(Vec1X+.01));
-                angle1 =angle1*180/3.141592653;
+                angle1 = angle1*180/3.141592653;
                 angle2 = angle2*180/3.141592653;
-                if (Math.floor((180-angle1-angle2)/10)==7){
-                    System.out.println("GOOD");
+                double interceptAngle = 180-angle1-angle2;
+                //if angle of intercept is within 5 degrees of 77, the actual angle, find intersect coordinates
+                if (interceptAngle >= 72 && (interceptAngle <= 82)) {
+                    double Vec1M;
+                    double Vec2M;
+                    double Vec1B;
+                    double Vec2B;
+                    double intersectX;
+                    double intersectY;
+
+                    //if Vector 1 is a vertical line
+                    if (Vec1X0 == Vec1X1){
+                        Vec2M = (Vec2Y0 - Vec2Y1) / (Vec2X0 - Vec2X1);
+                        Vec2B = -(Vec2M) * Vec2X0 + Vec2Y0;
+                        intersectX = Vec1X0; 
+                        intersectY = Vec2M * intersectX + Vec2B; 
+                    }
+                    //if Vector 2 is a vertical line
+                    else if (Vec2X0 == Vec2X1){
+                        Vec1M = (Vec1Y0 - Vec1Y1) / (Vec1X0 - Vec1X1);
+                        Vec1B = -(Vec1M) * Vec1X0 + Vec1Y0;
+                        intersectX = Vec2X0; 
+                        intersectY = Vec1M * intersectX + Vec1B; 
+                    }
+                    //if neither vector is a vertical line
+                    else{
+                        Vec1M = (Vec1Y0 - Vec1Y1) / (Vec1X0 - Vec1X1);
+                        Vec2M = (Vec2Y0 - Vec2Y1) / (Vec2X0 - Vec2X1);
+                        Vec1B = -(Vec1M)* Vec1X0 + Vec1Y0;
+                        Vec2B = -(Vec2M) * Vec2X0 + Vec2Y0;
+                        intersectX = (Vec2B-Vec1B) / (Vec2M-Vec1M);
+                        intersectY = Vec1M * intersectX + Vec1B;
+                    }
+
+
+                    System.out.println("Intersect coordinates are (" + intersectX + "," + intersectY + ")");
+
                 }
                 
             }
