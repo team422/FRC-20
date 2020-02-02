@@ -2,10 +2,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.userinterface.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -35,11 +37,13 @@ public class Robot extends TimedRobot {
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
 
-        //Setup SmartDashboard interface
+        //Setup Shuffleboard interface
         positionChooser = new SendableChooser<String>();
         positionChooser.setDefaultOption("Center", "C");
         positionChooser.addOption("Left", "L");
         positionChooser.addOption("Right", "R");
+
+        Shuffleboard.getTab("Match").add("Position", positionChooser);
     }
 
     public void disabledInit() {
