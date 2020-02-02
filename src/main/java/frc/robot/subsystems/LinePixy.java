@@ -22,19 +22,44 @@ public class LinePixy {
         pixyLine = pixy.getLine(); // Sets up for line tracking
         System.out.println(pixy);
 	}
-	
-	public void printIntersection() {
-		pixyLine.getMainFeatures();
-		Pixy2Line.Intersection[] intersections = pixyLine.getIntersections();
-		System.out.print("this many intersections" + intersections.length);
-		if (intersections.length > 0) {
-			System.out.print("intersection 0 is" + intersections[0]);
-			System.out.println(", intersection angle is " + intersections[0].getLines()[0].getAngle());
-		} else {
-			System.out.println("no intersections :(");
-		}
+    
+    private Pixy2Line.Vector[] vectors;
 
-	}
+    public void printVectors(){
+        pixyLine.getAllFeatures();
+        vectors = pixyLine.getVectors();
+        try {for(int i = 0; i < vectors.length; i++) {
+            for (int j = i + 1; j < vectors.length; j++){
+                int Vec1X = Math.abs(vectors[i].getX0()-vectors[i].getX1());
+                int Vec1Y = Math.abs(vectors[i].getY0()-vectors[i].getY1());
+                int Vec2X = Math.abs(vectors[j].getX0()-vectors[j].getX1());
+                int Vec2Y = Math.abs(vectors[j].getY0()-vectors[j].getY1());
+                double angle1 = Math.atan(Vec1Y/(Vec1X+.01));
+                double angle2 = Math.atan(Vec1Y/(Vec1X+.01));
+                angle1 =angle1*180/3.141592653;
+                angle2 = angle2*180/3.141592653;
+                if (Math.floor((180-angle1-angle2)/10)==7){
+                    System.out.println("GOOD");
+                }
+                
+            }
+        }
+        System.out.println();
+    }
+    catch (java.lang.NullPointerException e){
+        System.out.println("Double Oops");
+    }
+    }
+
+	/*public void printIntersection() {
+		pixyLine.getAllFeatures();
+        try {
+            System.out.println("intersection angle is " + pixyLine.getIntersections()[0].getLines()[0].getAngle());    
+        }
+        catch (java.lang.NullPointerException e){
+            System.out.println("OOPS");
+        }
+	}*/
 
     /**
      * Sets the RGB LED color.
