@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.SPI;
 public class DriveBase extends Subsystem {
 
     public WPI_TalonSRX leftMiddleMaster;
-    public WPI_TalonSRX rightMiddleMaster; 
+    public WPI_TalonSRX rightMiddleMaster;
 
     // Toaster/comp bot
     // public WPI_VictorSPX leftFrontFollower;
@@ -33,7 +33,7 @@ public class DriveBase extends Subsystem {
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
-    public DifferentialDrive cheesyDrive; 
+    public DifferentialDrive cheesyDrive;
     private static final SPI.Port kGyroPort = SPI.Port.kOnboardCS0;
 
     public int leftMotorTicks = 0;
@@ -41,7 +41,7 @@ public class DriveBase extends Subsystem {
 
     public DriveBase() {
         super("DriveBase");
-        this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster); 
+        this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster);
         this.rightMiddleMaster = new WPI_TalonSRX(RobotMap.rightMiddleMaster);
 
         //Toaster/comp bot
@@ -62,7 +62,7 @@ public class DriveBase extends Subsystem {
 
         this.gyro = new ADXRS450_Gyro(kGyroPort);
         this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollower, leftRearFollower);
-        this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollower, rightRearFollower);        
+        this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollower, rightRearFollower);
         this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
@@ -82,7 +82,7 @@ public class DriveBase extends Subsystem {
         leftSide.set(left);
         rightSide.set(right);
     }
-    
+
     /**
      * Sets drive train motors to zero, effectively stopping the bot.
      */
@@ -109,7 +109,7 @@ public class DriveBase extends Subsystem {
      * @return Angle at which the robot is positioned in degrees
      */
     public double getGyroAngle() {
-        return gyro.getAngle();       
+        return gyro.getAngle();
     }
 
     /**

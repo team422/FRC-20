@@ -16,7 +16,7 @@ public class DriveStraight extends Command {
      * Drives the robot in a straight line.
      * @param Inches Distance forwards or backwards in inches.
      * @param Speed Speed at which the bot travels (0 to 1).
-     * @param Timeout The timeout, in seconds.  
+     * @param Timeout The timeout, in seconds.
      */
     public DriveStraight(double Inches, double Speed, double Timeout) {
         super("DriveStraight");
@@ -35,7 +35,7 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public void execute() {          
+    public void execute() {
         // double correction = Subsystems.driveBase.getGyroAngle();
         // correction *= 0.075;
         // correction += 1.0;

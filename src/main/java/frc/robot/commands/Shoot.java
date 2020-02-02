@@ -8,39 +8,39 @@ import frc.robot.subsystems.*;
  */
 public class Shoot extends Command {
 
-  private int numOfBalls;
+    private int numOfBalls;
 
-  /**
-   * Shoots lemonade cargo at power port.
-   * @param NumOfBalls Number of lemonade cargo to shoot.
-   */
-  public Shoot(int NumOfBalls) {
-    super ("Shoot");
-    requires(Subsystems.flyboi);
-    //requires(Subsystems.helix);
-    numOfBalls = NumOfBalls;
-  }
+    /**
+     * Shoots lemonade cargo at power port.
+     * @param NumOfBalls Number of lemonade cargo to shoot.
+     */
+    public Shoot(int NumOfBalls) {
+        super ("Shoot");
+        requires(Subsystems.flyboi);
+        //requires(Subsystems.helix);
+        numOfBalls = NumOfBalls;
+    }
 
-  protected void initialize() {
-    setTimeout(0.3*numOfBalls); //0.3 seconds per ball (change)
-    
-    Subsystems.flyboi.spinWheel(0.5);
-  }
-  
-  protected void execute() {
-    //motors are still on
-  }
+    protected void initialize() {
+        setTimeout(0.3*numOfBalls); //0.3 seconds per ball (change)
 
-  protected boolean isFinished() {
-    return isTimedOut();
-  }
+        Subsystems.flyboi.spinWheel(0.5);
+    }
 
-  protected void interrupted() {
-    Subsystems.flyboi.stopWheel();
-  }
+    protected void execute() {
+        //motors are still on
+    }
 
-  protected void end() {
-    Subsystems.flyboi.stopWheel();
-  }
+    protected boolean isFinished() {
+        return isTimedOut();
+    }
+
+    protected void interrupted() {
+        Subsystems.flyboi.stopWheel();
+    }
+
+    protected void end() {
+        Subsystems.flyboi.stopWheel();
+    }
 
 }

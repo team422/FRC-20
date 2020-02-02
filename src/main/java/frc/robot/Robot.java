@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.userinterface.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -18,7 +19,8 @@ public class Robot extends TimedRobot {
 
     private UsbCamera camera;
 
-    private CenterTrench autonomous;
+    private AutonomousSwitch autonomous;
+    private SendableChooser<String> positionChooser;
 
     public Robot() {
         super(0.06);
@@ -29,9 +31,15 @@ public class Robot extends TimedRobot {
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
-      
+
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
+
+        //Setup SmartDashboard interface
+        positionChooser = new SendableChooser<String>();
+        positionChooser.setDefaultOption("Center", "C");
+        positionChooser.addOption("Left", "L");
+        positionChooser.addOption("Right", "R");
     }
 
     public void disabledInit() {
@@ -47,8 +55,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
-        
-        autonomous = new CenterTrench();
+
+        autonomous = new AutonomousSwitch(positionChooser.getSelected());
         autonomous.start();
     }
 
@@ -74,7 +82,7 @@ public class Robot extends TimedRobot {
         }
     }
 
-    /** 
+    /**
      * Puts data into the Smart Dashboard. This will be updated even if the robot is disabled.
      */
     private void printDataToSmartDashboard() {
