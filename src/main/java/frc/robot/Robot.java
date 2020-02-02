@@ -10,7 +10,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
-import edu.wpi.first.wpilibj.AnalogInput;
+
 
 /**
  * The main Robot class whence all things come.
@@ -20,11 +20,8 @@ public class Robot extends TimedRobot {
     private UsbCamera camera;
 
     private CenterTrench autonomous;
+    private AutonUltrasonicTest testUltrasonic;
 
-    private AnalogInput ultrasonic = new AnalogInput(RobotMap.ultrasonicAnalogPort);
-    private double previousUltrasonicVoltage = 10000;
-    private double ultrasonicVoltage = 0;
-    private double ultrasonicInches = 0;
 
     public Robot() {
         super(0.06);
@@ -54,13 +51,14 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
 
-        autonomous = new CenterTrench();
-        autonomous.start();
+        testUltrasonic = new AutonUltrasonicTest();
+        testUltrasonic.start();
     }
 
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         printDataToSmartDashboard();
+        Subsystems.ultrasonic.updateVoltage();
     }
 
     public void teleopInit() {
@@ -80,10 +78,9 @@ public class Robot extends TimedRobot {
         }
 
         
-        ultrasonicVoltage = previousUltrasonicVoltage*.8 + ultrasonic.getValue()*.2;
-        ultrasonicInches = (Math.floor(10*(0.052323*ultrasonicVoltage-0.7635)))/10;
-        System.out.println("Inches Away: "+ultrasonicInches);
-        previousUltrasonicVoltage = ultrasonicVoltage;
+        Subsystems.ultrasonic.updateVoltage();
+        System.out.println("Inches Away: "+ Subsystems.ultrasonic.getInchesAway());
+        
     }
 
     /**

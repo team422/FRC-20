@@ -9,12 +9,11 @@ public class Ultrasonic {
     private double ultrasonicInches = 0;
 
     public Ultrasonic(){
-        ultrasonic = new AnalogInput(RobotMap.ultrasonicAnalogPort)
+        ultrasonic = new AnalogInput(RobotMap.ultrasonicAnalogPort);
     }
     public void updateVoltage(){
         ultrasonicVoltage = previousUltrasonicVoltage*.8 + ultrasonic.getValue()*.2;
         ultrasonicInches = (Math.floor(10*(0.052323*ultrasonicVoltage-0.7635)))/10;
-        System.out.println("Inches Away: "+ultrasonicInches);
         previousUltrasonicVoltage = ultrasonicVoltage;
     }
     public double getInchesAway(){

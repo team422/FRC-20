@@ -16,7 +16,7 @@ public class AutonUltrasonicTest extends CommandGroup {
         double inchesToMove = currentInches - endingInches;
 
         if (inchesToMove > 0){
-            addSequential(new DriveStraight(inchesToMove,.5,5));
+            addSequential(new DriveUntil(inchesToMove,.5,5));
         }
     }
 }
