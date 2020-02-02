@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
-import frc.robot.Direction;
 
 public class IntakeIn extends Command {
 
@@ -12,13 +11,11 @@ public class IntakeIn extends Command {
     }
 
     @Override
-    public void initialize() {
-
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
-        Subsystems.intake.intake(0.314, Direction.Up);
+        Subsystems.intake.setIntakeMotors(0.3);
     }
 
     @Override
@@ -28,13 +25,12 @@ public class IntakeIn extends Command {
 
     @Override
     public void interrupted() {
-
+        Subsystems.intake.setIntakeMotors(0);
     }
-
 
     @Override
     public void end() {
-
+        Subsystems.intake.setIntakeMotors(0);
     }
 
 }

@@ -11,9 +11,7 @@ public class IntakeRetract extends Command {
     }
 
     @Override
-    public void initialize() {
-
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
@@ -26,14 +24,9 @@ public class IntakeRetract extends Command {
     }
 
     @Override
-    public void interrupted() {
-
-    }
-
+    public void interrupted() {}
 
     @Override
-    public void end() {
-
-    }
+    public void end() {}
 
 }
