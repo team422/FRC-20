@@ -65,10 +65,13 @@ public class RobotMap {
 
     public static final int cellStopOut = 422;
     public static final int cellStopIn = 422;
+    public static final int intakeExtensionOut = 422;
+    public static final int intakeExtensionIn = 422;
 
     // Sensor ports
 
     public static final int intakeBeamBreak = 422;
+    public static final int intake = 422;
 
     // UI Ports
 
