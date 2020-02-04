@@ -60,6 +60,7 @@ public class RobotMap {
     public static final int leftFlywheel = 11;
     public static final int rightFlywheel = 24;
     public static final int helicase = 422;
+    public static final int intakeMotor = 422;
 
     // Double solenoid ports
 
@@ -71,7 +72,6 @@ public class RobotMap {
     // Sensor ports
 
     public static final int intakeBeamBreak = 422;
-    public static final int intake = 422;
 
     // UI Ports
 

@@ -14,11 +14,13 @@ public class TurnHelix extends Command {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        Subsystems.helix.setHelixMotors(speed);
+    }
 
     @Override
     public void execute() {
-        Subsystems.helix.setHelixMotors(speed);
+        //motors still on
     }
 
     @Override

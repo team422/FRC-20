@@ -60,17 +60,25 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
+
+        //Prevent balls from being shot while intaking
+        UserInterface.operatorController.Y.whenPressed(new ExtendCellStop());
+
+        //Shoot when operator X pressed (change on operator request)
+        UserInterface.operatorController.X.whenPressed(new Shoot());
     }
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToSmartDashboard();
 
-        //Run flywheel when operator Y pressed down (change on operator request)
-        if (UserInterface.driverController.Y.get()) {
-            Subsystems.flyboi.spinWheel(0.5);
+        //Intake when operator Y pressed down (change on operator request)
+        if (UserInterface.operatorController.Y.get()) {
+            Subsystems.intake.setIntakeMotors(0.3);
+            Subsystems.helix.setHelixMotors(0.3);
         } else {
-            Subsystems.flyboi.stopWheel();
+            Subsystems.intake.stopIntakeMotors();
+            Subsystems.helix.stopHelixMotors();
         }
     }
 

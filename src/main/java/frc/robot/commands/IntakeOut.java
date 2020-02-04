@@ -11,16 +11,18 @@ public class IntakeOut extends Command {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        Subsystems.intake.setIntakeMotors(-0.3);
+    }
 
     @Override
     public void execute() {
-        Subsystems.intake.setIntakeMotors(0.3);
+        //motors still on
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
     @Override

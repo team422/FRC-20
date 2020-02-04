@@ -26,6 +26,10 @@ public class Helix extends Subsystem {
         helicase.set(ControlMode.PercentOutput, -power);
     }
 
+    public void stopHelixMotors() {
+        helicase.set(ControlMode.PercentOutput, 0);
+    }
+
     public boolean getCellEntered() {
         return !intakeBeamBreak.get();
     }

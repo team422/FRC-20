@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
-public class IntakeRetract extends Command {
+public class RetractIntake extends Command {
 
-    public IntakeRetract() {
-        super("IntakeRetract");
+    public RetractIntake() {
+        super("RetractIntake");
         requires(Subsystems.intake);
     }
 

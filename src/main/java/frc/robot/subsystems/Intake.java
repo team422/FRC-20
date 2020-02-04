@@ -8,21 +8,23 @@ import frc.robot.RobotMap;
 
 public class Intake extends Subsystem {
 
-    public WPI_TalonSRX intake;
+    public WPI_TalonSRX intakeMotor;
     public DoubleSolenoid intakeExtension;
 
     public Intake() {
         super("Intake");
-        this.intake = new WPI_TalonSRX(RobotMap.intake);
+        this.intakeMotor = new WPI_TalonSRX(RobotMap.intakeMotor);
         this.intakeExtension = new DoubleSolenoid(RobotMap.intakeExtensionOut, RobotMap.intakeExtensionIn);
     }
 
     protected void initDefaultCommand() {}
 
     public void setIntakeMotors(double power) {
-        intake.set(ControlMode.PercentOutput, -power);
-    }    public void stopIntakeMotors() {
-        intake.set(ControlMode.PercentOutput, 0.0);
+        intakeMotor.set(ControlMode.PercentOutput, -power);
+    }
+    
+    public void stopIntakeMotors() {
+        intakeMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
     public void intakeExtend() {
