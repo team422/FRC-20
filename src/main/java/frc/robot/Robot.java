@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        RobotMap.setBot("practice");
+        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
