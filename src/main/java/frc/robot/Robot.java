@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
+        RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         printDataToSmartDashboard();
         Scheduler.getInstance().run();
+        
     }
 
     public void autonomousInit() {
@@ -60,11 +61,15 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
+        Subsystems.driveBase.zeroEncoderPosition();
     }
 
     public void teleopPeriodic() {
+        //System.out.println("Left: "+Subsystems.driveBase.getLeftPosition());
+        System.out.println("Right: "+Subsystems.driveBase.getRightPosition());
         Scheduler.getInstance().run();
         printDataToSmartDashboard();
+       
 
         //Run flywheel when operator Y pressed down (change on operator request)
         if (UserInterface.driverController.Y.get()) {

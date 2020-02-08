@@ -82,6 +82,7 @@ public class DriveBase extends Subsystem {
         
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
+        System.out.println(leftMotorTicks);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
     }
 
