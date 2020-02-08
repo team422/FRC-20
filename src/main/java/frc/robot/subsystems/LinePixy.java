@@ -26,6 +26,11 @@ public class LinePixy {
 	}
     
     private Pixy2Line.Vector[] vectors;
+    //initialize slopes of tape lines 
+   double VecLeftM;
+   double VecRightM;
+
+
 
     public void printIntersection(){
         pixyLine.getAllFeatures();
@@ -46,12 +51,13 @@ public class LinePixy {
                 int Vec2X = Math.abs(Vec2X0-Vec2X1);
                 int Vec2Y = Math.abs(Vec2Y0-Vec2Y1);
                 double angle1 = Math.atan(Vec1Y/(Vec1X+.01));
-                double angle2 = Math.atan(Vec1Y/(Vec1X+.01));
+                double angle2 = Math.atan(Vec2Y/(Vec2X+.01));
                 angle1 = angle1*180/3.141592653;
-                angle2 = angle2*180/3.141592653;
+                angle2 = angle2*180/ 3.141592653;
+                
                 double interceptAngle = 180-angle1-angle2;
                 //if angle of intercept is within 5 degrees of 77, the actual angle, find intersect coordinates
-                if (interceptAngle >= 72 && (interceptAngle <= 82)) {
+                if (interceptAngle >= 72 && interceptAngle <= 82) {
                     double Vec1M;
                     double Vec2M;
                     double Vec1B;
@@ -65,6 +71,7 @@ public class LinePixy {
                         Vec2B = -(Vec2M) * Vec2X0 + Vec2Y0;
                         intersectX = Vec1X0; 
                         intersectY = Vec2M * intersectX + Vec2B; 
+                        Vec1M = 1000;
                     }
                     //if Vector 2 is a vertical line
                     else if (Vec2X0 == Vec2X1){
@@ -72,6 +79,7 @@ public class LinePixy {
                         Vec1B = -(Vec1M) * Vec1X0 + Vec1Y0;
                         intersectX = Vec2X0; 
                         intersectY = Vec1M * intersectX + Vec1B; 
+                        Vec2M = 1000;
                     }
                     //if neither vector is a vertical line
                     else{
@@ -83,7 +91,109 @@ public class LinePixy {
                         intersectY = Vec1M * intersectX + Vec1B;
                     }
 
+                    //double VecCos1 = ((Vec1X0)^2+(Vec1X1)^2)
 
+                    if (Vec1M > 0){
+                        //Vec1 is positive and Vec2 is negative
+                        if (Vec2M < 0){
+                            VecLeftM = Vec2M;
+                            VecRightM = Vec1M;
+                        }
+                        //both are positive slopes
+                        else if (Vec2M > 0){
+                            //Vec2 is steeper
+                            if (Vec1M < Vec2M){
+                                VecLeftM = Vec2M;
+                                VecRightM = Vec1M; 
+                            }
+                            //Vec1 is steeper
+                            else if (Vec1M > Vec2M){
+                                VecLeftM = Vec1M;
+                                VecRightM = Vec2M;
+                            }
+                        }
+                        //Vec1 is positive and Vec2 is a straight horizontal line
+                        else if (Vec2M == 0){
+                            VecLeftM = Vec1M;
+                            VecRightM = Vec2M;
+                        }
+                        //Vec 1 is positive and Vec2 is a straight vertical line
+                        else {
+                            VecLeftM = Vec2M;
+                            VecRightM = Vec1M;
+                        }
+                    }
+
+                    else if (Vec1M < 0){
+                        //Vec1 is negative and Vec2 is positive
+                        if (Vec2M > 0){
+                            VecLeftM = Vec1M;
+                            VecRightM = Vec2M;
+                        }
+                        //both are negative slopes
+                        else if (Vec2M < 0){
+                            //Vec1 is steeper
+                            if (Vec1M < Vec2M){
+                                VecLeftM = Vec2M;
+                                VecRightM = Vec1M;
+                            }
+                            //Vec2 is steeper
+                            else if (Vec1M > Vec2M){
+                                VecLeftM = Vec1M;
+                                VecRightM = Vec2M;
+                            }
+                        }
+                        //Vec1 is negative and Vec2 is a straight horizontal line
+                        else if (Vec2M == 0){
+                            VecLeftM = Vec2M;
+                            VecRightM = Vec1M;
+                        }
+                        //Vec1 is negative and Vec2 is a straight vertical line
+                        else {
+                            VecLeftM = Vec1M;
+                            VecRightM = Vec2M;
+                        }
+                    }
+
+                    else if (Vec1M == 0){
+                        //Vec1 is a straight horizontal line and Vec2 is positive
+                        if (Vec2M > 0){
+                            VecLeftM = Vec2M;
+                            VecRightM = Vec1M;
+                        }
+                        //Vec1 is a straight horizontal line and Vec2 is negative
+                        else if (Vec2M < 0){
+                            VecLeftM = Vec1M;
+                            VecRightM = Vec2M;
+                        }
+                    }
+
+                    else {
+                        //Vec1 is a straight vertical line and Vec2 is positive
+                        if (Vec2M > 0){
+                            VecLeftM = Vec1M;
+                            VecRightM = Vec2M;
+                        }
+                        //Vec1 is a straight vertical line and Vec2 is negative
+                        else if (Vec2M < 0){
+                            VecLeftM = Vec2M;
+                            VecRightM = Vec1M;
+                        }
+                    }
+
+                /*
+                double seansAngle1 = Math.acos((Vec1X0 - Vec1X1)/Math.sqrt(((Vec1X0-Vec1X1)^2)+((Vec1Y0-Vec1Y1)^2));
+                double seansAngle2 = Math.acos((Vec2X0 - Vec2X1)/Math.sqrt(((Vec2X0-Vec2X1)^2)+((Vec2Y0-Vec2Y1)^2));
+                
+                if (seansAngle1 < seansAngle2){
+                    VecLeftM = Vec2M;
+                    VecRightM = Vec1M;
+                }
+                else if(seansAngle1 > seansAngle2){
+                    VecLeftM = Vec1M;
+                    VecRightM = Vec2M;
+                }
+                */
                     System.out.println("Intersect coordinates are (" + intersectX + "," + intersectY + ")");
 
                 }
@@ -96,6 +206,8 @@ public class LinePixy {
         System.out.println("Double Oops");
     }
     }
+
+    
 
 	/*public void printIntersection() {
 		pixyLine.getAllFeatures();
