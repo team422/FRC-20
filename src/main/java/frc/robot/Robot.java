@@ -23,10 +23,10 @@ public class Robot extends TimedRobot {
     private UsbCamera camera;
 
     private AutonomousSwitch autonomous;
-    private SendableChooser<String> positionChooser;
+    private SendableChooser<AutonomousSwitch.StartingPosition> positionChooser;
     private NetworkTableEntry delayChooser;
     private NetworkTableEntry pushRobotChooser;
-    private SendableChooser<String> intakeChooser;
+    private SendableChooser<AutonomousSwitch.IntakeSource> intakeChooser;
     private NetworkTableEntry autoLabel;
 
     private NetworkTableEntry driverControllerWidget;
@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
 
-        autonomous = new AutonomousSwitch("C", 0, false, "trench"); //default
+        autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH); //default
         //setup Shuffleboard interface
         layoutShuffleboard();
     }
@@ -74,10 +74,14 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
         Scheduler.getInstance().run();
 
-        //update auto if changed
-        if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected())) {
-            autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
-            autoLabel.setString(autonomous.description);
+        if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
+            //update auto if changed
+            if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected())) {
+                autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
+                autoLabel.setString(autonomous.description);
+            }
+        } else {
+            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP).");
         }
     }
 
@@ -85,8 +89,13 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
 
-        autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
-        autoLabel.setString(autonomous.description);
+        if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
+            //update auto
+            autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
+            autoLabel.setString(autonomous.description);
+        } else {
+            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP).");
+        }
         autonomous.start();
     }
 
@@ -105,7 +114,7 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
 
         //Run flywheel when operator Y pressed down (change on operator request)
-        if (UserInterface.driverController.Y.get()) {
+            if (UserInterface.driverController.Y.get()) {
             Subsystems.flyboi.spinWheel(0.5);
         } else {
             Subsystems.flyboi.stopWheel();
@@ -126,16 +135,16 @@ public class Robot extends TimedRobot {
         ShuffleboardLayout pixyLayout = matchPlayTab.getLayout("pixy", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 3);
 
         //Setup autonomous options and layouts
-        positionChooser = new SendableChooser<String>();
-        positionChooser.setDefaultOption("Center", "C");
-        positionChooser.addOption("Left", "L");
-        positionChooser.addOption("Right", "R");
+        positionChooser = new SendableChooser<AutonomousSwitch.StartingPosition>();
+        positionChooser.setDefaultOption("Center", AutonomousSwitch.StartingPosition.CENTER);
+        positionChooser.addOption("Left", AutonomousSwitch.StartingPosition.LEFT);
+        positionChooser.addOption("Right", AutonomousSwitch.StartingPosition.RIGHT);
 
-        intakeChooser = new SendableChooser<String>();
-        intakeChooser.setDefaultOption("Trench", "trench");
-        intakeChooser.addOption("Rendevous", "rendevous");
-        intakeChooser.addOption("3 from trench and 2 from rendevous", "mixed");
-        intakeChooser.addOption("None (get out of way)", "none");
+        intakeChooser = new SendableChooser<AutonomousSwitch.IntakeSource>();
+        intakeChooser.setDefaultOption("Trench", AutonomousSwitch.IntakeSource.TRENCH);
+        intakeChooser.addOption("Rendevous", AutonomousSwitch.IntakeSource.RENDEZVOUS);
+        intakeChooser.addOption("3 from trench and 2 from rendevous", AutonomousSwitch.IntakeSource.MIXED);
+        intakeChooser.addOption("None (get out of way)", AutonomousSwitch.IntakeSource.NONE);
 
         autonomousChooserLayout.add("Starting position", positionChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
         delayChooser = autonomousChooserLayout.add("Delay", 0).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 10)).getEntry();
