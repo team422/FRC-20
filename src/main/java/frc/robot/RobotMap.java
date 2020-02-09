@@ -8,6 +8,8 @@ public class RobotMap {
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
 
+    public static double wheelDiameter;
+
     // Drive base ports
 
     public static int leftFrontFollower;
@@ -17,39 +19,49 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
 
+    public enum BotNames {
+        COMPETITION, PRACTICE, TOASTER
+    }
+
     /**
      * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
      * Please note that this is case sensitive.
      */
-    public static String botName = "";
+    public static BotNames botName = BotNames.COMPETITION;
 
     /**
      * Sets the bot's ports based off of the bot's name. You will still have to comment out code in DriveBase.java that determines whether your motors are victors or talons.
      * @param bot The name of the bot. <code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.
      */
-    public static void setBot(String bot) {
+    public static void setBot(BotNames bot) {
             botName = bot;
-        if (bot.equals("toaster")) {
+        if (bot == BotNames.TOASTER) {
+            leftFrontFollower = 43;
+            leftMiddleMaster = 18;
+            leftRearFollower = 2;
+            rightFrontFollower = 60;
+            rightMiddleMaster = 14;
+            rightRearFollower = 57;
+
+            wheelDiameter = 8;
+        } else if (bot == BotNames.PRACTICE) {
             leftFrontFollower = 3;
-            leftMiddleMaster = 2;
+            leftMiddleMaster = 20;
             leftRearFollower = 6;
             rightFrontFollower = 5;
-            rightMiddleMaster = 14;
-            rightRearFollower = 4;
-        } else if (bot.equals("practice")) {
-            leftFrontFollower = 1;
-            leftMiddleMaster = 20;
-            leftRearFollower = 26;
-            rightFrontFollower = 30;
             rightMiddleMaster = 31;
-            rightRearFollower = 34;
-        } else if (bot.equals("comp")){
+            rightRearFollower = 4;
+
+            wheelDiameter = 6;
+        } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
             leftRearFollower = 8;
             rightFrontFollower = 9;
             rightMiddleMaster = 10;
             rightRearFollower = 45;
+
+            wheelDiameter = 6;
         } else {
             System.out.println("Not bot, try again");
         }
