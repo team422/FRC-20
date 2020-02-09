@@ -49,7 +49,10 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledPeriodic() {
+        
         Subsystems.linePixy.printIntersection();
+        
+        
         printDataToSmartDashboard();
         Scheduler.getInstance().run();
     }
