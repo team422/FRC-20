@@ -18,7 +18,7 @@ public class Turn extends Command {
      * @param Speed The speed at which to turn (0 to 1). Speeds over x are not recommended for maximal accuracy.
      * @param Timeout The timeout, in seconds.
      */
-    public Turn(double Degrees, double Speed, double Timeout){
+    public Turn(double Degrees, double Speed, double Timeout) {
         super("Turn");
         requires(Subsystems.driveBase);
         degrees = Degrees;
