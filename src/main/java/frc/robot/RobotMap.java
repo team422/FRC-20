@@ -7,7 +7,6 @@ public class RobotMap {
 
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
-
     public static double wheelDiameter;
 
     // Drive base ports
@@ -34,7 +33,7 @@ public class RobotMap {
      * @param bot The name of the bot. <code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.
      */
     public static void setBot(BotNames bot) {
-            botName = bot;
+        botName = bot;
         if (bot == BotNames.TOASTER) {
             leftFrontFollower = 43;
             leftMiddleMaster = 18;
@@ -62,8 +61,6 @@ public class RobotMap {
             rightRearFollower = 45;
 
             wheelDiameter = 6;
-        } else {
-            System.out.println("Not bot, try again");
         }
     }
 

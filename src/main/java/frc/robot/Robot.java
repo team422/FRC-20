@@ -42,7 +42,6 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         printDataToSmartDashboard();
         Scheduler.getInstance().run();
-        
     }
 
     public void autonomousInit() {
@@ -65,11 +64,8 @@ public class Robot extends TimedRobot {
     }
 
     public void teleopPeriodic() {
-        //System.out.println("Left: "+Subsystems.driveBase.getLeftPosition());
-        System.out.println("Right: "+Subsystems.driveBase.getRightPosition());
         Scheduler.getInstance().run();
         printDataToSmartDashboard();
-       
 
         //Run flywheel when operator Y pressed down (change on operator request)
         if (UserInterface.driverController.Y.get()) {

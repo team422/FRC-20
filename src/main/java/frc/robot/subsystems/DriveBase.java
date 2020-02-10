@@ -19,8 +19,6 @@ public class DriveBase extends Subsystem {
     public WPI_TalonSRX rightMiddleMaster;
 
     // Comp bot/Practice bot
-    
-        
     public WPI_VictorSPX leftFrontFollowerVictor;
     public WPI_VictorSPX leftRearFollowerVictor;
     public WPI_VictorSPX rightFrontFollowerVictor;
@@ -48,20 +46,20 @@ public class DriveBase extends Subsystem {
 
         leftMiddleMaster.setInverted(true);
 
-        if (RobotMap.botName == RobotMap.BotNames.COMPETITION || RobotMap.botName == RobotMap.BotNames.PRACTICE){
+        if (RobotMap.botName == RobotMap.BotNames.COMPETITION || RobotMap.botName == RobotMap.BotNames.PRACTICE) {
             //Practice/comp bot
             this.leftFrontFollowerVictor = new WPI_VictorSPX(RobotMap.leftFrontFollower);
             this.leftRearFollowerVictor = new WPI_VictorSPX(RobotMap.leftRearFollower);
             this.rightFrontFollowerVictor = new WPI_VictorSPX(RobotMap.rightFrontFollower);
             this.rightRearFollowerVictor = new WPI_VictorSPX(RobotMap.rightRearFollower);
-            
+
             leftFrontFollowerVictor.setInverted(true);
             leftRearFollowerVictor.setInverted(true);
-    
+
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerVictor, leftRearFollowerVictor);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerVictor, rightRearFollowerVictor);
             this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
-       
+
         } else if (RobotMap.botName == RobotMap.BotNames.TOASTER) {
             //Toaster
             this.leftFrontFollowerTalon = new WPI_TalonSRX(RobotMap.leftFrontFollower);
@@ -71,18 +69,15 @@ public class DriveBase extends Subsystem {
 
             leftFrontFollowerTalon.setInverted(true);
             leftRearFollowerTalon.setInverted(true);
-    
+
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerTalon, leftRearFollowerTalon);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerTalon, rightRearFollowerTalon);
             this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
         }
-        
 
         this.gyro = new ADXRS450_Gyro(kGyroPort);
-        
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
-        System.out.println(leftMotorTicks);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
     }
 
