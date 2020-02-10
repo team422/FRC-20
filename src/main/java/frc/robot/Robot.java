@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import frc.robot.userinterface.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
@@ -16,7 +17,9 @@ import io.github.pseudoresonance.pixy2api.*;
  */
 public class Robot extends TimedRobot {
 
-    private UsbCamera camera;
+    private UsbCamera camera1;
+    private UsbCamera camera2;
+    private boolean front = true;
 
     private CenterTrench autonomous;
 
@@ -28,10 +31,13 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        camera = CameraServer.getInstance().startAutomaticCapture();
-
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
+
+        camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+
+        Shuffleboard.getTab("Test").add(SendableCameraWrapper.wrap(camera1));
     }
 
     public void disabledInit() {
