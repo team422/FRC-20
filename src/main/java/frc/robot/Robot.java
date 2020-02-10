@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot
-        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
+        RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         //start camera capture
@@ -144,7 +144,6 @@ public class Robot extends TimedRobot {
         intakeChooser.setDefaultOption("Trench", AutonomousSwitch.IntakeSource.TRENCH);
         intakeChooser.addOption("Rendevous", AutonomousSwitch.IntakeSource.RENDEZVOUS);
         intakeChooser.addOption("3 from trench and 2 from rendevous", AutonomousSwitch.IntakeSource.MIXED);
-        intakeChooser.addOption("None (get out of way)", AutonomousSwitch.IntakeSource.NONE);
 
         autonomousChooserLayout.add("Starting position", positionChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
         delayChooser = autonomousChooserLayout.add("Delay", 0).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 10)).getEntry();
@@ -160,7 +159,7 @@ public class Robot extends TimedRobot {
         // ***** ADD FMS INFO WIDGET MANUALLY *****
         matchPlayTab.add(SendableCameraWrapper.wrap(camera)).withWidget(BuiltInWidgets.kCameraStream).withPosition(3, 0).withSize(3, 3);
 
-        //cell count - add highest ones first
+        //cell count
         cellCountWidget = matchPlayTab.add("Power cell count", 3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 5)).withPosition(1, 0).withSize(2, 2).getEntry();
         overflowWidget = matchPlayTab.add("Power cell overflow", false).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("color when false", "#99cc99", "color when true", "#8b0000")).withPosition(1, 2).withSize(2, 1).getEntry();
 
