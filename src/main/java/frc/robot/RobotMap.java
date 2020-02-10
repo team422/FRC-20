@@ -7,7 +7,6 @@ public class RobotMap {
 
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
-
     public static double wheelDiameter;
 
     // Drive base ports
@@ -62,8 +61,6 @@ public class RobotMap {
             rightRearFollower = 45;
 
             wheelDiameter = 6;
-        } else {
-            System.out.println("Not bot, try again");
         }
     }
 
