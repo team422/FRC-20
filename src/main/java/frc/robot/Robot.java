@@ -81,7 +81,8 @@ public class Robot extends TimedRobot {
                 autoLabel.setString(autonomous.description);
             }
         } else {
-            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP).");
+            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP=" + autonomous.startingPosition + ", D=" + Math.round(autonomous.delay*100.0)/100.0 +
+            ", PR=" + autonomous.pushRobot + ", IS=" + autonomous.intakeSource + ").");
         }
     }
 
@@ -94,7 +95,8 @@ public class Robot extends TimedRobot {
             autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
             autoLabel.setString(autonomous.description);
         } else {
-            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP).");
+            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP=" + autonomous.startingPosition + ", D=" + Math.round(autonomous.delay*100.0)/100.0 +
+            ", PR=" + autonomous.pushRobot + ", IS=" + autonomous.intakeSource + ").");
         }
         autonomous.start();
     }
@@ -129,10 +131,19 @@ public class Robot extends TimedRobot {
         ShuffleboardTab preMatchTab = Shuffleboard.getTab("Pre-Match");
         ShuffleboardTab matchPlayTab = Shuffleboard.getTab("Match Play");
 
-        ShuffleboardLayout autonomousChooserLayout = preMatchTab.getLayout("Choose an autonomous...", BuiltInLayouts.kList).withPosition(0, 0).withSize(5, 3);
-        ShuffleboardLayout controllerIDLayout = preMatchTab.getLayout("Identify controllers before switching to next tab", BuiltInLayouts.kList).withPosition(5, 0).withSize(4, 3);
-        ShuffleboardLayout sensorValueLayout = matchPlayTab.getLayout("Sensor values", BuiltInLayouts.kGrid).withProperties(Map.of("number of columns", 4, "number of rows", 3)).withPosition(6, 1).withSize(3, 2);
-        ShuffleboardLayout pixyLayout = matchPlayTab.getLayout("pixy", BuiltInLayouts.kList).withPosition(0, 0).withSize(1, 3);
+        ShuffleboardLayout autonomousChooserLayout = preMatchTab.getLayout("Choose an autonomous...", BuiltInLayouts.kList)
+            .withPosition(0, 0)
+            .withSize(5, 3);
+        ShuffleboardLayout controllerIDLayout = preMatchTab.getLayout("Identify controllers before switching to next tab", BuiltInLayouts.kList)
+            .withPosition(5, 0)
+            .withSize(4, 3);
+        ShuffleboardLayout sensorValueLayout = matchPlayTab.getLayout("Sensor values", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 4, "number of rows", 3))
+            .withPosition(6, 1)
+            .withSize(3, 2);
+        ShuffleboardLayout pixyLayout = matchPlayTab.getLayout("pixy", BuiltInLayouts.kList)
+            .withPosition(0, 0)
+            .withSize(1, 3);
 
         //Setup autonomous options and layouts
         positionChooser = new SendableChooser<AutonomousSwitch.StartingPosition>();
@@ -145,29 +156,50 @@ public class Robot extends TimedRobot {
         intakeChooser.addOption("Rendevous", AutonomousSwitch.IntakeSource.RENDEZVOUS);
         intakeChooser.addOption("3 from trench and 2 from rendevous", AutonomousSwitch.IntakeSource.MIXED);
 
-        autonomousChooserLayout.add("Starting position", positionChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
-        delayChooser = autonomousChooserLayout.add("Delay", 0).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 10)).getEntry();
-        pushRobotChooser = autonomousChooserLayout.add("Push other robot?", false).withWidget(BuiltInWidgets.kToggleButton).getEntry();
-        autonomousChooserLayout.add("Intake source", intakeChooser).withWidget(BuiltInWidgets.kComboBoxChooser);
+        autonomousChooserLayout.add("Starting position", positionChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser);
+        delayChooser = autonomousChooserLayout.add("Delay", 0)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 10)).getEntry();
+        pushRobotChooser = autonomousChooserLayout.add("Push other robot?", false)
+            .withWidget(BuiltInWidgets.kToggleButton).getEntry();
+        autonomousChooserLayout.add("Intake source", intakeChooser)
+            .withWidget(BuiltInWidgets.kComboBoxChooser);
         autoLabel = autonomousChooserLayout.add("Current autonomous", "Starts in center, shoots after a delay of 0, doesn't push robot, intakes from trench").getEntry();
 
         //Setup controller ID in pre-match
-        driverControllerWidget = controllerIDLayout.add("Driver Controller", false).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("color when false", "#808080")).getEntry();
-        operatorControllerWidget = controllerIDLayout.add("Operator Controller", false).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("color when false", "#808080")).getEntry();
+        driverControllerWidget = controllerIDLayout.add("Driver Controller", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#00B259")).getEntry();
+        operatorControllerWidget = controllerIDLayout.add("Operator Controller", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#00B259")).getEntry();
 
         //Setup match play options and layouts
         // ***** ADD FMS INFO WIDGET MANUALLY *****
-        matchPlayTab.add(SendableCameraWrapper.wrap(camera)).withWidget(BuiltInWidgets.kCameraStream).withPosition(3, 0).withSize(3, 3);
+        matchPlayTab.add(SendableCameraWrapper.wrap(camera))
+            .withWidget(BuiltInWidgets.kCameraStream)
+            .withPosition(3, 0)
+            .withSize(3, 3);
 
         //cell count
-        cellCountWidget = matchPlayTab.add("Power cell count", 3).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("min", 0, "max", 5)).withPosition(1, 0).withSize(2, 2).getEntry();
-        overflowWidget = matchPlayTab.add("Power cell overflow", false).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("color when false", "#99cc99", "color when true", "#8b0000")).withPosition(1, 2).withSize(2, 1).getEntry();
+        cellCountWidget = matchPlayTab.add("Power cell count", 3)
+            .withWidget(BuiltInWidgets.kDial)
+            .withProperties(Map.of("min", 0, "max", 5))
+            .withPosition(1, 0)
+            .withSize(2, 2).getEntry();
+        overflowWidget = matchPlayTab.add("Ball overflow", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
+            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#8b0000"))
+            .withPosition(1, 2)
+            .withSize(2, 1).getEntry();
 
         //sensor values
-        leftEncoders = sensorValueLayout.add("Left encoders", 404).withPosition(0, 0).getEntry();
-        rightEncoders = sensorValueLayout.add("Right encoders", 404).withPosition(1, 0).getEntry();
-        gyroWidget = sensorValueLayout.add("Gyro", 404).withPosition(2, 0).getEntry();
-        intakeBeamBreakWidget = sensorValueLayout.add("Intake beam break", false).withPosition(3, 0).getEntry();
+        leftEncoders = sensorValueLayout.add("Left encoders", 404).getEntry();
+        rightEncoders = sensorValueLayout.add("Right encoders", 404).getEntry();
+        gyroWidget = sensorValueLayout.add("Gyro", 404).getEntry();
+        intakeBeamBreakWidget = sensorValueLayout.add("Intake beam break", false)
+            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#ffe815")).getEntry();
 
         //pixy
         blockX = pixyLayout.add("blockX", 404).getEntry();
