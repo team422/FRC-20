@@ -8,6 +8,8 @@ public class RobotMap {
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
 
+    public static double wheelDiameter;
+
     // Drive base ports
 
     public static int leftFrontFollower;
@@ -40,6 +42,8 @@ public class RobotMap {
             rightFrontFollower = 60;
             rightMiddleMaster = 14;
             rightRearFollower = 57;
+
+            wheelDiameter = 8;
         } else if (bot == BotNames.PRACTICE) {
             leftFrontFollower = 3;
             leftMiddleMaster = 20;
@@ -47,6 +51,8 @@ public class RobotMap {
             rightFrontFollower = 5;
             rightMiddleMaster = 31;
             rightRearFollower = 4;
+
+            wheelDiameter = 6;
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -54,6 +60,8 @@ public class RobotMap {
             rightFrontFollower = 9;
             rightMiddleMaster = 10;
             rightRearFollower = 45;
+
+            wheelDiameter = 6;
         } else {
             System.out.println("Not bot, try again");
         }
