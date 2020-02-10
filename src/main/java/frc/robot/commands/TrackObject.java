@@ -38,7 +38,7 @@ public class TrackObject extends Command {
             counter = 0;
         } catch (java.lang.NullPointerException e) {
             //if no block found for 10 loops, stop motors
-            if (counter < 10){
+            if (counter < 10) {
                 counter++;
             } else {
                 Subsystems.driveBase.stopMotors();
