@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 
 /**
@@ -68,7 +69,7 @@ public class DriveStraight extends Command {
      * @return The equivalent distance in ticks.
      */
     public double convertToTicks(double inches) {
-        return (4096 / (6 * 3.1415926) * inches);
+        return (4096 / (RobotMap.wheelDiameter * 3.1415926) * inches);
     }
 
 }
