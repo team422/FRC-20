@@ -61,6 +61,8 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
         Subsystems.driveBase.zeroEncoderPosition();
+
+        UserInterface.driverController.A.whenPressed(new SwitchGears());
     }
 
     public void teleopPeriodic() {
