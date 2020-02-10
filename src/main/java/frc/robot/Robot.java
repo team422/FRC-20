@@ -22,7 +22,6 @@ public class Robot extends TimedRobot {
     private CenterTrench autonomous;
     private AutonUltrasonicTest testUltrasonic;
 
-
     public Robot() {
         super(0.06);
     }
@@ -77,11 +76,9 @@ public class Robot extends TimedRobot {
         } else {
             Subsystems.flyboi.stopWheel();
         }
-
         
         Subsystems.ultrasonic.updateVoltage();
-        System.out.println("Inches Away: "+ Subsystems.ultrasonic.getInchesAway());
-        
+        System.out.println("Inches Away: " + Subsystems.ultrasonic.getInchesAway());
     }
 
     /**
