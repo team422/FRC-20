@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        RobotMap.setBot("practice");
+        RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         camera = CameraServer.getInstance().startAutomaticCapture();
@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
+        Subsystems.driveBase.zeroEncoderPosition();
     }
 
     public void teleopPeriodic() {
