@@ -7,23 +7,25 @@ import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.Pixy2.Checksum;
 
 /**
- * Pixy2 Link class written in the same way as the I2CLink class, but allowing for mutliple port inputs
- * 
- * For more information about the file, see io.github.pseudoresonance.pixy2api.links.I2CLink
- * 
+ * <p>Pixy2 Link class written in the same way as the I2CLink class, but allowing for mutliple port inputs.</p>
+ * For more information about the file, see io.github.pseudoresonance.pixy2api.links.I2CLink.
  */
+public class PortOptionI2CLink implements Link {
 
-public class PortOptionI2CLink implements Link{
-    private  int targetAddress = 0x54;
-	private final static int PIXY_I2C_MAX_SEND = 16; // don't send any more than 16 bytes at a time
-
+    private int targetAddress = 0x54;
+	private final static int PIXY_I2C_MAX_SEND = 16; //don't send any more than 16 bytes at a time
 	private I2C i2c = null;
-    public PortOptionI2CLink(int address){
-        targetAddress = address;
-    }
+
 	/**
-	 * Opens I2C port
-	 *
+	 * Creates an I2C link with the specified address.
+	 * @param address I2C port
+	 */
+    public PortOptionI2CLink(int address) {
+        targetAddress = address;
+	}
+	
+	/**
+	 * Opens I2C port.
 	 * @param arg I2C port
 	 * 
 	 * @return Returns 0
@@ -43,18 +45,18 @@ public class PortOptionI2CLink implements Link{
 	}
 
 	/**
-	 * Closes I2C port
+	 * Closes I2C port.
 	 */
 	public void close() {
 		i2c.close();
 	}
 
 	/**
-	 * Receives and reads specified length of bytes from I2C
+	 * Receives and reads specified length of bytes from I2C.
 	 *
 	 * @param buffer Byte buffer to return value
 	 * @param length Length of value to read
-	 * @param cs     Checksum
+	 * @param cs Checksum
 	 * 
 	 * @return Length of value read
 	 */
@@ -63,7 +65,7 @@ public class PortOptionI2CLink implements Link{
 		if (cs != null)
 			cs.reset();
 		for (i = 0; i < length; i += n) {
-			// n is the number read -- it most likely won't be equal to length
+			//n is the number read -- it most likely won't be equal to length
 			n = 0;
 			byte[] read = new byte[length - i];
 			i2c.readOnly(read, (length - i));
@@ -81,11 +83,11 @@ public class PortOptionI2CLink implements Link{
 	}
 
 	/**
-	 * Receives and reads specified length of bytes from I2C
+	 * Receives and reads specified length of bytes from I2C.
 	 *
 	 * @param buffer Byte buffer to return value
 	 * @param length Length of value to read
-	 * 
+	 *
 	 * @return Length of value read
 	 */
 	public int receive(byte[] buffer, int length) {
@@ -93,11 +95,11 @@ public class PortOptionI2CLink implements Link{
 	}
 
 	/**
-	 * Writes and sends buffer over I2C
+	 * Writes and sends buffer over I2C.
 	 *
 	 * @param buffer Byte buffer to send
 	 * @param length Length of value to send
-	 * 
+	 *
 	 * @return Length of value sent
 	 */
 	public int send(byte[] buffer, int length) {

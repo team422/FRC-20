@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
     }
 
-    public void disabledPeriodic() {        
+    public void disabledPeriodic() {
         printDataToSmartDashboard();
         Scheduler.getInstance().run();
     }
@@ -83,7 +83,7 @@ public class Robot extends TimedRobot {
         Subsystems.linePixy.printIntersection();
 
         try {
-            Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
+            Pixy2CCC.Block block = Subsystems.colorPixy.getBiggestBlock();
             SmartDashboard.putNumber("blockX", block.getX());
         } catch (java.lang.NullPointerException e) {
             return;

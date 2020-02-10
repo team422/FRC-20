@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import  frc.robot.subsystems.PortOptionI2CLink;
 import io.github.pseudoresonance.pixy2api.*;
-import io.github.pseudoresonance.pixy2api.links.*;
 import java.util.ArrayList;
 
 /**
@@ -12,8 +11,6 @@ public class ColorPixy {
 
     private Pixy2 pixy;
     private Pixy2CCC pixyCCC;
-    protected int frameWidth = -1;
-    protected int frameHeight = -1;
 
     public ColorPixy() {
         pixy = Pixy2.createInstance(new PortOptionI2CLink(0x54)); // Creates a new Pixy2 camera using I2C
