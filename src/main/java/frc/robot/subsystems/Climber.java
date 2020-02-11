@@ -7,46 +7,44 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Climber extends Subsystem {
 
-  public WPI_TalonSRX crankyCrank;
-  public DoubleSolenoid pinPullerTop;
-  public DoubleSolenoid pinPullerBottom;
-  public DoubleSolenoid brakeyBrake;
+    public WPI_TalonSRX climberWinch;
+    public DoubleSolenoid leftClimbPin;
+    public DoubleSolenoid rightClimbPin;
+    public DoubleSolenoid climberBrake;
 
-  public Climber() {
-      
-    super("Climber");
-    this.crankyCrank = new WPI_TalonSRX(RobotMap.crankyCrank);
-    this.pinPullerTop = new DoubleSolenoid(RobotMap.pinPullerTopOut, RobotMap.pinPullerTopIn);
-    this.pinPullerBottom = new DoubleSolenoid(RobotMap.pinPullerBottomOut, RobotMap.pinPullerBottomIn);
-    this.brakeyBrake = new DoubleSolenoid(RobotMap.brakeyBrakeIn, RobotMap.brakeyBrakeOut);
-  
-  }
+    public Climber() {
+        super("Climber");
+        this.climberWinch = new WPI_TalonSRX(RobotMap.climberWinch);
+        this.leftClimbPin = new DoubleSolenoid(RobotMap.leftClimbPinOut, RobotMap.leftClimbPinIn);
+        this.rightClimbPin = new DoubleSolenoid(RobotMap.rightClimbPinOut, RobotMap.rightClimbPinIn);
+        this.climberBrake = new DoubleSolenoid(RobotMap.climberBrakeIn, RobotMap.climberBrakeOut);
+    }
 
-  public void initDefaultCommand() {}
+    public void initDefaultCommand() {}
 
-  public void brakeRelease() {
-    brakeyBrake.set(DoubleSolenoid.Value.kReverse);
-  }
-  
-  public void brakeSet() {
-    brakeyBrake.set(DoubleSolenoid.Value.kForward);
-  }
+    public void brakeRelease() {
+        climberBrake.set(DoubleSolenoid.Value.kReverse);
+    }
 
-  public void pullPins() {
-    pinPullerTop.set(DoubleSolenoid.Value.kReverse);
-    pinPullerBottom.set(DoubleSolenoid.Value.kReverse);
-  }
+    public void brakeSet() {
+        climberBrake.set(DoubleSolenoid.Value.kForward);
+    }
 
-  public void pushPins() {
-    pinPullerTop.set(DoubleSolenoid.Value.kForward);
-    pinPullerBottom.set(DoubleSolenoid.Value.kForward);
-  }
+    public void pullPins() {
+        leftClimbPin.set(DoubleSolenoid.Value.kReverse);
+        rightClimbPin.set(DoubleSolenoid.Value.kReverse);
+    }
 
-  public void contractClimber() {
-    crankyCrank.set(0.3);
-  }
+    public void pushPins() {
+        leftClimbPin.set(DoubleSolenoid.Value.kForward);
+        rightClimbPin.set(DoubleSolenoid.Value.kForward);
+    }
 
-  public void stopClimber() {
-    crankyCrank.set(0);
-  }
+    public void contractClimber() {
+        climberWinch.set(0.3);
+    }
+
+    public void stopClimber() {
+        climberWinch.set(0);
+    }
 }
