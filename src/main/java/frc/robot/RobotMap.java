@@ -7,6 +7,7 @@ public class RobotMap {
 
     public static double speedCap = 0.25;
     public static double rotationCap = 0.5;
+    public static boolean isSpoodMode = false;
     public static double wheelDiameter;
 
     // Drive base ports

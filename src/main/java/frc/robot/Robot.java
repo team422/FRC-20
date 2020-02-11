@@ -12,6 +12,8 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource;
 
 import java.util.Map;
 
@@ -20,7 +22,7 @@ import java.util.Map;
  */
 public class Robot extends TimedRobot {
 
-    private UsbCamera camera;
+    //AUTONOMOUS/SHUFFLEBOARD
 
     private AutonomousSwitch autonomous;
     private SendableChooser<AutonomousSwitch.StartingPosition> positionChooser;
@@ -44,6 +46,12 @@ public class Robot extends TimedRobot {
 
     private int cellCount = 3; //replace with var from helix
 
+    //SENSORS/CAMERAS
+
+    private VideoSink switchedCamera;
+    private UsbCamera camera1;
+    private UsbCamera camera2;
+
     public Robot() {
         super(0.06);
     }
@@ -53,8 +61,14 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        //start camera capture
-        camera = CameraServer.getInstance().startAutomaticCapture();
+        //camera setup
+        camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+
+        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        switchedCamera.setSource(camera1);
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
@@ -115,6 +129,9 @@ public class Robot extends TimedRobot {
 
         //Shoot when operator X pressed (change on operator request)
         UserInterface.operatorController.X.whenPressed(new Shoot());
+
+        //Toggle fast/slow when driver A pressed
+        UserInterface.driverController.A.whenPressed(new SwitchGears());
     }
 
     public void teleopPeriodic() {
@@ -128,6 +145,27 @@ public class Robot extends TimedRobot {
         } else {
             Subsystems.intake.stopIntakeMotors();
             Subsystems.helix.stopHelixMotors();
+        }
+
+        //Choose which camera is seen
+        if (UserInterface.driverController.getLeftJoystickY() >= 0.1) {
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera2);
+            } else {
+                switchedCamera.setSource(camera1);
+            }
+        } else if (UserInterface.driverController.getLeftJoystickY() <= -0.1) {
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera1);
+            } else {
+                switchedCamera.setSource(camera2);
+            }
+        } else { //close enough to still
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera1);
+            } else if (!UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera2);
+            }
         }
     }
 
@@ -185,7 +223,7 @@ public class Robot extends TimedRobot {
 
         //Setup match play options and layouts
         // ***** ADD FMS INFO WIDGET MANUALLY *****
-        matchPlayTab.add(SendableCameraWrapper.wrap(camera))
+        matchPlayTab.add(SendableCameraWrapper.wrap(switchedCamera.getSource())) //see if this works
             .withWidget(BuiltInWidgets.kCameraStream)
             .withPosition(3, 0)
             .withSize(3, 3);
