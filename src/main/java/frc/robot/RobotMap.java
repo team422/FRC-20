@@ -70,6 +70,7 @@ public class RobotMap {
     public static final int rightFlywheel = 24;
     public static final int helicase = 422;
     public static final int intakeMotor = 422;
+    public static final int climberWinch = 422;
 
     // Double solenoid ports
 
@@ -77,6 +78,12 @@ public class RobotMap {
     public static final int cellStopIn = 422;
     public static final int intakeExtensionOut = 422;
     public static final int intakeExtensionIn = 422;
+    public static final int climberBrakeIn = 422;
+    public static final int climberBrakeOut = 422;
+    public static final int leftClimbPinIn = 422;
+    public static final int leftClimbPinOut = 422;
+    public static final int rightClimbPinIn = 422;
+    public static final int rightClimbPinOut = 422;
 
     // Sensor ports
 
