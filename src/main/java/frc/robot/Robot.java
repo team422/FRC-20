@@ -5,22 +5,22 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.shuffleboard.*;
 import frc.robot.userinterface.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource;
 
 /**
  * The main Robot class whence all things come.
  */
 public class Robot extends TimedRobot {
 
+    private VideoSink switchedCamera;
     private UsbCamera camera1;
     private UsbCamera camera2;
-    private boolean front = true;
-
     private CenterTrench autonomous;
 
     public Robot() {
@@ -31,13 +31,16 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
-        RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
-
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
         camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
-        Shuffleboard.getTab("Test").add(SendableCameraWrapper.wrap(camera1));
+        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        switchedCamera.setSource(camera1);
+
+        Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
+        RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
     }
 
     public void disabledInit() {
@@ -66,7 +69,6 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
-        Subsystems.driveBase.zeroEncoderPosition();
 
         UserInterface.driverController.A.whenPressed(new SwitchGears());
     }
@@ -80,6 +82,27 @@ public class Robot extends TimedRobot {
             Subsystems.flyboi.spinWheel(0.5);
         } else {
             Subsystems.flyboi.stopWheel();
+        }
+
+        //Choose which camera is seen
+        if (UserInterface.driverController.getLeftJoystickY() >= 0.1) {
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera2);
+            } else {
+                switchedCamera.setSource(camera1);
+            }
+        } else if (UserInterface.driverController.getLeftJoystickY() <= -0.1) {
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera1);
+            } else {
+                switchedCamera.setSource(camera2);
+            }
+        } else { //close enough to still
+            if (UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera1);
+            } else if (!UserInterface.driverController.getBButton()) {
+                switchedCamera.setSource(camera2);
+            }
         }
     }
 
