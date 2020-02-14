@@ -1,9 +1,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
+import io.github.pseudoresonance.pixy2api.*;
+import io.github.pseudoresonance.pixy2api.links.*;
+import frc.robot.subsystems.Pixy; 
 
 /**
  * Uses joystick values to drive the bot in teleop.
@@ -13,6 +17,8 @@ public class TankDrive extends Command {
     private double updatedSpeed = 0;
     private double updatedRotation = 0;
     private static final double maxChange = 0.5; //maxChange is acceleration
+    int blockSize = Subsystems.pixy.getBiggestBlock().getWidth();
+
 
     public TankDrive() {
         super("TankDrive");
@@ -63,7 +69,21 @@ public class TankDrive extends Command {
          *  the rotation actually goes in as the first input, followed by the speed,
          *  rather than speed then rotation */
         Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
+        
+        try {
+            if (blockSize > 10) {
+            }
+
+        } catch (java.lang.NullPointerException e) {
+            return;
+        }
+/*  y = rumble intensity
+    s = size of block (int Blocksize)
+    f = changable range of rumble intensity (100 for max rumble intensity, 200 for half the max rumble intensity, etc.)
+    y = s/f
+*/
     }
+    
 
     protected boolean isFinished() {
         return false;
