@@ -130,9 +130,8 @@ public class Robot extends TimedRobot {
         //Operator controllers
         UserInterface.operatorController.A.whenPressed(new ExtendClimber()); //climber extends: A
         UserInterface.operatorController.B.whenPressed(new RetractClimber()); //climber winch motor: B
-        UserInterface.operatorController.X.whenPressed(new ToggleIntake()); //toggle intake in/out: X
-        UserInterface.operatorController.Y.whenPressed(new TogglePistonPin()); //toggle cargo stop pin in/out: Y
-        UserInterface.operatorController.RB.whenPressed(new ToggleShooter()); //toggle shooter motors on/off: RB
+        UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //toggle intake in/out: X
+        UserInterface.operatorController.RB.whenPressed(new StartStopFlywheel()); //toggle shooter motors on/off: RB
     }
 
     public void teleopPeriodic() {
@@ -158,6 +157,24 @@ public class Robot extends TimedRobot {
             } else if (!UserInterface.driverController.getBButton()) {
                 switchedCamera.setSource(camera2);
             }
+        }
+
+        //Intake cells in/out
+        if (UserInterface.operatorController.getLeftJoystickY() >= 0.1) {
+            Subsystems.intake.setIntakeMotors(0.3);
+        } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.1) {
+            Subsystems.intake.setIntakeMotors(-0.3);
+        } else {
+            Subsystems.intake.stopIntakeMotors();
+        }
+
+        //Helix up/down
+           if (UserInterface.operatorController.getRightJoystickY() >= 0.1) {
+            Subsystems.helix.setHelixMotors(0.3);
+        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.1) {
+            Subsystems.helix.setHelixMotors(-0.3);
+        } else {
+            Subsystems.helix.stopHelixMotors();
         }
     }
 

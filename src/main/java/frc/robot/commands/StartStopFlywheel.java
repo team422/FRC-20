@@ -4,21 +4,21 @@ import frc.robot.subsystems.Subsystems;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
-public class ToggleShooter extends Command{
+public class StartStopFlywheel extends Command {
 
-  public ToggleShooter(){
-    super("Toggle Shooter");
-    requires(Subsystems.flyboi);
-  }
+    private final double wheelSpeed = 0.7;
 
-  public double wheelSpeed;
+    public StartStopFlywheel() {
+        super("StartStopFlywheel");
+        requires(Subsystems.flyboi);
+    }
 
-  @Override
+    @Override
     public void initialize() {
       if (RobotMap.isShooterToggled) {
         Subsystems.flyboi.spinWheel(wheelSpeed);
         RobotMap.isShooterToggled = false;
-    } else {
+      } else {
         Subsystems.flyboi.stopWheel();
         RobotMap.isShooterToggled = true;
       }
