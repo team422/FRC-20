@@ -124,10 +124,13 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        //Toggle fast/slow when driver A pressed
+        switchedCamera.setSource(camera1);
+
+        //Driver controls
         UserInterface.driverController.A.whenPressed(new SwitchGears());
+        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2));
         
-        //Operator controllers
+        //Operator controls
         UserInterface.operatorController.A.whenPressed(new ExtendClimber()); //climber extends: A
         UserInterface.operatorController.B.whenPressed(new RetractClimber()); //climber winch motor: B
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //toggle intake in/out: X
@@ -137,27 +140,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
-
-        //Choose which camera is seen
-        if (UserInterface.driverController.getLeftJoystickY() >= 0.1) {
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera2);
-            } else {
-                switchedCamera.setSource(camera1);
-            }
-        } else if (UserInterface.driverController.getLeftJoystickY() <= -0.1) {
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera1);
-            } else {
-                switchedCamera.setSource(camera2);
-            }
-        } else { //close enough to still
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera1);
-            } else if (!UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera2);
-            }
-        }
 
         //Intake cells in/out
         if (UserInterface.operatorController.getLeftJoystickY() >= 0.1) {
