@@ -21,8 +21,7 @@ public class SwitchGears extends Command {
     }
 
     @Override
-    public void execute() {
-    }
+    public void execute() {}
 
     @Override
     public boolean isFinished() {
@@ -30,12 +29,8 @@ public class SwitchGears extends Command {
     }
 
     @Override
-    public void interrupted() {
-
-    }
+    public void interrupted() {}
 
     @Override
-    public void end() {
-
-    }
+    public void end() {}
 }

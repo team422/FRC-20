@@ -70,7 +70,10 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
+        switchedCamera.setSource(camera1);
+
         UserInterface.driverController.A.whenPressed(new SwitchGears());
+        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2));
     }
 
     public void teleopPeriodic() {
@@ -82,27 +85,6 @@ public class Robot extends TimedRobot {
             Subsystems.flyboi.spinWheel(0.5);
         } else {
             Subsystems.flyboi.stopWheel();
-        }
-
-        //Choose which camera is seen
-        if (UserInterface.driverController.getLeftJoystickY() >= 0.1) {
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera2);
-            } else {
-                switchedCamera.setSource(camera1);
-            }
-        } else if (UserInterface.driverController.getLeftJoystickY() <= -0.1) {
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera1);
-            } else {
-                switchedCamera.setSource(camera2);
-            }
-        } else { //close enough to still
-            if (UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera1);
-            } else if (!UserInterface.driverController.getBButton()) {
-                switchedCamera.setSource(camera2);
-            }
         }
     }
 
