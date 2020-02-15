@@ -24,6 +24,37 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
 
+    // Subsystem motor ports
+
+    public static int leftFlywheel;
+    public static int rightFlywheel;
+    public static int helicase;
+    public static int intakeMotor;
+    public static int climberWinch;
+
+    // Double solenoid ports
+
+    public static int cellStopOut;
+    public static int cellStopIn;
+    public static int intakeExtensionOut;
+    public static int intakeExtensionIn;
+    public static final int climberBrakeIn = 1; //!
+    public static final int climberBrakeOut = 2; //!
+    public static final int leftClimbPinIn = 3; //!
+    public static final int leftClimbPinOut = 4; //!
+    public static final int rightClimbPinIn = 5; //!
+    public static final int rightClimbPinOut = 6; //!
+
+    // Sensor ports
+
+    public static final int intakeBeamBreak = 7; //!
+
+    // UI Ports
+
+    public static final int driverXboxController = 1;
+    public static final int operatorXboxController = 2;
+
+
     public enum BotNames {
         COMPETITION, PRACTICE, TOASTER
     }
@@ -47,17 +78,34 @@ public class RobotMap {
             rightFrontFollower = 60;
             rightMiddleMaster = 14;
             rightRearFollower = 57;
-
             wheelDiameter = 8;
-        } else if (bot == BotNames.PRACTICE) {
-            leftFrontFollower = 3;
-            leftMiddleMaster = 20;
-            leftRearFollower = 6;
-            rightFrontFollower = 5;
-            rightMiddleMaster = 31;
-            rightRearFollower = 4;
 
+            //doesn't really exist, assign values
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 1;
+            cellStopOut = 2;
+            intakeExtensionIn = 3;
+            intakeExtensionOut = 4;
+        } else if (bot == BotNames.PRACTICE) {
+            leftFrontFollower = 1;
+            leftMiddleMaster = 20;
+            leftRearFollower = 26;
+            rightFrontFollower = 30;
+            rightMiddleMaster = 31;
+            rightRearFollower = 34;
             wheelDiameter = 6;
+
+            leftFlywheel = 3;
+            rightFlywheel = 4;
+            helicase = 23;
+            intakeMotor = 33;
+            cellStopIn = 0;
+            cellStopOut = 7;
+            intakeExtensionIn = 1;
+            intakeExtensionOut = 6;
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -65,40 +113,19 @@ public class RobotMap {
             rightFrontFollower = 9;
             rightMiddleMaster = 10;
             rightRearFollower = 45;
-
             wheelDiameter = 6;
+
+            //! ->
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 1;
+            cellStopOut = 2;
+            intakeExtensionIn = 3;
+            intakeExtensionOut = 4;
         }
     }
-
-    // Subsystem motor controller ports (Talons/Victors)
-
-    public static final int leftFlywheel = 11;
-    public static final int rightFlywheel = 24;
-    public static final int helicase = 422;
-    public static final int intakeMotor = 422;
-    public static final int climberWinch = 422;
-
-    // Double solenoid ports
-
-    public static final int cellStopOut = 422;
-    public static final int cellStopIn = 422;
-    public static final int intakeExtensionOut = 422;
-    public static final int intakeExtensionIn = 422;
-    public static final int climberBrakeIn = 422;
-    public static final int climberBrakeOut = 422;
-    public static final int leftClimbPinIn = 422;
-    public static final int leftClimbPinOut = 422;
-    public static final int rightClimbPinIn = 422;
-    public static final int rightClimbPinOut = 422;
-
-    // Sensor ports
-
-    public static final int intakeBeamBreak = 422;
-
-    // UI Ports
-
-    public static final int driverXboxController = 1;
-    public static final int operatorXboxController = 2;
 
     /**
      * @return The speed cap for the drive base in teleop.
