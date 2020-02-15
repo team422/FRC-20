@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
@@ -29,26 +28,27 @@ public class TankDrive extends Command {
     protected void execute() {
         double speed;
         double rotation;
-        Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
 
         if (UserInterface.driverController.A.get()) {
+            Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
             if (block != null) {
                 System.out.println(block);
                 if (block.getX() > (frameWidth / 2)) {
-                    Subsystems.driveBase.setMotors(0, 0.1); //consider adding speed to right motors
+                    Subsystems.driveBase.setMotors(0.1, 0.3); //consider adding speed to right motors
+                    return;
                 } else if (block.getX() < (frameWidth / 2)) {
-                    Subsystems.driveBase.setMotors(0.1, 0); //consider adding speed to left motors
+                    Subsystems.driveBase.setMotors(0.3, 0.1); //consider adding speed to left motors
+                    return;
+                } else if (block.getWidth() > 20) {
+                    Subsystems.driveBase.setMotors(0.1, 0.1);
+                    return;
                 } else {
-                    if (block.getWidth() < 20) {
-                        Subsystems.driveBase.setMotors(0.1, 0.1);
-                        System.out.println("Small boi");
-                    }
+                    System.out.println("Too small boi");
                 }
-                System.out.println(block);
-                return;
             } else {
                 System.out.println("No blocks found");
             }
+            UserInterface.driverController.setRumble(0.5);
         } else {
             //TODO: if count < 5
             //Sets the amount the controller rumbles when near a ball
