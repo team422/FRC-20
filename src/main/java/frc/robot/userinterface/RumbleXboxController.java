@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class RumbleXboxController extends XboxController {
 
     private Joystick joystick;
-    public final JoystickButton A, B, X, Y, LB, RB, BACK, START;
+    public final JoystickButton A, B, X, Y, LB, RB, LS, RS; //LS and RS are left small and right small
 
     /**
      * @param port
@@ -24,8 +24,8 @@ public class RumbleXboxController extends XboxController {
         this.Y = new JoystickButton(joystick, 4);
         this.LB = new JoystickButton(joystick, 5);
         this.RB = new JoystickButton(joystick, 6);
-        this.BACK = new JoystickButton(joystick, 7);
-        this.START = new JoystickButton(joystick, 8);
+        this.LS = new JoystickButton(joystick, 7);
+        this.RS = new JoystickButton(joystick, 8);
     }
 
     /**
