@@ -21,17 +21,31 @@ public class TankDrive extends Command {
     protected void execute() {
         double speed;
         double rotation;
-        if (UserInterface.operatorController.getBumper(Hand.kLeft) && Subsystems.pixy.getBiggestBlock() != null) {
-            Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
-            if (block.getX() > (frameWidth / 2)) {
-                Subsystems.driveBase.setMotors(0.5, 0); //consider adding speed to right motors
-            } else if (block.getX() < (frameWidth / 2)) {
-                Subsystems.driveBase.setMotors(0, 0.5); //consider adding speed to left motors
-            } else {
-                while (block.getWidth() < 100){
-                    Subsystems.driveBase.setMotors(0.5, 0.5);
+        Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
+
+        if (UserInterface.operatorController.getBumper(Hand.kLeft)) {
+            
+            if (block != null) {
+                System.out.println(block);
+                if (block.getX() > (frameWidth / 2)) {
+                    Subsystems.driveBase.setMotors(0, 0.1); //consider adding speed to right motors
+                } else if (block.getX() < (frameWidth / 2)) {
+                    Subsystems.driveBase.setMotors(0.1, 0); //consider adding speed to left motors
+                } else {
+                    if (block.getWidth() < 20){
+                        Subsystems.driveBase.setMotors(0.1, 0.1);
+                        System.out.println("Small boi");
+                    }
                 }
+                return;
             }
+            
+        }
+        if (Subsystems.pixy.getBiggestBlock() != null) {
+            System.out.println("Yes, block!");
+            System.out.println(Subsystems.pixy.getBiggestBlock());
+        } else {
+            System.out.println("Nooo!");
         }
         
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
