@@ -9,6 +9,9 @@ public class RobotMap {
     public static double rotationCap = 0.5;
     public static boolean isSpoodMode = false;
     public static double wheelDiameter;
+    public static boolean isIntakeToggled = false;
+    public static boolean isPistonToggled = false;
+    public static boolean isShooterToggled = false;
 
     // Drive base ports
 

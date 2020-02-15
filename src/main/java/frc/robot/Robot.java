@@ -124,28 +124,20 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        //Prevent balls from being shot while intaking
-        UserInterface.operatorController.Y.whenPressed(new ExtendCellStop());
-
-        //Shoot when operator X pressed (change on operator request)
-        UserInterface.operatorController.X.whenPressed(new Shoot());
-
         //Toggle fast/slow when driver A pressed
         UserInterface.driverController.A.whenPressed(new SwitchGears());
+        
+        //Operator controllers
+        UserInterface.operatorController.A.whenPressed(new ExtendClimber()); //climber extends: A
+        UserInterface.operatorController.B.whenPressed(new RetractClimber()); //climber winch motor: B
+        UserInterface.operatorController.X.whenPressed(new ToggleIntake()); //toggle intake in/out: X
+        UserInterface.operatorController.Y.whenPressed(new TogglePistonPin()); //toggle cargo stop pin in/out: Y
+        UserInterface.operatorController.RB.whenPressed(new ToggleShooter()); //toggle shooter motors on/off: RB
     }
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
-
-        //Intake when operator Y pressed down (change on operator request)
-        if (UserInterface.operatorController.Y.get()) {
-            Subsystems.intake.setIntakeMotors(0.3);
-            Subsystems.helix.setHelixMotors(0.3);
-        } else {
-            Subsystems.intake.stopIntakeMotors();
-            Subsystems.helix.stopHelixMotors();
-        }
 
         //Choose which camera is seen
         if (UserInterface.driverController.getLeftJoystickY() >= 0.1) {
