@@ -13,12 +13,12 @@ public class IntakeExtendRetract extends Command {
 
     @Override
     public void initialize() {
-        if (RobotMap.isIntakeToggled) {
+        if (RobotMap.isIntakeDown) {
             Subsystems.intake.intakeExtend();
-			RobotMap.isIntakeToggled = false;
+			RobotMap.isIntakeDown = false;
         } else {
             Subsystems.intake.intakeRetract();
-            RobotMap.isIntakeToggled = true;
+            RobotMap.isIntakeDown = true;
         }
     }
 

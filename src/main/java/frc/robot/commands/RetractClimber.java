@@ -15,7 +15,7 @@ public class RetractClimber extends Command {
 
     @Override
     public void execute() {
-        Subsystems.climber.contractClimber();
+        Subsystems.climber.contractClimber(0.3);
         Subsystems.climber.stopClimber();
     }
 
@@ -26,11 +26,11 @@ public class RetractClimber extends Command {
 
     @Override
     public void interrupted() {
-        Subsystems.climber.brakeSet();
+        Subsystems.climber.brakeDown();
     }
 
     @Override
     public void end() {
-        Subsystems.climber.brakeSet();
+        Subsystems.climber.brakeDown();
     }
 }

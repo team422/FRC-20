@@ -9,14 +9,14 @@ public class SwitchGears extends Command {
         super("SwitchGears");
     }
 
-    @Override 
+    @Override
     public void initialize() {
-        if (RobotMap.isSpoodMode) {
+        if (RobotMap.isFastMode) {
             RobotMap.setSpeedAndRotationCaps(0.3, 0.2);
-            RobotMap.isSpoodMode = false;
+            RobotMap.isFastMode = false;
         } else {
             RobotMap.setSpeedAndRotationCaps(1, 0.35);
-            RobotMap.isSpoodMode = true;
+            RobotMap.isFastMode = true;
         }
     }
 

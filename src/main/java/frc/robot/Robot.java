@@ -127,14 +127,34 @@ public class Robot extends TimedRobot {
         switchedCamera.setSource(camera1);
 
         //Driver controls
-        UserInterface.driverController.A.whenPressed(new SwitchGears());
-        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2));
+        //LJoy: Velocity
+        //RJoy: Rotation
+        //POV
+        //A: Intake + vision takeover
+        //B
+        //X
+        //Y
+        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
+        UserInterface.driverController.A.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
+        //LTrig
+        //RTrig
+        //LSmall
+        //RSmall
         
         //Operator controls
-        UserInterface.operatorController.A.whenPressed(new ExtendClimber()); //climber extends: A
-        UserInterface.operatorController.B.whenPressed(new RetractClimber()); //climber winch motor: B
-        UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //toggle intake in/out: X
-        UserInterface.operatorController.RB.whenPressed(new StartStopFlywheel()); //toggle shooter motors on/off: RB
+        //LJoy: Intake cells in/out
+        //RJoy: Helix move forwards/backwards
+        //POV
+        UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
+        //B
+        UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
+        //Y: Brake toggle
+        //LBump
+        UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
+        //LTrig
+        //RTrig: Retract climber
+        //LSmall
+        //RSmall
     }
 
     public void teleopPeriodic() {
@@ -157,6 +177,15 @@ public class Robot extends TimedRobot {
             Subsystems.helix.setHelixMotors(-0.3);
         } else {
             Subsystems.helix.stopHelixMotors();
+        }
+
+        //Retract climber when pins out
+        if (RobotMap.arePinsOut) {
+            if (UserInterface.operatorController.getRightTrigger() >= 0.1) {
+                Subsystems.climber.contractClimber(UserInterface.operatorController.getRightTrigger());
+            } else {
+                Subsystems.climber.stopClimber();
+            }
         }
     }
 

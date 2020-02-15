@@ -26,7 +26,7 @@ public class Climber extends Subsystem {
         climberBrake.set(DoubleSolenoid.Value.kReverse);
     }
 
-    public void brakeSet() {
+    public void brakeDown() {
         climberBrake.set(DoubleSolenoid.Value.kForward);
     }
 
@@ -40,8 +40,12 @@ public class Climber extends Subsystem {
         rightClimbPin.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void contractClimber() {
-        climberWinch.set(0.3);
+    /**
+     * Retracts the climber at the specified percentage of speed.
+     * @param speed The percent of speed (disregarding speed cap), from -1 to 1.
+     */
+    public void contractClimber(double speed) {
+        climberWinch.set(speed);
     }
 
     public void stopClimber() {
