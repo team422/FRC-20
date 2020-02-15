@@ -68,11 +68,13 @@ public class RobotMap {
 
     public static final int leftFlywheel = 11;
     public static final int rightFlywheel = 24;
+
     public static final int intake = 4;
 
     // Double solenoid ports
 
     public static final int intakeExtensionOut = 3;
+
     public static final int intakeExtensionIn = 2;
 
     // UI Ports
