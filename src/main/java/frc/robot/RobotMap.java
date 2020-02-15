@@ -21,6 +21,23 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
 
+    // Mechanism ports
+
+    public static int leftFlywheel;
+    public static int rightFlywheel;
+    public static int helicase;
+    public static int intakeMotor;
+    public static int climberWinch;
+
+    // Solenoid ports
+
+    public static int cellStopOut;
+    public static int cellStopIn;
+    public static int intakeExtensionOut;
+    public static int intakeExtensionIn;
+
+    // Port switcher 
+
     public enum BotNames {
         COMPETITION, PRACTICE, TOASTER
     }
@@ -44,17 +61,31 @@ public class RobotMap {
             rightFrontFollower = 60;
             rightMiddleMaster = 14;
             rightRearFollower = 57;
-
             wheelDiameter = 8;
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 422;
+            cellStopOut = 422;
+            intakeExtensionIn = 422;
+            intakeExtensionOut = 422;
         } else if (bot == BotNames.PRACTICE) {
-            leftFrontFollower = 3;
+            leftFrontFollower = 1;
             leftMiddleMaster = 20;
-            leftRearFollower = 6;
-            rightFrontFollower = 5;
+            leftRearFollower = 26;
+            rightFrontFollower = 30;
             rightMiddleMaster = 31;
-            rightRearFollower = 4;
-
+            rightRearFollower = 34;
             wheelDiameter = 6;
+            leftFlywheel = 3;
+            rightFlywheel = 4;
+            helicase = 23;
+            intakeMotor = 33;
+            cellStopIn = 0;
+            cellStopOut = 7;
+            intakeExtensionIn = 1;
+            intakeExtensionOut = 6;
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -62,25 +93,21 @@ public class RobotMap {
             rightFrontFollower = 9;
             rightMiddleMaster = 10;
             rightRearFollower = 45;
-
             wheelDiameter = 6;
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 422;
+            cellStopOut = 422;
+            intakeExtensionIn = 422;
+            intakeExtensionOut = 422;
         }
-    }
+        }
 
-    // Subsystem motor controller ports (Talons/Victors)
-
-    public static final int leftFlywheel = 11;
-    public static final int rightFlywheel = 24;
-    public static final int helicase = 422;
-    public static final int intakeMotor = 422;
-    public static final int climberWinch = 422;
 
     // Double solenoid ports
 
-    public static final int cellStopOut = 422;
-    public static final int cellStopIn = 422;
-    public static final int intakeExtensionOut = 422;
-    public static final int intakeExtensionIn = 422;
     public static final int climberBrakeIn = 422;
     public static final int climberBrakeOut = 422;
     public static final int leftClimbPinIn = 422;
