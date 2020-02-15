@@ -1,36 +1,39 @@
 package frc.robot.commands;
-
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 import io.github.pseudoresonance.pixy2api.*;
-import io.github.pseudoresonance.pixy2api.links.*;
-import frc.robot.subsystems.Pixy; 
-
 /**
  * Uses joystick values to drive the bot in teleop.
  */
 public class TankDrive extends Command {
-
     private double updatedSpeed = 0;
     private double updatedRotation = 0;
     private static final double maxChange = 0.5; //maxChange is acceleration
-    int blockSize = Subsystems.pixy.getBiggestBlock().getWidth();
-
-
+    private int frameWidth = Subsystems.pixy.getFrameWidth();
     public TankDrive() {
         super("TankDrive");
         requires(Subsystems.driveBase);
     }
-
     protected void initialize() {}
-
     protected void execute() {
         double speed;
         double rotation;
-
+        if (UserInterface.operatorController.getBumper(Hand.kLeft) && Subsystems.pixy.getBiggestBlock() != null) {
+            Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
+            if (block.getX() > (frameWidth / 2)) {
+                Subsystems.driveBase.setMotors(0.5, 0); //consider adding speed to right motors
+            } else if (block.getX() < (frameWidth / 2)) {
+                Subsystems.driveBase.setMotors(0, 0.5); //consider adding speed to left motors
+            } else {
+                while (block.getWidth() < 100){
+                    Subsystems.driveBase.setMotors(0.5, 0.5);
+                }
+            }
+        }
+        
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
         * for driveBase to the right stick X-axis on on the driverXboxController */
         if (UserInterface.driverController.getLeftJoystickY() < -0.1) {
@@ -41,7 +44,6 @@ public class TankDrive extends Command {
             speed = 0;
         }
         updatedSpeed = speed;
-
         if (UserInterface.driverController.getLeftJoystickX() < -0.05) {
             rotation = (Math.pow(UserInterface.driverController.getLeftJoystickX(), 5));
         } else if (UserInterface.driverController.getLeftJoystickX() > 0.05) {
@@ -49,47 +51,30 @@ public class TankDrive extends Command {
         } else {
             rotation = 0;
         }
-
         updatedRotation = -rotation;
-
         double speedDifference = speed - updatedSpeed;
         if (speedDifference > maxChange) {
             speed = updatedSpeed + maxChange;
         } else if (speedDifference < -maxChange) {
             speed = updatedSpeed - maxChange;
         }
-
         double rotationDifference = rotation - updatedRotation;
         if (rotationDifference > maxChange) {
             rotation = updatedRotation + maxChange;
-        } else if (rotationDifference < -maxChange) {
+            } else if (rotationDifference < -maxChange) {
             rotation = updatedRotation - maxChange;
         }
         /** Because of a weird glitch with how curvatureDrive is set up,
          *  the rotation actually goes in as the first input, followed by the speed,
          *  rather than speed then rotation */
-        Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
-        
-        try {
-            if (blockSize > 10) {
-            }
-
-        } catch (java.lang.NullPointerException e) {
-            return;
-        }
-/*  y = rumble intensity
-    s = size of block (int Blocksize)
-    f = changable range of rumble intensity (100 for max rumble intensity, 200 for half the max rumble intensity, etc.)
-    y = s/f
-*/
+            Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
     }
-    
-
     protected boolean isFinished() {
         return false;
     }
-
     protected void interrupted() {}
-
     protected void end() {}
 }
+
+
+
