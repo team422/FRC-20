@@ -14,6 +14,7 @@ public class RobotMap {
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;
     public static boolean arePinsOut = false;
+    public static boolean isClimberBrakeToggled = false;
 
     // Drive base ports
 

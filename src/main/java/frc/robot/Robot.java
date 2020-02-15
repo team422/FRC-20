@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
         //B
         UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
-        //Y: Brake toggle
+        UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
         //LBump
         UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
         //LTrig
@@ -289,7 +289,7 @@ public class Robot extends TimedRobot {
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(false); //change when intake exists
+        intakeBeamBreakWidget.setBoolean(Subsystems.helix.getCellEntered());
 
         //pixy values
         try {
