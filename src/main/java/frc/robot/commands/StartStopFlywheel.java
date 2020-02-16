@@ -6,7 +6,7 @@ import frc.robot.RobotMap;
 
 public class StartStopFlywheel extends Command {
 
-    private final double wheelSpeed = 0.7;
+    private final double wheelSpeed = 0.85;
 
     public StartStopFlywheel() {
         super("StartStopFlywheel");

@@ -2,17 +2,18 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Flyboi extends Subsystem {
 
-    private SparkMax leftFlywheel;
-    private SparkMax rightFlywheel;
+    private CANSparkMax leftFlywheel;
+    private CANSparkMax rightFlywheel;
 
     public Flyboi() {
         super("Flyboi");
-        this.leftFlywheel = new SparkMax(RobotMap.leftFlywheel);
-        this.rightFlywheel = new SparkMax(RobotMap.rightFlywheel);
-        this.rightFlywheel.setInverted(true);
+        this.leftFlywheel = new CANSparkMax(RobotMap.leftFlywheel, MotorType.kBrushless);
+        this.rightFlywheel = new CANSparkMax(RobotMap.rightFlywheel, MotorType.kBrushless);
     }
 
     public void initDefaultCommand() {}
@@ -23,7 +24,7 @@ public class Flyboi extends Subsystem {
      */
     public void spinWheel(double speed) {
         leftFlywheel.set(speed);
-        rightFlywheel.set(speed);
+        rightFlywheel.set(-speed);
     }
 
     /** Stops wheel motors. */
