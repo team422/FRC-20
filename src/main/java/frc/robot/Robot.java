@@ -164,19 +164,19 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
 
         //Intake cells in/out
-        if (UserInterface.operatorController.getLeftJoystickY() >= 0.1) {
-            Subsystems.intake.setIntakeMotors(0.3);
-        } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.1) {
-            Subsystems.intake.setIntakeMotors(-0.3);
+        if (UserInterface.operatorController.getLeftJoystickY() >= 0.4) {
+            Subsystems.intake.setIntakeMotors(0.7);
+        } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
+            Subsystems.intake.setIntakeMotors(-0.7);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
 
         //Helix up/down
-           if (UserInterface.operatorController.getRightJoystickY() >= 0.1) {
-            Subsystems.helix.setHelixMotors(0.3);
-        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.1) {
-            Subsystems.helix.setHelixMotors(-0.3);
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
+            Subsystems.helix.setHelixMotors(0.7);
+        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
+            Subsystems.helix.setHelixMotors(-0.7);
         } else {
             Subsystems.helix.stopHelixMotors();
         }

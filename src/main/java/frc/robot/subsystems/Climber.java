@@ -15,9 +15,9 @@ public class Climber extends Subsystem {
     public Climber() {
         super("Climber");
         this.climberWinch = new WPI_TalonSRX(RobotMap.climberWinch);
-        this.leftClimbPin = new DoubleSolenoid(RobotMap.leftClimbPinOut, RobotMap.leftClimbPinIn);
-        this.rightClimbPin = new DoubleSolenoid(RobotMap.rightClimbPinOut, RobotMap.rightClimbPinIn);
-        this.climberBrake = new DoubleSolenoid(RobotMap.climberBrakeIn, RobotMap.climberBrakeOut);
+        // this.leftClimbPin = new DoubleSolenoid(RobotMap.leftClimbPinOut, RobotMap.leftClimbPinIn);
+        // this.rightClimbPin = new DoubleSolenoid(RobotMap.rightClimbPinOut, RobotMap.rightClimbPinIn);
+        // this.climberBrake = new DoubleSolenoid(RobotMap.climberBrakeIn, RobotMap.climberBrakeOut);
     }
 
     public void initDefaultCommand() {}

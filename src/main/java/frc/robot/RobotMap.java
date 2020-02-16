@@ -39,12 +39,12 @@ public class RobotMap {
     public static int cellStopIn;
     public static int intakeExtensionOut;
     public static int intakeExtensionIn;
-    public static final int climberBrakeIn = 0; //!
-    public static final int climberBrakeOut = 1; //!
-    public static final int leftClimbPinIn = 2; //!
-    public static final int leftClimbPinOut = 3; //!
-    public static final int rightClimbPinIn = 4; //!
-    public static final int rightClimbPinOut = 5; //!
+    // public static final int climberBrakeIn = 0; //!
+    // public static final int climberBrakeOut = 1; //!
+    // public static final int leftClimbPinIn = 2; //!
+    // public static final int leftClimbPinOut = 3; //!
+    // public static final int rightClimbPinIn = 4; //!
+    // public static final int rightClimbPinOut = 5; //!
 
     // Sensor ports
 
