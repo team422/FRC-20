@@ -15,13 +15,13 @@ public class StartStopFlywheel extends Command {
 
     @Override
     public void initialize() {
-      if (RobotMap.isShooterOn) {
-        Subsystems.flyboi.stopWheel();
-        RobotMap.isShooterOn = false;
-      } else {
-        Subsystems.flyboi.spinWheel(wheelSpeed);
-        RobotMap.isShooterOn = true;
-      }
+        if (RobotMap.isShooterOn) {
+            Subsystems.flyboi.stopWheel();
+            RobotMap.isShooterOn = false;
+        } else {
+            Subsystems.flyboi.spinWheel(wheelSpeed);
+            RobotMap.isShooterOn = true;
+        }
     }
 
   @Override

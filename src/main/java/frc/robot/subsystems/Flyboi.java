@@ -2,18 +2,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Flyboi extends Subsystem {
 
-    private WPI_TalonSRX leftFlywheel;
-    private WPI_TalonSRX rightFlywheel;
+    private SparkMax leftFlywheel;
+    private SparkMax rightFlywheel;
 
     public Flyboi() {
         super("Flyboi");
-        this.leftFlywheel = new WPI_TalonSRX(RobotMap.leftFlywheel);
-        this.rightFlywheel = new WPI_TalonSRX(RobotMap.rightFlywheel);
-        this.rightFlywheel.follow(this.leftFlywheel);
+        this.leftFlywheel = new SparkMax(RobotMap.leftFlywheel);
+        this.rightFlywheel = new SparkMax(RobotMap.rightFlywheel);
         this.rightFlywheel.setInverted(true);
     }
 
@@ -21,14 +19,16 @@ public class Flyboi extends Subsystem {
 
     /**
      * Spins wheel motors.
-     * @param speed The speed to set the flywheel to (0-1).
+     * @param speed The speed to set the flywheel to (-1 to 1).
      */
     public void spinWheel(double speed) {
-        leftFlywheel.set(speed); //right follows left
+        leftFlywheel.set(speed);
+        rightFlywheel.set(speed);
     }
 
     /** Stops wheel motors. */
     public void stopWheel() {
-        leftFlywheel.set(0); //right follows left
+        leftFlywheel.set(0);
+        rightFlywheel.set(0);
     }
 }
