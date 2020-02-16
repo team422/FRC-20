@@ -58,8 +58,10 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot
-        RobotMap.setBot(RobotMap.BotNames.TOASTER);
+        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
+
+        // Subsystems.compressor.start();
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);

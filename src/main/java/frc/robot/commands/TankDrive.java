@@ -63,10 +63,10 @@ public class TankDrive extends Command {
         
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
         * for driveBase to the right stick X-axis on on the driverXboxController */
-        if (UserInterface.driverController.getLeftJoystickY() < -0.1) {
-            speed = -(Math.pow(UserInterface.driverController.getLeftJoystickY(), 2));
-        } else if (UserInterface.driverController.getLeftJoystickY() > 0.1) {
-            speed = (Math.pow(UserInterface.driverController.getLeftJoystickY(), 2));
+        if (UserInterface.driverController.getRightJoystickY() < -0.1) {
+            speed = -(Math.pow(UserInterface.driverController.getRightJoystickY(), 2));
+        } else if (UserInterface.driverController.getRightJoystickY() > 0.1) {
+            speed = (Math.pow(UserInterface.driverController.getRightJoystickY(), 2));
         } else {
             speed = 0;
         }

@@ -39,16 +39,16 @@ public class RobotMap {
     public static int cellStopIn;
     public static int intakeExtensionOut;
     public static int intakeExtensionIn;
-    public static final int climberBrakeIn = 1; //!
-    public static final int climberBrakeOut = 2; //!
-    public static final int leftClimbPinIn = 3; //!
-    public static final int leftClimbPinOut = 4; //!
-    public static final int rightClimbPinIn = 5; //!
-    public static final int rightClimbPinOut = 6; //!
+    public static final int climberBrakeIn = 0; //!
+    public static final int climberBrakeOut = 1; //!
+    public static final int leftClimbPinIn = 2; //!
+    public static final int leftClimbPinOut = 3; //!
+    public static final int rightClimbPinIn = 4; //!
+    public static final int rightClimbPinOut = 5; //!
 
     // Sensor ports
 
-    public static final int intakeBeamBreak = 7; //!
+    public static final int intakeBeamBreak = 6; //!
 
     // UI Ports
 
@@ -91,12 +91,12 @@ public class RobotMap {
             intakeExtensionIn = 3;
             intakeExtensionOut = 4;
         } else if (bot == BotNames.PRACTICE) {
-            leftFrontFollower = 1;
-            leftMiddleMaster = 20;
-            leftRearFollower = 26;
-            rightFrontFollower = 30;
+            leftFrontFollower = 3;
+            leftMiddleMaster = 34;
+            leftRearFollower = 6;
+            rightFrontFollower = 5;
             rightMiddleMaster = 31;
-            rightRearFollower = 34;
+            rightRearFollower = 4;
             wheelDiameter = 6;
 
             leftFlywheel = 3;
