@@ -150,9 +150,9 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
         //B
         UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
-        // UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
+        UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
         //LBump
-        // UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
+        UserInterface.operatorController.RB.whenPressed(new ClimberExtend()); //RBump: Extend climber (turns brake off as well)
         //LTrig
         //RTrig: Retract climber
         //LSmall
@@ -170,6 +170,17 @@ public class Robot extends TimedRobot {
             Subsystems.intake.setIntakeMotors(-0.7);
         } else {
             Subsystems.intake.stopIntakeMotors();
+        }
+
+        //Retract climber when pins out
+        if (RobotMap.arePinsOut) {
+            if (UserInterface.operatorController.getRightTrigger() >= 0.1) {
+                Subsystems.climber.contractClimber(UserInterface.operatorController.getRightTrigger());
+            } else if (UserInterface.operatorController.RB.get()) {
+                Subsystems.climber.contractClimber(-0.2);
+            } else {
+                Subsystems.climber.stopClimber();
+            }
         }
     }
 
@@ -302,8 +313,8 @@ public class Robot extends TimedRobot {
             operatorUpperMiddleLayout.add("Left small", "");
             operatorUpperMiddleLayout.add("Right small", "");
         ShuffleboardLayout operatorUpperRightLayout = operatorButtonsLayout.getLayout("Operator upper right layout", BuiltInLayouts.kList);
-            operatorUpperRightLayout.add("Right trigger", "Retract climber");
-            operatorUpperRightLayout.add("Right bumper", "Extend climber");
+            operatorUpperRightLayout.add("Right trigger", "Retract climber/climb up");
+            operatorUpperRightLayout.add("Right bumper", "Extend climber/climb down");
         operatorButtonsLayout.add("Left joystick", "Intake in/out"); //middle left
         operatorButtonsLayout.add("", ""); //placeholder for true neutral
         ShuffleboardLayout operatorMiddleRightLayout = operatorButtonsLayout.getLayout("Operator middle right layout", BuiltInLayouts.kGrid)
