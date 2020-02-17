@@ -286,8 +286,8 @@ public class Robot extends TimedRobot {
             driverMiddleRightLayout.add("Y", "");
         ShuffleboardLayout driverLowerLeftLayout = driverButtonsLayout.getLayout("Driver lower left layout", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            driverLowerLeftLayout.add("POV", "");
-            driverLowerLeftLayout.add("POV", "");
+            driverLowerLeftLayout.add("/POV", "");
+            driverLowerLeftLayout.add("//POV", "");
         driverButtonsLayout.add("Right joystick", "Velocity"); //lower middle
         ShuffleboardLayout driverLowerRightLayout = driverButtonsLayout.getLayout("Driver lower right layout", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1));
@@ -305,15 +305,15 @@ public class Robot extends TimedRobot {
             operatorUpperRightLayout.add("Right trigger", "Retract climber");
             operatorUpperRightLayout.add("Right bumper", "Extend climber");
         operatorButtonsLayout.add("Left joystick", "Intake in/out"); //middle left
-        driverButtonsLayout.add("", ""); //placeholder for true neutral
+        operatorButtonsLayout.add("", ""); //placeholder for true neutral
         ShuffleboardLayout operatorMiddleRightLayout = operatorButtonsLayout.getLayout("Operator middle right layout", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1));
             operatorMiddleRightLayout.add("X", "Shooter on/off");
             operatorMiddleRightLayout.add("Y", "Climber brake toggle");
         ShuffleboardLayout operatorLowerLeftLayout = operatorButtonsLayout.getLayout("Operator lower left layout", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            operatorLowerLeftLayout.add("POV", "");
-            operatorLowerLeftLayout.add("POV", "");
+            operatorLowerLeftLayout.add("/POV", "");
+            operatorLowerLeftLayout.add("//POV", "");
         operatorButtonsLayout.add("Right joystick", "Helix in/out"); //lower middle
         ShuffleboardLayout operatorLowerRightLayout = operatorButtonsLayout.getLayout("Operator lower right layout", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1));
