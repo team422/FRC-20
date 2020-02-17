@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        // Subsystems.compressor.start();
+        Subsystems.compressor.start();
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
         //RTrig
         //LSmall
         //RSmall
-        
+
         //Operator controls
         //LJoy: Intake cells in/out
         //RJoy: Helix move forwards/backwards
@@ -150,9 +150,9 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
         //B
         UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
-        UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
+        // UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
         //LBump
-        UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
+        // UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
         //LTrig
         //RTrig: Retract climber
         //LSmall
@@ -173,22 +173,22 @@ public class Robot extends TimedRobot {
         }
 
         //Helix up/down
-        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-            Subsystems.helix.setHelixMotors(0.7);
-        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-            Subsystems.helix.setHelixMotors(-0.7);
-        } else {
-            Subsystems.helix.stopHelixMotors();
-        }
+        // if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
+        //     Subsystems.helix.setHelixMotors(0.7);
+        // } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
+        //     Subsystems.helix.setHelixMotors(-0.7);
+        // } else {
+        //     Subsystems.helix.stopHelixMotors();
+        // }
 
         //Retract climber when pins out
-        if (RobotMap.arePinsOut) {
-            if (UserInterface.operatorController.getRightTrigger() >= 0.1) {
-                Subsystems.climber.contractClimber(UserInterface.operatorController.getRightTrigger());
-            } else {
-                Subsystems.climber.stopClimber();
-            }
-        }
+        // if (RobotMap.arePinsOut) {
+        //     if (UserInterface.operatorController.getRightTrigger() >= 0.1) {
+        //         Subsystems.climber.contractClimber(UserInterface.operatorController.getRightTrigger());
+        //     } else {
+        //         Subsystems.climber.stopClimber();
+        //     }
+        // }
     }
 
     /**
@@ -291,7 +291,7 @@ public class Robot extends TimedRobot {
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(Subsystems.helix.getCellEntered());
+        intakeBeamBreakWidget.setBoolean(false); //TODO: change on helix
 
         //pixy values
         try {
