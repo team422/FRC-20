@@ -180,7 +180,6 @@ public class Robot extends TimedRobot {
         //Get references to tabs & layouts
         ShuffleboardTab preMatchTab = Shuffleboard.getTab("Pre-Match");
         ShuffleboardTab matchPlayTab = Shuffleboard.getTab("Match Play");
-        ShuffleboardTab controlTab = Shuffleboard.getTab("Controls");
 
         ShuffleboardLayout autonomousChooserLayout = preMatchTab.getLayout("Choose an autonomous...", BuiltInLayouts.kList)
             .withPosition(0, 0)
@@ -254,6 +253,72 @@ public class Robot extends TimedRobot {
 
         //pixy
         blockX = pixyLayout.add("blockX", 404).getEntry();
+
+
+        // Buttons tab
+
+        ShuffleboardTab buttonTab = Shuffleboard.getTab("Buttons");
+
+        ShuffleboardLayout driverButtonsLayout = buttonTab.getLayout("Driver Controller", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 3, "number of rows", 3))
+            .withPosition(0, 0)
+            .withSize(4, 3);
+        ShuffleboardLayout operatorButtonsLayout = buttonTab.getLayout("Operator Controller", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 4, "number of rows", 3))
+            .withPosition(4, 0)
+            .withSize(5, 3);
+
+        ShuffleboardLayout driverUpperLeftLayout = driverButtonsLayout.getLayout("Driver upper left layout", BuiltInLayouts.kList);
+            driverUpperLeftLayout.add("Left trigger", "");
+            driverUpperLeftLayout.add("Left bumper", "Toggle camera");
+        ShuffleboardLayout driverUpperMiddleLayout = driverButtonsLayout.getLayout("Driver upper middle layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            driverUpperMiddleLayout.add("Left small", "");
+            driverUpperMiddleLayout.add("Right small", "");
+        ShuffleboardLayout driverUpperRightLayout = driverButtonsLayout.getLayout("Driver upper right layout", BuiltInLayouts.kList);
+            driverUpperRightLayout.add("Right trigger", "");
+            driverUpperRightLayout.add("Right bumper", "Toggle slow/fast");
+        driverButtonsLayout.add("Left joystick", "Rotation"); //middle left
+        driverButtonsLayout.add("", ""); //placeholder for true neutral
+        ShuffleboardLayout driverMiddleRightLayout = driverButtonsLayout.getLayout("Driver middle right layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            driverMiddleRightLayout.add("X", "");
+            driverMiddleRightLayout.add("Y", "");
+        ShuffleboardLayout driverLowerLeftLayout = driverButtonsLayout.getLayout("Driver lower left layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            driverLowerLeftLayout.add("POV", "");
+            driverLowerLeftLayout.add("POV", "");
+        driverButtonsLayout.add("Right joystick", "Velocity"); //lower middle
+        ShuffleboardLayout driverLowerRightLayout = driverButtonsLayout.getLayout("Driver lower right layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            driverLowerRightLayout.add("A", "Intake and vision takeover");
+            driverLowerRightLayout.add("B", "");
+
+        ShuffleboardLayout operatorUpperLeftLayout = operatorButtonsLayout.getLayout("Operator upper left layout", BuiltInLayouts.kList);
+            operatorUpperLeftLayout.add("Left trigger", "");
+            operatorUpperLeftLayout.add("Left bumper", "");
+        ShuffleboardLayout operatorUpperMiddleLayout = operatorButtonsLayout.getLayout("Operator upper middle layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            operatorUpperMiddleLayout.add("Left small", "");
+            operatorUpperMiddleLayout.add("Right small", "");
+        ShuffleboardLayout operatorUpperRightLayout = operatorButtonsLayout.getLayout("Operator upper right layout", BuiltInLayouts.kList);
+            operatorUpperRightLayout.add("Right trigger", "Retract climber");
+            operatorUpperRightLayout.add("Right bumper", "Extend climber");
+        operatorButtonsLayout.add("Left joystick", "Intake in/out"); //middle left
+        driverButtonsLayout.add("", ""); //placeholder for true neutral
+        ShuffleboardLayout operatorMiddleRightLayout = operatorButtonsLayout.getLayout("Operator middle right layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            operatorMiddleRightLayout.add("X", "Shooter on/off");
+            operatorMiddleRightLayout.add("Y", "Climber brake toggle");
+        ShuffleboardLayout operatorLowerLeftLayout = operatorButtonsLayout.getLayout("Operator lower left layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            operatorLowerLeftLayout.add("POV", "");
+            operatorLowerLeftLayout.add("POV", "");
+        operatorButtonsLayout.add("Right joystick", "Helix in/out"); //lower middle
+        ShuffleboardLayout operatorLowerRightLayout = operatorButtonsLayout.getLayout("Operator lower right layout", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            operatorLowerRightLayout.add("A", "Intake extend/retract");
+            operatorLowerRightLayout.add("B", "");
     }
 
     /**
