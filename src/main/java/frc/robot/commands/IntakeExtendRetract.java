@@ -4,6 +4,9 @@ import frc.robot.subsystems.Subsystems;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
+/**
+ * A command to toggle between the intake extended and the intake retracted.
+ */
 public class IntakeExtendRetract extends Command {
 
     public IntakeExtendRetract() {

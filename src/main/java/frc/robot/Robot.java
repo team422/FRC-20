@@ -171,24 +171,6 @@ public class Robot extends TimedRobot {
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
-
-        //Helix up/down
-        // if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-        //     Subsystems.helix.setHelixMotors(0.7);
-        // } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-        //     Subsystems.helix.setHelixMotors(-0.7);
-        // } else {
-        //     Subsystems.helix.stopHelixMotors();
-        // }
-
-        //Retract climber when pins out
-        // if (RobotMap.arePinsOut) {
-        //     if (UserInterface.operatorController.getRightTrigger() >= 0.1) {
-        //         Subsystems.climber.contractClimber(UserInterface.operatorController.getRightTrigger());
-        //     } else {
-        //         Subsystems.climber.stopClimber();
-        //     }
-        // }
     }
 
     /**
@@ -198,6 +180,7 @@ public class Robot extends TimedRobot {
         //Get references to tabs & layouts
         ShuffleboardTab preMatchTab = Shuffleboard.getTab("Pre-Match");
         ShuffleboardTab matchPlayTab = Shuffleboard.getTab("Match Play");
+        ShuffleboardTab controlTab = Shuffleboard.getTab("Controls");
 
         ShuffleboardLayout autonomousChooserLayout = preMatchTab.getLayout("Choose an autonomous...", BuiltInLayouts.kList)
             .withPosition(0, 0)

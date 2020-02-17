@@ -5,6 +5,9 @@ import frc.robot.RobotMap;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+/**
+ * The shooter, composed of a single flywheel.
+ */
 public class Flyboi extends Subsystem {
 
     private CANSparkMax leftFlywheel;
@@ -27,7 +30,9 @@ public class Flyboi extends Subsystem {
         rightFlywheel.set(-speed);
     }
 
-    /** Stops wheel motors. */
+    /**
+     * Stops wheel motors.
+     */
     public void stopWheel() {
         leftFlywheel.set(0);
         rightFlywheel.set(0);

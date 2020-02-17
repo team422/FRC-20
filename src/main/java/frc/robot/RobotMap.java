@@ -64,7 +64,7 @@ public class RobotMap {
      * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
      * Please note that this is case sensitive.
      */
-    public static BotNames botName = BotNames.COMPETITION;
+    public static BotNames botName = BotNames.PRACTICE;
 
     /**
      * Sets the bot's ports based off of the bot's name. You will still have to comment out code in DriveBase.java that determines whether your motors are victors or talons.
@@ -99,8 +99,8 @@ public class RobotMap {
             rightRearFollower = 4;
             wheelDiameter = 6;
 
-            leftFlywheel = 1;
-            rightFlywheel = 2;
+            leftFlywheel = 3;
+            rightFlywheel = 4;
             helicase = 23;
             intakeMotor = 33;
             cellStopIn = 0;

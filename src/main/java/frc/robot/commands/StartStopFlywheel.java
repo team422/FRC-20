@@ -4,6 +4,9 @@ import frc.robot.subsystems.Subsystems;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
+/**
+ * A command to toggle between the flywheel running and the flywheel stopped.
+ */
 public class StartStopFlywheel extends Command {
 
     private final double wheelSpeed = 0.85;
@@ -24,7 +27,7 @@ public class StartStopFlywheel extends Command {
         }
     }
 
-  @Override
+    @Override
     public void execute() {}
 
     @Override

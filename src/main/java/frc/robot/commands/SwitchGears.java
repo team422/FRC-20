@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
+/**
+ * A command to toggle between slow and fast mode. 
+ */
 public class SwitchGears extends Command {
 
     public SwitchGears() {

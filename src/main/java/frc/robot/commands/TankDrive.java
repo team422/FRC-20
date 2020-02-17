@@ -60,7 +60,7 @@ public class TankDrive extends Command {
                 UserInterface.driverController.setRumble(0);
             }
         }
-        
+
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
         * for driveBase to the right stick X-axis on on the driverXboxController */
         if (UserInterface.driverController.getRightJoystickY() < -0.1) {
@@ -97,9 +97,12 @@ public class TankDrive extends Command {
          *  rather than speed then rotation */
         Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
     }
+
     protected boolean isFinished() {
         return false;
     }
+
     protected void interrupted() {}
+
     protected void end() {}
 }

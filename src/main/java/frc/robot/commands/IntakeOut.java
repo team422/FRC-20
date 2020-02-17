@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
+/**
+ * A command to spin the intake wheels out to expel lemonade cargo.
+ */
 public class IntakeOut extends Command {
 
     public IntakeOut() {
