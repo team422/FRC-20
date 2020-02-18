@@ -2,33 +2,39 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+/**
+ * The shooter, composed of a single flywheel.
+ */
 public class Flyboi extends Subsystem {
 
-    private WPI_TalonSRX leftFlywheel;
-    private WPI_TalonSRX rightFlywheel;
+    private CANSparkMax leftFlywheel;
+    private CANSparkMax rightFlywheel;
 
     public Flyboi() {
         super("Flyboi");
-        this.leftFlywheel = new WPI_TalonSRX(RobotMap.leftFlywheel);
-        this.rightFlywheel = new WPI_TalonSRX(RobotMap.rightFlywheel);
-        this.rightFlywheel.follow(this.leftFlywheel);
-        this.rightFlywheel.setInverted(true);
+        this.leftFlywheel = new CANSparkMax(RobotMap.leftFlywheel, MotorType.kBrushless);
+        this.rightFlywheel = new CANSparkMax(RobotMap.rightFlywheel, MotorType.kBrushless);
     }
 
     public void initDefaultCommand() {}
 
     /**
      * Spins wheel motors.
-     * @param speed The speed to set the flywheel to (0-1).
+     * @param speed The speed to set the flywheel to (-1 to 1).
      */
     public void spinWheel(double speed) {
-        leftFlywheel.set(speed); //right follows left
+        leftFlywheel.set(speed);
+        rightFlywheel.set(-speed);
     }
 
-    /** Stops wheel motors. */
+    /**
+     * Stops wheel motors.
+     */
     public void stopWheel() {
-        leftFlywheel.set(0); //right follows left
+        leftFlywheel.set(0);
+        rightFlywheel.set(0);
     }
 }
