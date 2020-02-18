@@ -9,6 +9,13 @@ public class RobotMap {
     public static double rotationCap = 0.5;
     public static double wheelDiameter;
 
+    public static boolean isFastMode = false;
+    public static boolean isFirstCamera = true;
+    public static boolean isIntakeDown = false;
+    public static boolean isShooterOn = false;
+    public static boolean arePinsOut = false;
+    public static boolean isClimberBrakeToggled = false;
+
     // Drive base ports
 
     public static int leftFrontFollower;
@@ -18,6 +25,37 @@ public class RobotMap {
     public static int rightMiddleMaster;
     public static int rightRearFollower;
 
+    // Subsystem motor ports
+
+    public static int leftFlywheel;
+    public static int rightFlywheel;
+    public static int helicase;
+    public static int intakeMotor;
+    public static int climberWinch;
+
+    // Double solenoid ports
+
+    public static int cellStopOut;
+    public static int cellStopIn;
+    public static int intakeExtensionOut;
+    public static int intakeExtensionIn;
+    // public static final int climberBrakeIn = 0; //!
+    // public static final int climberBrakeOut = 1; //!
+    // public static final int leftClimbPinIn = 2; //!
+    // public static final int leftClimbPinOut = 3; //!
+    // public static final int rightClimbPinIn = 4; //!
+    // public static final int rightClimbPinOut = 5; //!
+
+    // Sensor ports
+
+    public static final int intakeBeamBreak = 6; //!
+
+    // UI Ports
+
+    public static final int driverXboxController = 1;
+    public static final int operatorXboxController = 2;
+
+
     public enum BotNames {
         COMPETITION, PRACTICE, TOASTER
     }
@@ -26,7 +64,7 @@ public class RobotMap {
      * <p><code>"toaster"</code>, <code>"practice"</code>, or <code>"comp"</code>.</p>
      * Please note that this is case sensitive.
      */
-    public static BotNames botName = BotNames.COMPETITION;
+    public static BotNames botName = BotNames.PRACTICE;
 
     /**
      * Sets the bot's ports based off of the bot's name. You will still have to comment out code in DriveBase.java that determines whether your motors are victors or talons.
@@ -41,17 +79,34 @@ public class RobotMap {
             rightFrontFollower = 60;
             rightMiddleMaster = 14;
             rightRearFollower = 57;
-
             wheelDiameter = 8;
+
+            //doesn't really exist, assign values
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 1;
+            cellStopOut = 2;
+            intakeExtensionIn = 3;
+            intakeExtensionOut = 4;
         } else if (bot == BotNames.PRACTICE) {
             leftFrontFollower = 3;
-            leftMiddleMaster = 20;
+            leftMiddleMaster = 34;
             leftRearFollower = 6;
             rightFrontFollower = 5;
             rightMiddleMaster = 31;
             rightRearFollower = 4;
-
             wheelDiameter = 6;
+
+            leftFlywheel = 3;
+            rightFlywheel = 4;
+            helicase = 23;
+            intakeMotor = 33;
+            cellStopIn = 0;
+            cellStopOut = 7;
+            intakeExtensionIn = 1;
+            intakeExtensionOut = 6;
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -59,20 +114,19 @@ public class RobotMap {
             rightFrontFollower = 9;
             rightMiddleMaster = 10;
             rightRearFollower = 45;
-
             wheelDiameter = 6;
+
+            //! ->
+            leftFlywheel = 422;
+            rightFlywheel = 422;
+            helicase = 422;
+            intakeMotor = 422;
+            cellStopIn = 1;
+            cellStopOut = 2;
+            intakeExtensionIn = 3;
+            intakeExtensionOut = 4;
         }
     }
-
-    // Subsystem motor controller ports (Talons/Victors)
-
-    public static final int leftFlywheel = 11;
-    public static final int rightFlywheel = 24;
-
-    // UI Ports
-
-    public static final int driverXboxController = 1;
-    public static final int operatorXboxController = 2;
 
     /**
      * @return The speed cap for the drive base in teleop.
