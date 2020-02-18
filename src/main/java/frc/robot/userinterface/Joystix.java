@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  
 public class Joystix {
  
-    public Joystick joystick1;
-    public JoystickButton TRIGGERED;
+    private Joystick joystick;
+    public JoystickButton bumper;
  
     public Joystix(int port) {
-        this.joystick1 = new Joystick(port);
-        this.TRIGGERED = new JoystickButton(joystick1, 1);
+        this.joystick = new Joystick(port);
+        this.bumper = new JoystickButton(joystick, 1);
     }
  
-    public double getJoystickY() { return joystick1.getRawAxis(1); }
+    public double getJoystickY() { return joystick.getRawAxis(1); }
  
 }
