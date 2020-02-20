@@ -16,6 +16,7 @@ public class RobotMap {
     public static boolean arePinsOut = false;
     public static boolean isHelixToggled = false;
     public static boolean isClimberBrakeToggled = false;
+    public static boolean isCellyToggled = false;
 
     // Drive base ports
 
