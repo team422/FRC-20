@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 
     //SENSORS/CAMERAS
 
-    private VideoSink switchedCamera;
+    //private VideoSink switchedCamera;
     private UsbCamera camera1;
     private UsbCamera camera2;
 
@@ -64,13 +64,13 @@ public class Robot extends TimedRobot {
         Subsystems.compressor.start();
 
         //camera setup
-        camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-        camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        // camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+        // camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        // camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        // camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
-        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
-        switchedCamera.setSource(camera1);
+        //switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        //switchedCamera.setSource(camera1);
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        switchedCamera.setSource(camera1);
+        //switchedCamera.setSource(camera1);
 
         //Driver controls
         //LJoy: Velocity
@@ -136,8 +136,8 @@ public class Robot extends TimedRobot {
         //B
         //X
         //Y
-        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
-        UserInterface.driverController.A.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
+        //UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
+        //UserInterface.driverController.A.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
         //LTrig
         //RTrig
         //LSmall
@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
         //RJoy: Helix move forwards/backwards
         //POV
         UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
-        //B
+        UserInterface.operatorController.B.whenPressed(new ToggleHelix());
         UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
         // UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
         //LBump
@@ -157,7 +157,15 @@ public class Robot extends TimedRobot {
         //RTrig: Retract climber
         //LSmall
         //RSmall
+
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
+            Subsystems.helix.setHelixMotors(0.7);
+        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
+            Subsystems.helix.setHelixMotors(-0.7);
+        } else {
+            Subsystems.helix.stopHelixMotors();
     }
+}
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
@@ -165,9 +173,9 @@ public class Robot extends TimedRobot {
 
         //Intake cells in/out
         if (UserInterface.operatorController.getLeftJoystickY() >= 0.4) {
-            Subsystems.intake.setIntakeMotors(0.7);
+            Subsystems.intake.setIntakeMotors(0.8);
         } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
-            Subsystems.intake.setIntakeMotors(-0.7);
+            Subsystems.intake.setIntakeMotors(-0.8);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
@@ -227,10 +235,10 @@ public class Robot extends TimedRobot {
 
         //Setup match play options and layouts
         // ***** ADD FMS INFO WIDGET MANUALLY *****
-        matchPlayTab.add(SendableCameraWrapper.wrap(switchedCamera.getSource())) //see if this works
-            .withWidget(BuiltInWidgets.kCameraStream)
-            .withPosition(3, 0)
-            .withSize(3, 3);
+        // matchPlayTab.add(SendableCameraWrapper.wrap(switchedCamera.getSource())) //see if this works
+        //     .withWidget(BuiltInWidgets.kCameraStream)
+        //     .withPosition(3, 0)
+        //     .withSize(3, 3);
 
         //cell count
         cellCountWidget = matchPlayTab.add("Power cell count", 3)

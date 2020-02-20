@@ -14,6 +14,7 @@ public class RobotMap {
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;
     public static boolean arePinsOut = false;
+    public static boolean isHelixToggled = false;
     public static boolean isClimberBrakeToggled = false;
 
     // Drive base ports
@@ -99,10 +100,10 @@ public class RobotMap {
             rightRearFollower = 4;
             wheelDiameter = 6;
 
-            leftFlywheel = 3;
-            rightFlywheel = 4;
-            helicase = 23;
-            intakeMotor = 33;
+            leftFlywheel = 2;
+            rightFlywheel = 1;
+            helicase = 33;
+            intakeMotor = 23;
             cellStopIn = 0;
             cellStopOut = 7;
             intakeExtensionIn = 1;

@@ -15,12 +15,12 @@ public class IntakeIn extends Command {
 
     @Override
     public void initialize() {
-        Subsystems.intake.setIntakeMotors(0.3);
+        Subsystems.intake.setIntakeMotors(0.8);
     }
 
     @Override
     public void execute() {
-        //motors still on
+        Subsystems.intake.setIntakeMotors(0.8);
     }
 
     @Override

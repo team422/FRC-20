@@ -3,19 +3,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
-/**
- * A command to spin the intake wheels out to expel lemonade cargo.
- */
-public class IntakeOut extends Command {
+public class TurnHelix extends Command {
 
-    public IntakeOut() {
-        super("IntakeOut");
-        requires(Subsystems.intake);
+    double speed;
+
+    public TurnHelix(double Speed, double Timeout) {
+        super("TurnHelix");
+        requires(Subsystems.helix);
+        speed = Speed;
+        setTimeout(Timeout);
     }
 
     @Override
     public void initialize() {
-        Subsystems.intake.setIntakeMotors(-0.8);
+        Subsystems.helix.setHelixMotors(speed);
     }
 
     @Override
@@ -25,16 +26,17 @@ public class IntakeOut extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
 
     @Override
     public void interrupted() {
-        Subsystems.intake.setIntakeMotors(0);
+        Subsystems.helix.setHelixMotors(0);
     }
 
     @Override
     public void end() {
-        Subsystems.intake.setIntakeMotors(0);
+        Subsystems.helix.setHelixMotors(0);
     }
+
 }
