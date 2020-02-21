@@ -14,7 +14,7 @@ public class Ultrasonic {
     }
 
     public void updateVoltage() {
-        ultrasonicVoltage = previousUltrasonicVoltage*.8 + ultrasonic.getValue()*.2;
+        ultrasonicVoltage = previousUltrasonicVoltage*.3 + ultrasonic.getValue()*.7;
         ultrasonicInches = (Math.floor(10*(0.052323*ultrasonicVoltage-0.7635)))/10;
         previousUltrasonicVoltage = ultrasonicVoltage;
     }
