@@ -5,24 +5,19 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
 /**
- * A command to toggle between the intake extended and the intake retracted.
+ * A command to retract the intake.
  */
-public class IntakeExtendRetract extends Command {
+public class IntakeRetract extends Command {
 
-    public IntakeExtendRetract() {
-        super("IntakeExtendRetract");
+    public IntakeRetract() {
+        super("IntakeRetract");
         requires(Subsystems.intake);
     }
 
     @Override
     public void initialize() {
-        if (RobotMap.isIntakeDown) {
-            Subsystems.intake.intakeExtend();
-			RobotMap.isIntakeDown = false;
-        } else {
-            Subsystems.intake.intakeRetract();
-            RobotMap.isIntakeDown = true;
-        }
+        Subsystems.intake.intakeRetract();
+        RobotMap.isIntakeDown = false;
     }
 
     @Override
