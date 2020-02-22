@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
+//import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
-import io.github.pseudoresonance.pixy2api.*;
-import edu.wpi.cscore.VideoSink;
-import edu.wpi.cscore.VideoSource;
+//import io.github.pseudoresonance.pixy2api.*;
+//import edu.wpi.cscore.VideoSink;
+//import edu.wpi.cscore.VideoSource;
 
-import java.util.Map;
+//import java.util.Map;
 
 /**
  * The main Robot class whence all things come.
@@ -116,20 +116,20 @@ public class Robot extends TimedRobot {
         //Operator controls
         //LJoy: Intake cells in/out
         //RJoy: Helix move forwards/backwards
-        //POV
+        //UserInterface.operatorController.LJ.whenPressed(new IntakeIn()); //LJoy: Intake cells in/out
         UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
-        UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off
-        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
+        UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
         UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
-
         //UserInterface.operatorController.Y.whenPressed(new CellStopExtend()); //X: Flywheel on/off
-
-        // UserInterface.operatorController.Y.whenPressed(new ToggleClimberBrake()); //Y: Toggle climber brake
-        //LBump
-        // UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
+        //UserInterface.operatorController.LB.whenPressed(new ToggleClimberBrake()); //LBump: Toggle climber brake
+        //UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
         //LTrig
-        //RTrig: Retract climber
-        //LSmall
+        UserInterface.operatorController.RS.whileHeld(new FlywheelShoot());//RTrigger: starts the fly shoot command
+        UserInterface.operatorController.LS.whenReleased(new FlywheelShootStop());
+        //RTrig: Fly wheel program
+        
+        
+        //LSmall 
         //RSmall
     }
 
@@ -137,13 +137,30 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
 
         //Intake cells in/out
-        if (UserInterface.operatorController.getLeftJoystickY() >= 0.4) {
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
-        } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
+        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
             Subsystems.intake.setIntakeMotors(-0.8);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
 
+        //moves helix back 
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4){
+            Subsystems.helix.setHelixMotors(0.8);
+        } else if (UserInterface.operatorController.getPOVAngle() == 0) {
+            Subsystems.helix.setHelixMotors(-0.8);
+        } else {
+            Subsystems.helix.setHelixMotors(0);
+        }
+
+        //moves robot up and down during climbing
+        // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
+        //     Subsystems.climber.setClimberMotors(0.8);
+        // } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
+        //     Subsystems.climber.setClimberMotors(-0.8);
+        // } else {
+        //     Subsystems.climber.setClimberMotors(0);
+        // }
     }
 }
