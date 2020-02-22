@@ -16,7 +16,7 @@ public class AutonomousSwitch extends CommandGroup {
     public String description = "";
     public final boolean visionEnabled;
 
-    public final double robotLength = 40; //? //in inches
+    public final double robotLength = 38.75; //in inches
 
     public enum StartingPosition {
         LEFT, CENTER, RIGHT
@@ -60,7 +60,8 @@ public class AutonomousSwitch extends CommandGroup {
 
             addSequential(new StartStopFlywheel()); //get flywheel up to speed
             addSequential(new DriveStraight(120 - robotLength, 0.5, 8)); //drive to goal
-            addSequential(new WaitCommand(1)); //addSequential(new Shoot()) //shoot 3 cells
+            addSequential(new CellStopRetract());
+            addSequential(new TurnHelix(7)); //shoot 3 cells
             addSequential(new StartStopFlywheel()); //stop flywheel
             addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
 
@@ -81,19 +82,19 @@ public class AutonomousSwitch extends CommandGroup {
             } else if (IntakeSource == AutonomousSwitch.IntakeSource.RENDEZVOUS) {
                 description += "intakes from rendezvous.";
 
-                addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
-                addSequential(new Turn(-45, 0.3, 8)); //turn left away from rendezvous
-                addSequential(new DriveStraight(12, 0.5, 8)); //go straight
-                addSequential(new Turn(90, 0.3, 8)); //turn towards first 2 cells
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
-                addSequential(new DriveStraight(12, 0.5, 8)); //go to intake those 2 cells & cross 2x4
-                addSequential(new Turn(90, 0.3, 8)); //turn towards 3 remaining cells
-                addSequential(new DriveStraight(12, 0.5, 8)); //go to intake further cells
-                addSequential(new Turn(90, 0.3, 8)); //turn towards closer cells
-                addSequential(new DriveStraight(6, 0.5, 8)); //go to intake last of 3 cells
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-                addSequential(new Turn(135, 0.3, 8)); //turn so shooter faces towards power port
-                addSequential(new DriveStraight(12, 0.5, 8)); //end across 2x4, closer to power port
+                // addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
+                // addSequential(new Turn(-45, 0.3, 8)); //turn left away from rendezvous
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go straight
+                // addSequential(new Turn(90, 0.3, 8)); //turn towards first 2 cells
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake those 2 cells & cross 2x4
+                // addSequential(new Turn(90, 0.3, 8)); //turn towards 3 remaining cells
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake further cells
+                // addSequential(new Turn(90, 0.3, 8)); //turn towards closer cells
+                // addSequential(new DriveStraight(6, 0.5, 8)); //go to intake last of 3 cells
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                // addSequential(new Turn(135, 0.3, 8)); //turn so shooter faces towards power port
+                // addSequential(new DriveStraight(12, 0.5, 8)); //end across 2x4, closer to power port
 
             } else if (IntakeSource == AutonomousSwitch.IntakeSource.MIXED) {
                 description += "intakes 3 from trench + 2 from rendezvous.";
@@ -106,62 +107,66 @@ public class AutonomousSwitch extends CommandGroup {
                 addSequential(new IntakeIn());
                 addSequential(new DriveStraight((pushRobot ? 116 + (1.5*robotLength) : 116), 0.4, 8)); //go to intake first 3 cells from trench
 
-                addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
-                addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-                addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
-                addSequential(new Turn(90, 0.3, 8)); //end turning back towards power port
+                // addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                // addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
+                // addSequential(new Turn(90, 0.3, 8)); //end turning back towards power port
 
             }
         } else if (startingPosition == AutonomousSwitch.StartingPosition.RIGHT) {
             description = "Starts on right, " + description;
 
-            addSequential(new DriveStraight(-12, 0.5, 8)); //drive to goal
-            addSequential(new WaitCommand(1)); //addSequential(new Shoot()) //shoot 3 cells
-            addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
+            addSequential(new DriveStraight(10, 0.4, 8)); //just cross line
+
+            // addSequential(new DriveStraight(-12, 0.5, 8)); //drive to goal
+            // addSequential(new WaitCommand(1)); //addSequential(new Shoot()) //shoot 3 cells
+            // addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
 
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {
                 description += "intakes from trench.";
-
-                addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
-                addSequential(new DriveStraight(24, 0.5, 8)); //go to intake 5 cells from whole trench run
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-                addSequential(new DriveStraight(-24, 0.5, 8)); //end closer to power port
+                
+                // addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
+                // addSequential(new DriveStraight(24, 0.5, 8)); //go to intake 5 cells from whole trench run
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                // addSequential(new DriveStraight(-24, 0.5, 8)); //end closer to power port
 
             } else { // MIXED
                 description += "intakes 3 from trench + 2 from rendezvous.";
 
-                addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
-                addSequential(new DriveStraight(12, 0.5, 8)); //go to intake first 3 cells from trench
-                addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
-                addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
-                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-                addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
-                addSequential(new Turn(90, 0.3, 8)); //end turning back towards power port
+                // addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake first 3 cells from trench
+                // addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
+                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                // addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
+                // addSequential(new Turn(90, 0.3, 8)); //end turning back towards power port
 
             }
         } else if (startingPosition == AutonomousSwitch.StartingPosition.LEFT) {
             description = "Starts on left, " + description;
 
-            addSequential(new DriveStraight(-12, 0.5, 8)); //drive to goal
-            addSequential(new WaitCommand(1)); //addSequential(new Shoot()) //shoot 3 cells
-            addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
+            addSequential(new DriveStraight(10, 0.4, 8)); //just cross line
+
+            // addSequential(new DriveStraight(-12, 0.5, 8)); //drive to goal
+            // addSequential(new WaitCommand(1)); //addSequential(new Shoot()) //shoot 3 cells
+            // addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
 
             //Must be intaking from rendezvous
             description += "intakes from rendezvous.";
 
-            addSequential(new Turn(-45, 0.3, 8)); //turn left towards rendezvous
-            addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
-            addSequential(new DriveStraight(12, 0.5, 8)); //go to intake first 2 cells
-            addSequential(new DriveStraight(-6, 0.5, 8)); //back up
-            addSequential(new Turn(45, 0.3, 8)); //turn towards last cell
-            addSequential(new DriveStraight(12, 0.5, 8)); //go to intake last of 3 cells
-            addSequential(new Turn(-135, 0.3, 8)); //turn towards other 2
-            addSequential(new DriveStraight(24, 0.5, 8)); //go to intake last 2
-            addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-            addSequential(new Turn(90, 0.3, 8)); //turn so shooter faces towards power port
+            // addSequential(new Turn(-45, 0.3, 8)); //turn left towards rendezvous
+            // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
+            // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake first 2 cells
+            // addSequential(new DriveStraight(-6, 0.5, 8)); //back up
+            // addSequential(new Turn(45, 0.3, 8)); //turn towards last cell
+            // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake last of 3 cells
+            // addSequential(new Turn(-135, 0.3, 8)); //turn towards other 2
+            // addSequential(new DriveStraight(24, 0.5, 8)); //go to intake last 2
+            // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+            // addSequential(new Turn(90, 0.3, 8)); //turn so shooter faces towards power port
 
         }
     }

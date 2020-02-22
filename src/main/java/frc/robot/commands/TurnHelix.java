@@ -5,12 +5,11 @@ import frc.robot.subsystems.Subsystems;
 
 public class TurnHelix extends Command {
 
-    double speed;
+    double speed = 0.8;
 
-    public TurnHelix(double Speed, double Timeout) {
+    public TurnHelix (double Timeout) {
         super("TurnHelix");
         requires(Subsystems.helix);
-        speed = Speed;
         setTimeout(Timeout);
     }
 

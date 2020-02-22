@@ -133,8 +133,8 @@ public class Robot extends TimedRobot {
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
 
         //Operator controls
-        UserInterface.operatorController.RB.whenPressed(new FlywheelShoot());//RTrigger: starts the fly shoot command
-        UserInterface.operatorController.RB.whenReleased(new FlywheelShootStop());
+        UserInterface.operatorController.RB.whenPressed(new Shoot());//RTrigger: starts the fly shoot command
+        UserInterface.operatorController.RB.whenReleased(new ShootStop());
     }
 
     public void teleopPeriodic() {
