@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.UsbCamera;
-//import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 //import io.github.pseudoresonance.pixy2api.*;
-//import edu.wpi.cscore.VideoSink;
-//import edu.wpi.cscore.VideoSource;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSource;
 
 //import java.util.Map;
 
@@ -47,7 +47,7 @@ public class Robot extends TimedRobot {
 
     //SENSORS/CAMERAS
 
-    //private VideoSink switchedCamera;
+    private VideoSink switchedCamera;
     private UsbCamera camera1;
     private UsbCamera camera2;
 
@@ -63,13 +63,13 @@ public class Robot extends TimedRobot {
         Subsystems.compressor.start();
 
         //camera setup
-        // camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-        // camera2 = CameraServer.getInstance().startAutomaticCapture(1);
-        // camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-        // camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        camera1 = CameraServer.getInstance().startAutomaticCapture(0);
+        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
-        //switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
-        //switchedCamera.setSource(camera1);
+        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        switchedCamera.setSource(camera1);
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
@@ -140,21 +140,25 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
             if (!RobotMap.isIntakeDown) {
-                Scheduler.getInstance().add(new IntakeExtendRetract());
+                System.out.println("down");
+                Subsystems.intake.intakeExtend();
+                RobotMap.isIntakeDown = true;
             }
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
             Subsystems.intake.setIntakeMotors(-0.8);
             if (RobotMap.isIntakeDown) {
-                Scheduler.getInstance().add(new IntakeExtendRetract());
+                Subsystems.intake.intakeRetract();
+			    RobotMap.isIntakeDown = false;
             }
         } else {
             Subsystems.intake.stopIntakeMotors();
             if (RobotMap.isIntakeDown) {
-                Scheduler.getInstance().add(new IntakeExtendRetract());
+                Subsystems.intake.intakeRetract();
+			    RobotMap.isIntakeDown = false;
             }
         }
 
-        //moves helix back 
+        //moves helix in/out 
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4){
             Subsystems.helix.setHelixMotors(0.8);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {

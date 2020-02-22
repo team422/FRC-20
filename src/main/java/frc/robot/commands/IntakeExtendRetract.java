@@ -17,10 +17,10 @@ public class IntakeExtendRetract extends Command {
     @Override
     public void initialize() {
         if (RobotMap.isIntakeDown) {
-            Subsystems.intake.intakeExtend();
+            Subsystems.intake.intakeRetract();
 			RobotMap.isIntakeDown = false;
         } else {
-            Subsystems.intake.intakeRetract();
+            Subsystems.intake.intakeExtend();
             RobotMap.isIntakeDown = true;
         }
     }
