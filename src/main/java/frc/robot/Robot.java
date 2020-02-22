@@ -160,7 +160,7 @@ public class Robot extends TimedRobot {
             if (RobotMap.isIntakeDown) {
                 Subsystems.intake.intakeRetract();
 			    RobotMap.isIntakeDown = false;
-            }
+            } 
         }
 
         //moves helix in/out 
