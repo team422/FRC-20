@@ -15,10 +15,10 @@ public class SwitchGears extends Command {
     @Override
     public void initialize() {
         if (RobotMap.isFastMode) {
-            RobotMap.setSpeedAndRotationCaps(0.3, 0.2);
+            RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
             RobotMap.isFastMode = false;
         } else {
-            RobotMap.setSpeedAndRotationCaps(1, 0.35);
+            RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
             RobotMap.isFastMode = true;
         }
     }

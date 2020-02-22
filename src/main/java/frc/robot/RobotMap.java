@@ -50,7 +50,7 @@ public class RobotMap {
 
     // Sensor ports
 
-    public static final int intakeBeamBreak = 6; //!
+    public static final int intakeBeamBreak = 9; //!
 
     // UI Ports
 
@@ -101,8 +101,8 @@ public class RobotMap {
             rightRearFollower = 4;
             wheelDiameter = 6;
 
-            leftFlywheel = 2;
-            rightFlywheel = 1;
+            leftFlywheel = 1;
+            rightFlywheel = 2;
             helicase = 33;
             intakeMotor = 23;
             cellStopIn = 0;

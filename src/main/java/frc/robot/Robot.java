@@ -129,37 +129,12 @@ public class Robot extends TimedRobot {
         switchedCamera.setSource(camera1);
 
         //Driver controls
-        //LJoy: Velocity
-        //RJoy: Rotation
-        //POV
-        //A: Intake + vision takeover
-        //B
-        //X
-        //Y
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
-        //LTrig
-        //RTrig
-        //LSmall
-        //RSmall
 
         //Operator controls
-        //LJoy: Intake cells in/out
-        //RJoy: Helix move forwards/backwards
-        //UserInterface.operatorController.LJ.whenPressed(new IntakeIn()); //LJoy: Intake cells in/out
-        // UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); 
-        //A: Intake extend/retract
-        //UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
-        //UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
-        //UserInterface.operatorController.Y.whenPressed(new CellStopExtend()); //X: Flywheel on/off
-        //UserInterface.operatorController.LB.whenPressed(new ToggleClimberBrake()); //LBump: Toggle climber brake
-        //UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
-        //LTrig
-        UserInterface.operatorController.RS.whileHeld(new FlywheelShoot());//RTrigger: starts the fly shoot command
-        UserInterface.operatorController.LS.whenReleased(new FlywheelShootStop());
-        //RTrig: Fly wheel program
-        //LSmall 
-        //RSmall
+        UserInterface.operatorController.RB.whenPressed(new FlywheelShoot());//RTrigger: starts the fly shoot command
+        UserInterface.operatorController.RB.whenReleased(new FlywheelShootStop());
     }
 
     public void teleopPeriodic() {
@@ -193,7 +168,7 @@ public class Robot extends TimedRobot {
             Subsystems.helix.setHelixMotors(0.8);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
-        } else {
+        } else if (!UserInterface.operatorController.RB.get()) {
             Subsystems.helix.setHelixMotors(0);
         }
     }
