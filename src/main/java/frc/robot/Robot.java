@@ -147,7 +147,8 @@ public class Robot extends TimedRobot {
         //LJoy: Intake cells in/out
         //RJoy: Helix move forwards/backwards
         //UserInterface.operatorController.LJ.whenPressed(new IntakeIn()); //LJoy: Intake cells in/out
-        //UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
+        // UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); 
+        //A: Intake extend/retract
         //UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
         //UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
         //UserInterface.operatorController.Y.whenPressed(new CellStopExtend()); //X: Flywheel on/off
@@ -157,12 +158,8 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.RS.whileHeld(new FlywheelShoot());//RTrigger: starts the fly shoot command
         UserInterface.operatorController.LS.whenReleased(new FlywheelShootStop());
         //RTrig: Fly wheel program
-        
-        
         //LSmall 
         //RSmall
-
-        Subsystems.intake.intakeExtend();
     }
 
     public void teleopPeriodic() {
@@ -171,7 +168,6 @@ public class Robot extends TimedRobot {
 
         //Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-            System.out.println("Up (false->true) " + RobotMap.isIntakeDown);
             Subsystems.intake.setIntakeMotors(0.8);
             if (!RobotMap.isIntakeDown) {
                 System.out.println("down");
@@ -179,19 +175,17 @@ public class Robot extends TimedRobot {
                 RobotMap.isIntakeDown = true;
             }
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-            System.out.println("Down (true->false) " + RobotMap.isIntakeDown);
             Subsystems.intake.setIntakeMotors(-0.8);
             if (RobotMap.isIntakeDown) {
                 Subsystems.intake.intakeRetract();
 			    RobotMap.isIntakeDown = false;
             }
         } else {
-            System.out.println("Normal (true->false) " + RobotMap.isIntakeDown);
             Subsystems.intake.stopIntakeMotors();
             if (RobotMap.isIntakeDown) {
                 Subsystems.intake.intakeRetract();
 			    RobotMap.isIntakeDown = false;
-            } 
+            }
         }
 
         //moves helix in/out 
