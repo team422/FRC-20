@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        //switchedCamera.setSource(camera1);
+        switchedCamera.setSource(camera1);
 
         //Driver controls
         //LJoy: Velocity
@@ -106,8 +106,8 @@ public class Robot extends TimedRobot {
         //B
         //X
         //Y
-        //UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
-        //UserInterface.driverController.A.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
+        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
+        UserInterface.driverController.A.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
         //LTrig
         //RTrig
         //LSmall
@@ -117,9 +117,9 @@ public class Robot extends TimedRobot {
         //LJoy: Intake cells in/out
         //RJoy: Helix move forwards/backwards
         //UserInterface.operatorController.LJ.whenPressed(new IntakeIn()); //LJoy: Intake cells in/out
-        UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
-        UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
-        UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
+        //UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); //A: Intake extend/retract
+        //UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
+        //UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
         //UserInterface.operatorController.Y.whenPressed(new CellStopExtend()); //X: Flywheel on/off
         //UserInterface.operatorController.LB.whenPressed(new ToggleClimberBrake()); //LBump: Toggle climber brake
         //UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
@@ -131,6 +131,8 @@ public class Robot extends TimedRobot {
         
         //LSmall 
         //RSmall
+
+        Subsystems.intake.intakeExtend();
     }
 
     public void teleopPeriodic() {
@@ -138,6 +140,7 @@ public class Robot extends TimedRobot {
 
         //Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
+            System.out.println("RightJoystickUp");
             Subsystems.intake.setIntakeMotors(0.8);
             if (!RobotMap.isIntakeDown) {
                 System.out.println("down");
@@ -145,6 +148,7 @@ public class Robot extends TimedRobot {
                 RobotMap.isIntakeDown = true;
             }
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
+            System.out.println("RightJoystickDown");
             Subsystems.intake.setIntakeMotors(-0.8);
             if (RobotMap.isIntakeDown) {
                 Subsystems.intake.intakeRetract();
