@@ -53,7 +53,7 @@ public class RumbleXboxController extends XboxController {
      * @return The Y axis of the right joystick (-1 to 1).
      */
     public double getRightJoystickY() {
-        return joystick.getRawAxis(5);
+        return -joystick.getRawAxis(5);
     }
 
     /**
