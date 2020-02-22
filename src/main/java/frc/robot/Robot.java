@@ -139,16 +139,25 @@ public class Robot extends TimedRobot {
         //Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
+            if (!RobotMap.isIntakeDown) {
+                Scheduler.getInstance().add(new IntakeExtendRetract());
+            }
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
             Subsystems.intake.setIntakeMotors(-0.8);
+            if (RobotMap.isIntakeDown) {
+                Scheduler.getInstance().add(new IntakeExtendRetract());
+            }
         } else {
             Subsystems.intake.stopIntakeMotors();
+            if (RobotMap.isIntakeDown) {
+                Scheduler.getInstance().add(new IntakeExtendRetract());
+            }
         }
 
         //moves helix back 
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4){
             Subsystems.helix.setHelixMotors(0.8);
-        } else if (UserInterface.operatorController.getPOVAngle() == 0) {
+        } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
         } else {
             Subsystems.helix.setHelixMotors(0);
