@@ -7,9 +7,10 @@ import frc.robot.commands.*;
 public class FlywheelShoot extends CommandGroup {
   public FlywheelShoot(){
     addSequential(new StartStopFlywheel());
-    addSequential(new WaitCommand(8));
+    addSequential(new WaitCommand(0.6));
     addSequential(new CellStopRetract());
     addSequential(new ToggleHelix());
+
          /*wait intake ball into shooter by executing cellstopretract
          turn helix
     */
