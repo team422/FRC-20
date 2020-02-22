@@ -368,7 +368,7 @@ public class Robot extends TimedRobot {
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(false); //TODO: change on helix
+        intakeBeamBreakWidget.setBoolean(Subsystems.helix.getCellEntered());
 
         //pixy values
         try {
