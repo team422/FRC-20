@@ -4,18 +4,18 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A command to spin the intake wheels out to expel lemonade cargo.
+ * A command to stop the intake wheels.
  */
-public class IntakeOut extends Command {
+public class IntakeOff extends Command {
 
-    public IntakeOut() {
-        super("IntakeOut");
+    public IntakeOff() {
+        super("IntakeOff");
         requires(Subsystems.intake);
     }
 
     @Override
     public void initialize() {
-        Subsystems.intake.setIntakeMotors(-0.8);
+        Subsystems.intake.stopIntakeMotors();
     }
 
     @Override
@@ -29,12 +29,8 @@ public class IntakeOut extends Command {
     }
 
     @Override
-    public void interrupted() {
-        Subsystems.intake.setIntakeMotors(0);
-    }
+    public void interrupted() {}
 
     @Override
-    public void end() {
-        Subsystems.intake.setIntakeMotors(0);
-    }
+    public void end() {}
 }
