@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.UsbCamera;
@@ -14,7 +13,7 @@ import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
-
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
 
 /**
@@ -88,8 +87,8 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledPeriodic() {
-        printDataToShuffleboard();
         Scheduler.getInstance().run();
+        printDataToShuffleboard();
 
         if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
             //update auto if changed
@@ -145,18 +144,21 @@ public class Robot extends TimedRobot {
         //RSmall
 
         //Operator controls
-        //LJoy
-        //RJoy
-        //POV
-        //A
-        //B
-        //X
-        //Y
-        //LBump
-        //RBump
+        //LJoy: Intake cells in/out
+        //RJoy: Helix move forwards/backwards
+        //UserInterface.operatorController.LJ.whenPressed(new IntakeIn()); //LJoy: Intake cells in/out
+        // UserInterface.operatorController.A.whenPressed(new IntakeExtendRetract()); 
+        //A: Intake extend/retract
+        //UserInterface.operatorController.X.whenPressed(new StartStopFlywheel()); //X: Flywheel on/off        UserInterface.operatorController.B.whenPressed(new ToggleHelix()); //X: Flywheel on/off
+        //UserInterface.operatorController.Y.whenPressed(new CellStopExtendRetract()); //X: Flywheel on/off
+        //UserInterface.operatorController.Y.whenPressed(new CellStopExtend()); //X: Flywheel on/off
+        //UserInterface.operatorController.LB.whenPressed(new ToggleClimberBrake()); //LBump: Toggle climber brake
+        //UserInterface.operatorController.RB.whenPressed(new ExtendClimber()); //RBump: Extend climber
         //LTrig
-        //RTrig
-        //LSmall
+        UserInterface.operatorController.RS.whileHeld(new FlywheelShoot());//RTrigger: starts the fly shoot command
+        UserInterface.operatorController.LS.whenReleased(new FlywheelShootStop());
+        //RTrig: Fly wheel program
+        //LSmall 
         //RSmall
     }
 
@@ -165,12 +167,34 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
 
         //Intake cells in/out
-        if (UserInterface.operatorController.getLeftJoystickY() >= 0.4) {
-            Subsystems.intake.setIntakeMotors(0.7);
-        } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
-            Subsystems.intake.setIntakeMotors(-0.7);
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
+            Subsystems.intake.setIntakeMotors(0.8);
+            if (!RobotMap.isIntakeDown) {
+                System.out.println("down");
+                Subsystems.intake.intakeExtend();
+                RobotMap.isIntakeDown = true;
+            }
+        } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
+            Subsystems.intake.setIntakeMotors(-0.8);
+            if (RobotMap.isIntakeDown) {
+                Subsystems.intake.intakeRetract();
+			    RobotMap.isIntakeDown = false;
+            }
         } else {
             Subsystems.intake.stopIntakeMotors();
+            if (RobotMap.isIntakeDown) {
+                Subsystems.intake.intakeRetract();
+			    RobotMap.isIntakeDown = false;
+            }
+        }
+
+        //moves helix in/out 
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4){
+            Subsystems.helix.setHelixMotors(0.8);
+        } else if (UserInterface.operatorController.getPOVAngle() == 180) {
+            Subsystems.helix.setHelixMotors(-0.8);
+        } else {
+            Subsystems.helix.setHelixMotors(0);
         }
     }
 
@@ -338,7 +362,7 @@ public class Robot extends TimedRobot {
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(false); //TODO: change on helix
+        intakeBeamBreakWidget.setBoolean(Subsystems.helix.getCellEntered());
 
         //pixy values
         try {
@@ -348,5 +372,14 @@ public class Robot extends TimedRobot {
             blockX.setDouble(-404);
             return;
         }
+
+        //moves robot up and down during climbing
+        // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
+        //     Subsystems.climber.setClimberMotors(0.8);
+        // } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
+        //     Subsystems.climber.setClimberMotors(-0.8);
+        // } else {
+        //     Subsystems.climber.setClimberMotors(0);
+        // }
     }
 }
