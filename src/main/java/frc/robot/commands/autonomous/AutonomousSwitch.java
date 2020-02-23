@@ -59,24 +59,23 @@ public class AutonomousSwitch extends CommandGroup {
             description = "Starts at center, " + description;
 
             addSequential(new StartStopFlywheel()); //get flywheel up to speed
-            addSequential(new DriveStraight(120 - robotLength, 0.5, 8)); //drive to goal
+            addSequential(new DriveStraight(120 - robotLength + 6, 0.5, 8)); //drive to goal, temporarily shorter
             addSequential(new CellStopRetract());
             addSequential(new HelixOn()); //shoot 3 cells
             addSequential(new DriveStraight(24, 0.2, 2));
             addSequential(new HelixOff()); //stop shooting
             addSequential(new StartStopFlywheel());
-            addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
 
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {
                 description += "intakes from trench.";
 
-                addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength) : -120), 0.5, 8)); //back away from goal
+                addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength): -120), 0.5, 8)); //back away from goal
                 addSequential(new Turn(-Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
-                addSequential(new DriveStraight(Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
+                addSequential(new DriveStraight(-Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
                 addSequential(new Turn(-180 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
                 addSequential(new IntakeExtend()); //turn intake down & on
                 addSequential(new IntakeIn());
-                addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.4, 8)); //go to intake 5 cells from whole trench run
+                addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.3, 8)); //go to intake 5 cells from whole trench run
                 addSequential(new IntakeOff()); //turn intake off & up
                 addSequential(new IntakeRetract());
                 addSequential(new DriveStraight(-180, 0.5, 8)); //end closer to power port

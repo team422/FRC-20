@@ -8,7 +8,7 @@ public class Shoot extends CommandGroup {
         addSequential(new StartStopFlywheel());
         addSequential(new WaitCommand(0.6));
         addSequential(new CellStopRetract());
-        addSequential(new ToggleHelix());
+        addSequential(new HelixOn());
         addSequential(new ClearCellCount());
     }
 }
