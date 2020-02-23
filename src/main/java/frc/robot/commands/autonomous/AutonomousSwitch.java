@@ -62,7 +62,7 @@ public class AutonomousSwitch extends CommandGroup {
             addSequential(new DriveStraight(120 - robotLength, 0.5, 8)); //drive to goal
             addSequential(new CellStopRetract());
             addSequential(new HelixOn()); //shoot 3 cells
-            addSequential(new DriveStraight(12, 0.2, 2));
+            addSequential(new DriveStraight(24, 0.2, 2));
             addSequential(new HelixOff()); //stop shooting
             addSequential(new StartStopFlywheel());
             addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal

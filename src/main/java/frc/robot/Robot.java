@@ -120,7 +120,7 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
-        counting();
+        countingAuto();
     }
 
     public void teleopInit() {
@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
-        counting();
+        countingTeleop();
 
         // Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
@@ -352,10 +352,23 @@ public class Robot extends TimedRobot {
         }
     }
 
-    private void counting() {
-        if (Subsystems.helix.getCellEntered() == true && oldBroken == false) {
+    private void countingAuto() {
+        boolean isBroken = Subsystems.helix.getCellEntered();
+
+        if (isBroken && !oldBroken) {
             Subsystems.helix.cellCount++;
         }
-        oldBroken = Subsystems.helix.getCellEntered();
+        oldBroken = isBroken;
+    }
+
+    private void countingTeleop() {
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
+            boolean isBroken = Subsystems.helix.getCellEntered();
+
+            if (isBroken && !oldBroken) {
+                Subsystems.helix.cellCount++;
+            }
+            oldBroken = isBroken;
+        }
     }
 }
