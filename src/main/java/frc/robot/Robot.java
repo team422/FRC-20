@@ -11,7 +11,7 @@ import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
-// import edu.wpi.cscore.VideoSink;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
@@ -48,9 +48,9 @@ public class Robot extends TimedRobot {
 
     //SENSORS/CAMERAS
 
-    // private VideoSink switchedCamera;
+    private VideoSink switchedCamera;
     private UsbCamera camera1;
-    // private UsbCamera camera2;
+    private UsbCamera camera2;
 
     public Robot() {
         super(0.06);
@@ -65,12 +65,12 @@ public class Robot extends TimedRobot {
 
         //camera setup (not used in week 0)
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-        // camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
         camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-        // camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
-        // switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
-        // switchedCamera.setSource(camera1);
+        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        switchedCamera.setSource(camera1);
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
         // switchedCamera.setSource(camera1);
 
         //Driver controls
-        // UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
+        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
 
         //Operator controls
@@ -228,10 +228,10 @@ public class Robot extends TimedRobot {
 
         //Setup match play options and layouts
         // ***** ADD FMS INFO WIDGET MANUALLY *****
-        matchPlayTab.add(SendableCameraWrapper.wrap(camera1)) //if 1 camera used
-            .withWidget(BuiltInWidgets.kCameraStream)
-            .withPosition(3, 0)
-            .withSize(3, 3);
+        // matchPlayTab.add(SendableCameraWrapper.wrap(camera1)) //if 1 camera used
+        //     .withWidget(BuiltInWidgets.kCameraStream)
+        //     .withPosition(3, 0)
+        //     .withSize(3, 3);
 
         //cell count
         cellCountWidget = matchPlayTab.add("Power cell count", 3)
