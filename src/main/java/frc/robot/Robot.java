@@ -352,11 +352,9 @@ public class Robot extends TimedRobot {
     }
 
     private void counting() {
-        boolean updatedBroken = Subsystems.helix.getCellEntered();
-
-        if (updatedBroken == true && updatedBroken != oldBroken) {
+        if (Subsystems.helix.getCellEntered() == true && oldBroken == false) {
             Subsystems.helix.cellCount++;
         }
-        oldBroken = updatedBroken;
+        oldBroken = Subsystems.helix.getCellEntered();
     }
 }
