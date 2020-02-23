@@ -120,6 +120,7 @@ public class Robot extends TimedRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
+        counting();
     }
 
     public void teleopInit() {

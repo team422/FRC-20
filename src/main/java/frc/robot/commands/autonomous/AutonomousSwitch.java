@@ -61,8 +61,10 @@ public class AutonomousSwitch extends CommandGroup {
             addSequential(new StartStopFlywheel()); //get flywheel up to speed
             addSequential(new DriveStraight(120 - robotLength, 0.5, 8)); //drive to goal
             addSequential(new CellStopRetract());
-            addSequential(new TurnHelix(7)); //shoot 3 cells
-            addSequential(new StartStopFlywheel()); //stop flywheel
+            addSequential(new HelixOn()); //shoot 3 cells
+            addSequential(new DriveStraight(12, 0.2, 2));
+            addSequential(new HelixOff()); //stop shooting
+            addSequential(new StartStopFlywheel());
             addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
 
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {

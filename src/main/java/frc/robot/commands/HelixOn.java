@@ -3,14 +3,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
-public class TurnHelix extends Command {
+public class HelixOn extends Command {
 
     double speed = 0.8;
 
-    public TurnHelix (double Timeout) {
-        super("TurnHelix");
+    public HelixOn() {
+        super("HelixOn");
         requires(Subsystems.helix);
-        setTimeout(Timeout);
     }
 
     @Override
@@ -19,23 +18,17 @@ public class TurnHelix extends Command {
     }
 
     @Override
-    public void execute() {
-        //motors still on
-    }
+    public void execute() {}
 
     @Override
     public boolean isFinished() {
-        return isTimedOut();
+        return true;
     }
 
     @Override
-    public void interrupted() {
-        Subsystems.helix.setHelixMotors(0);
-    }
+    public void interrupted() {}
 
     @Override
-    public void end() {
-        Subsystems.helix.setHelixMotors(0);
-    }
+    public void end() {}
 
 }
