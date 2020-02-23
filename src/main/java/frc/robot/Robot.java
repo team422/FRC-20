@@ -135,36 +135,24 @@ public class Robot extends TimedRobot {
         //Operator controls
         UserInterface.operatorController.RB.whenPressed(new Shoot()); //RB: starts the fly shoot command
         UserInterface.operatorController.RB.whenReleased(new ShootStop());
+        UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract());
     }
 
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
 
-        //Intake cells in/out
+        // Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
-            if (!RobotMap.isIntakeDown) {
-                System.out.println("down");
-                Subsystems.intake.intakeExtend();
-                RobotMap.isIntakeDown = true;
-            }
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
             Subsystems.intake.setIntakeMotors(-0.8);
-            if (RobotMap.isIntakeDown) {
-                Subsystems.intake.intakeRetract();
-			    RobotMap.isIntakeDown = false;
-            }
         } else {
             Subsystems.intake.stopIntakeMotors();
-            if (RobotMap.isIntakeDown) {
-                Subsystems.intake.intakeRetract();
-			    RobotMap.isIntakeDown = false;
-            }
         }
 
         //moves helix in/out 
-        if (UserInterface.operatorController.getRightJoystickY() >= 0.4 || UserInterface.operatorController.getPOVAngle() == 0){
+        if (UserInterface.operatorController.getPOVAngle() == 0){
             Subsystems.helix.setHelixMotors(0.8);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
