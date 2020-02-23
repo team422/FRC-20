@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class Helix extends Subsystem {
-
+    
     public WPI_TalonSRX helicase;
     public DoubleSolenoid cellStop;
     public DigitalInput intakeBeamBreak;
+    public int cellCount = 3; //replace with var from helix
 
     public Helix() {
         super("Helix");
@@ -21,23 +22,18 @@ public class Helix extends Subsystem {
     }
     
     protected void initDefaultCommand() {}
-
     public void setHelixMotors(double power) {
         helicase.set(ControlMode.PercentOutput, -power);
     }
-
     public void stopHelixMotors() {
         helicase.set(ControlMode.PercentOutput, 0);
     }
-
     public boolean getCellEntered() {
         return !intakeBeamBreak.get();
     }
-
     public void cellStopOut() {
         cellStop.set(DoubleSolenoid.Value.kForward);
     }
-
     public void cellStopIn() {
         cellStop.set(DoubleSolenoid.Value.kReverse);
     }
