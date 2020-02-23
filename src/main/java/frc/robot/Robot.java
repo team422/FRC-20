@@ -11,7 +11,7 @@ import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
 import io.github.pseudoresonance.pixy2api.*;
-import edu.wpi.cscore.VideoSink;
+// import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import java.util.Map;
@@ -48,9 +48,9 @@ public class Robot extends TimedRobot {
 
     //SENSORS/CAMERAS
 
-    private VideoSink switchedCamera;
+    // private VideoSink switchedCamera;
     private UsbCamera camera1;
-    private UsbCamera camera2;
+    // private UsbCamera camera2;
 
     public Robot() {
         super(0.06);
@@ -63,14 +63,14 @@ public class Robot extends TimedRobot {
 
         Subsystems.compressor.start();
 
-        //camera setup
+        //camera setup (not used in week 0)
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-        camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+        // camera2 = CameraServer.getInstance().startAutomaticCapture(1);
         camera1.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-        camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+        // camera2.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 
-        switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
-        switchedCamera.setSource(camera1);
+        // switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
+        // switchedCamera.setSource(camera1);
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
@@ -126,14 +126,14 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        switchedCamera.setSource(camera1);
+        // switchedCamera.setSource(camera1);
 
         //Driver controls
-        UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
+        // UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
 
         //Operator controls
-        UserInterface.operatorController.RB.whenPressed(new Shoot());//RTrigger: starts the fly shoot command
+        UserInterface.operatorController.RB.whenPressed(new Shoot()); //RB: starts the fly shoot command
         UserInterface.operatorController.RB.whenReleased(new ShootStop());
     }
 
@@ -164,13 +164,22 @@ public class Robot extends TimedRobot {
         }
 
         //moves helix in/out 
-        if (UserInterface.operatorController.getRightJoystickY() >= 0.4){
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4 || UserInterface.operatorController.getPOVAngle() == 0){
             Subsystems.helix.setHelixMotors(0.8);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
         } else if (!UserInterface.operatorController.RB.get()) {
             Subsystems.helix.setHelixMotors(0);
         }
+
+        //moves robot up and down during climbing
+        // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
+        //     Subsystems.climber.setClimberMotors(0.8);
+        // } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
+        //     Subsystems.climber.setClimberMotors(-0.8);
+        // } else {
+        //     Subsystems.climber.setClimberMotors(0);
+        // }
     }
 
     /**
@@ -228,7 +237,11 @@ public class Robot extends TimedRobot {
             .withProperties(Map.of("color when false", "#7E8083", "color when true", "#00B259")).getEntry();
 
         //Setup match play options and layouts
-        // ***** ADD FMS INFO WIDGET AND CAMERA WIDGET MANUALLY *****
+        // ***** ADD FMS INFO WIDGET MANUALLY *****
+        matchPlayTab.add(SendableCameraWrapper.wrap(camera1)) //if 1 camera used
+            .withWidget(BuiltInWidgets.kCameraStream)
+            .withPosition(3, 0)
+            .withSize(3, 3);
 
         //cell count
         cellCountWidget = matchPlayTab.add("Power cell count", 3)
@@ -347,14 +360,5 @@ public class Robot extends TimedRobot {
             blockX.setDouble(-404);
             return;
         }
-
-        //moves robot up and down during climbing
-        // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
-        //     Subsystems.climber.setClimberMotors(0.8);
-        // } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
-        //     Subsystems.climber.setClimberMotors(-0.8);
-        // } else {
-        //     Subsystems.climber.setClimberMotors(0);
-        // }
     }
 }
