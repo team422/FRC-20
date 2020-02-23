@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 
     private NetworkTableEntry blockX;
 
-    private int cellCount = 3; //replace with var from helix
+    private boolean oldBroken = false;
 
     //SENSORS/CAMERAS
 
@@ -141,6 +141,7 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
+        counting();
 
         // Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
@@ -331,8 +332,8 @@ public class Robot extends TimedRobot {
         Math.abs(UserInterface.operatorController.getRightJoystickX()) > 0.1 || Math.abs(UserInterface.operatorController.getRightJoystickY()) > 0.1);
 
         //cell count
-        cellCountWidget.setDouble(cellCount);
-        overflowWidget.setBoolean(cellCount > 5);
+        cellCountWidget.setDouble(Subsystems.helix.cellCount);
+        overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
 
         //sensor values
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
@@ -348,5 +349,14 @@ public class Robot extends TimedRobot {
             blockX.setDouble(-404);
             return;
         }
+    }
+
+    private void counting() {
+        boolean updatedBroken = Subsystems.helix.getCellEntered();
+
+        if (updatedBroken == true && updatedBroken != oldBroken) {
+            Subsystems.helix.cellCount++;
+        }
+        oldBroken = updatedBroken;
     }
 }
