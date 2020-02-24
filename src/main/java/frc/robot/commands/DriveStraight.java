@@ -37,13 +37,13 @@ public class DriveStraight extends Command {
 
     @Override
     public void execute() {
-        // double correction = Subsystems.driveBase.getGyroAngle();
-        // correction *= 0.075;
-        // correction += 1.0;
+        double correction = Subsystems.driveBase.getGyroAngle();
+        correction *= 0.075;
+        correction += 1.0;
         if (forward) {
-            Subsystems.driveBase.setMotors(-speed, -speed);
+            Subsystems.driveBase.setMotors(-speed, -speed * correction);
         } else {
-            Subsystems.driveBase.setMotors(speed, speed);
+            Subsystems.driveBase.setMotors(speed * correction, speed);
         }
     }
 
