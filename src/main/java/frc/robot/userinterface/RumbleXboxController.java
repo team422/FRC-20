@@ -13,7 +13,7 @@ public class RumbleXboxController extends XboxController {
     public final JoystickButton A, B, X, Y, LB, RB, LS, RS; //_B = bumper, _S = small button near center
 
     /**
-     * @param port
+     * @param port The port the joystick is plugged into (usually 1 or 2)
      */
     public RumbleXboxController(int port) {
         super(port);

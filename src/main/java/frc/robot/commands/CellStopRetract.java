@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
+/**
+ * Retracts the cell stop.
+ */
 public class CellStopRetract extends Command {
 
     public CellStopRetract() {

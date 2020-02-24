@@ -3,6 +3,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
+/**
+ * Resets the cell count back to 0.
+ */
 public class ClearCellCount extends Command {
 
     public ClearCellCount() {
@@ -14,7 +17,7 @@ public class ClearCellCount extends Command {
 
     @Override
     public void execute() {
-        Subsystems.helix.cellCount = 0;
+        Subsystems.intake.cellCount = 0;
     }
 
     @Override

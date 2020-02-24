@@ -9,14 +9,13 @@ public class RobotMap {
     public static double rotationCap = 0.5;
     public static double wheelDiameter;
 
-    public static boolean isFastMode = false;
+    public static boolean isSpeedMode = false;
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;
-    public static boolean arePinsOut = false;
-    public static boolean isHelixToggled = false;
-    public static boolean isClimberBrakeToggled = false;
-    public static boolean isCellyToggled = false;
+    // public static boolean arePinsOut = false;
+    // public static boolean isClimberBrakeToggled = false;
+    // public static boolean isCellyToggled = false;
 
     // Drive base ports
 
@@ -33,7 +32,7 @@ public class RobotMap {
     public static int rightFlywheel;
     public static int helicase;
     public static int intakeMotor;
-    public static int climberWinch;
+    // public static int climberWinch;
 
     // Double solenoid ports
 
@@ -50,7 +49,7 @@ public class RobotMap {
 
     // Sensor ports
 
-    public static final int intakeBeamBreak = 9; //!
+    public static final int intakeBeamBreak = 9;
 
     // UI Ports
 

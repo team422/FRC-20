@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A command to stop the intake wheels.
+ * Stops the intake wheels.
  */
 public class IntakeOff extends Command {
 

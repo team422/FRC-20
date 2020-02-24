@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
 /**
- * A command to extend the intake.
+ * Extends the intake.
  */
 public class IntakeExtend extends Command {
 

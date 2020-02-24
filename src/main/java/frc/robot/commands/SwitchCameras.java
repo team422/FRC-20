@@ -6,7 +6,7 @@ import edu.wpi.cscore.UsbCamera;
 import frc.robot.RobotMap;
 
 /** 
- * A command to toggle between driver cameras seen in Shuffleboard.
+ * Toggles between driver cameras seen in Shuffleboard.
  */
 public class SwitchCameras extends Command {
 

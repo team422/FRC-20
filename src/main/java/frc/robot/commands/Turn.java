@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A Command to turn the bot a set number of degrees.
+ * Turns the bot a set number of degrees.
  */
 public class Turn extends Command {
 
