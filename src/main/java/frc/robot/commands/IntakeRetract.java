@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
 /**
- * A command to retract the intake.
+ * Retracts the intake.
  */
 public class IntakeRetract extends Command {
 

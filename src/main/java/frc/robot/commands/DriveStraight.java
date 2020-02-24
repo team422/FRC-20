@@ -5,7 +5,7 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A command to drive the robot in a straight line.
+ * Drives the robot in a straight line.
  */
 public class DriveStraight extends Command {
 

@@ -333,14 +333,14 @@ public class Robot extends TimedRobot {
         Math.abs(UserInterface.operatorController.getRightJoystickX()) > 0.1 || Math.abs(UserInterface.operatorController.getRightJoystickY()) > 0.1);
 
         //cell count
-        cellCountWidget.setDouble(Subsystems.helix.cellCount);
-        overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
+        cellCountWidget.setDouble(Subsystems.intake.cellCount);
+        overflowWidget.setBoolean(Subsystems.intake.cellCount > 5);
 
         //sensor values
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(Subsystems.helix.getCellEntered());
+        intakeBeamBreakWidget.setBoolean(Subsystems.intake.getCellEntered());
 
         //pixy values
         try {
@@ -353,20 +353,21 @@ public class Robot extends TimedRobot {
     }
 
     private void countingAuto() {
-        boolean isBroken = Subsystems.helix.getCellEntered();
+        boolean isBroken = Subsystems.intake.getCellEntered();
 
         if (isBroken && !oldBroken) {
-            Subsystems.helix.cellCount++;
+            Subsystems.intake.cellCount++;
         }
         oldBroken = isBroken;
     }
 
     private void countingTeleop() {
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
-            boolean isBroken = Subsystems.helix.getCellEntered();
+            boolean isBroken = Subsystems.intake.getCellEntered();
 
             if (isBroken && !oldBroken) {
-                Subsystems.helix.cellCount++;
+                Subsystems.intake.cellCount++;
+                //make helix go on for short amount of time
             }
             oldBroken = isBroken;
         }

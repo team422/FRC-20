@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
 /**
- * A command to toggle between the flywheel running and the flywheel stopped.
+ * Toggles between the flywheel running and the flywheel stopped.
  */
 public class StartStopFlywheel extends Command {
 
