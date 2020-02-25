@@ -41,10 +41,14 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry rightEncoders;
     private NetworkTableEntry gyroWidget;
     private NetworkTableEntry intakeBeamBreakWidget;
+    private NetworkTableEntry isSpeedModeWidget;
+    private NetworkTableEntry isCamera1Widget;
 
     private NetworkTableEntry blockX;
 
     private boolean oldBroken = false;
+    private boolean in = false;
+    private int counter = 0;
 
     //SENSORS/CAMERAS
 
@@ -127,7 +131,7 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        // switchedCamera.setSource(camera1);
+        switchedCamera.setSource(camera1);
 
         //Driver controls
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
@@ -144,6 +148,13 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
         countingTeleop();
 
+        if (in && counter < 25) {
+            counter++;
+        } else if (in && counter >= 25) {
+            in = false;
+            counter = 0;
+        }
+
         // Intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
@@ -154,7 +165,7 @@ public class Robot extends TimedRobot {
         }
 
         //moves helix in/out 
-        if (UserInterface.operatorController.getPOVAngle() == 0){
+        if (UserInterface.operatorController.getPOVAngle() == 0 || in){
             Subsystems.helix.setHelixMotors(0.8);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
@@ -250,7 +261,13 @@ public class Robot extends TimedRobot {
         rightEncoders = sensorValueLayout.add("Right encoders", 404).getEntry();
         gyroWidget = sensorValueLayout.add("Gyro", 404).getEntry();
         intakeBeamBreakWidget = sensorValueLayout.add("Intake beam break", false)
+            .withWidget(BuiltInWidgets.kBooleanBox)
             .withProperties(Map.of("color when false", "#7E8083", "color when true", "#ffe815")).getEntry();
+        isSpeedModeWidget = sensorValueLayout.add("Speed mode?", false)
+            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+        isCamera1Widget = sensorValueLayout.add("Main camera?", true)
+            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
+
 
         //vision
         blockX = visionLayout.add("blockX", 404).getEntry();
@@ -341,6 +358,8 @@ public class Robot extends TimedRobot {
         rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
         gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
         intakeBeamBreakWidget.setBoolean(Subsystems.intake.getCellEntered());
+        isSpeedModeWidget.setBoolean(RobotMap.isSpeedMode);
+        isCamera1Widget.setBoolean(RobotMap.isFirstCamera);
 
         //pixy values
         try {
@@ -362,14 +381,20 @@ public class Robot extends TimedRobot {
     }
 
     private void countingTeleop() {
-        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
-            boolean isBroken = Subsystems.intake.getCellEntered();
+        boolean isBroken = Subsystems.intake.getCellEntered();
 
+        if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
             if (isBroken && !oldBroken) {
                 Subsystems.intake.cellCount++;
-                //make helix go on for short amount of time
+                in = true;
             }
-            oldBroken = isBroken;
         }
+        if (UserInterface.operatorController.getRightJoystickY() <= -0.4) { //if is outtaking
+            if (!isBroken && oldBroken) {
+                Subsystems.intake.cellCount--;
+            }
+        }
+
+        oldBroken = isBroken;
     }
 }
