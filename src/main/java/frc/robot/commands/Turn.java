@@ -35,16 +35,16 @@ public class Turn extends Command {
     public void execute() {
         if ((degrees > 0) && !isCorrecting) {
             // Turning to the right
-            Subsystems.driveBase.setMotors(-speed, speed);
+            Subsystems.driveBase.setMotorsWithPID(-speed, speed);
         } else if ((degrees < 0) && !isCorrecting) {
             // Turning to the left
-            Subsystems.driveBase.setMotors(speed, -speed);
+            Subsystems.driveBase.setMotorsWithPID(speed, -speed);
         } else if (degrees > 0) {
             // Turned to the right, but correcting to the left
-            Subsystems.driveBase.setMotors(speed / 2, -speed / 2);
+            Subsystems.driveBase.setMotorsWithPID(speed / 2, -speed / 2);
         } else {
             // Turned to the left, but correcting to the right
-            Subsystems.driveBase.setMotors(-speed / 2, speed / 2);
+            Subsystems.driveBase.setMotorsWithPID(-speed / 2, speed / 2);
         }
     }
 
