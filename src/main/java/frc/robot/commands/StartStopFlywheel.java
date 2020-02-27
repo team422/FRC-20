@@ -9,7 +9,7 @@ import frc.robot.RobotMap;
  */
 public class StartStopFlywheel extends Command {
 
-    private final double wheelSpeed = 0.85;
+    private final double wheelSpeed = 0.77;
 
     public StartStopFlywheel() {
         super("StartStopFlywheel");
@@ -22,7 +22,8 @@ public class StartStopFlywheel extends Command {
             Subsystems.flyboi.stopWheel();
             RobotMap.isShooterOn = false;
         } else {
-            Subsystems.flyboi.spinWheel(wheelSpeed);
+            // Subsystems.flyboi.spinWheel(wheelSpeed);
+            Subsystems.flyboi.setShootWithPID(wheelSpeed, -wheelSpeed);
             RobotMap.isShooterOn = true;
         }
     }

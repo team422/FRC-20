@@ -149,6 +149,8 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
         countingTeleop();
 
+        System.out.println(Subsystems.flyboi.leftEncoder.getVelocity() / 5600);
+
         //wait for intake->helix sequence
         if (in && counter < 25) {
             counter++;
