@@ -46,9 +46,13 @@ public class Robot extends TimedRobot {
 
     private NetworkTableEntry blockX;
 
+    //TELEOP
+
     private boolean oldBroken = false;
     private boolean in = false;
     private int counter = 0;
+
+    private boolean oldTriggerOn = false;
 
     //SENSORS/CAMERAS
 
@@ -65,8 +69,6 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
-        Subsystems.compressor.start();
-
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
         camera2 = CameraServer.getInstance().startAutomaticCapture(1);
@@ -80,13 +82,11 @@ public class Robot extends TimedRobot {
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
 
-        //Driver controls
+        //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
 
-        //Operator controls
-        UserInterface.operatorController.RB.whenPressed(new Shoot()); //RBump: starts the shoot command
-        UserInterface.operatorController.RB.whenReleased(new ShootStop()); //stops shoot command on release
+        //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH, false); //default
@@ -150,14 +150,14 @@ public class Robot extends TimedRobot {
         countingTeleop();
 
         //wait for intake->helix sequence
-        if (in && counter < 25) {
+        if (in && counter < 13) {
             counter++;
-        } else if (in && counter >= 25) {
+        } else if (in && counter >= 12) {
             in = false;
             counter = 0;
         }
 
-        // Intake cells in/out
+        //intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
             Subsystems.intake.setIntakeMotors(0.8);
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
@@ -166,15 +166,26 @@ public class Robot extends TimedRobot {
             Subsystems.intake.stopIntakeMotors();
         }
 
-        //moves helix in/out 
-        if (UserInterface.operatorController.getPOVAngle() == 0 || in){
+        //flyboi control
+        boolean isTriggerOn = UserInterface.operatorController.getRightTrigger() >= 0.4;
+        if (isTriggerOn && !oldTriggerOn) { //if trigger was just pressed
+            Scheduler.getInstance().add(new Shoot());
+        } else if (!isTriggerOn && oldTriggerOn) { //if trigger was just released
+            Scheduler.getInstance().add(new ShootStop());
+        }
+        oldTriggerOn = isTriggerOn;
+
+        //moves helix in/out
+        if (UserInterface.operatorController.getPOVAngle() == 0) {
             Subsystems.helix.setHelixMotors(0.8);
+        } else if (in) {
+            Subsystems.helix.setHelixMotors(0.3);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.8);
-        } else if (!UserInterface.operatorController.RB.get()) {
+        } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
-
+        
         //moves robot up and down during climbing
         // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
         //     Subsystems.climber.setClimberMotors(0.8);
@@ -388,7 +399,9 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
             if (isBroken && !oldBroken) {
                 Subsystems.intake.cellCount++;
+            } else if (!isBroken && oldBroken) {
                 in = true;
+                counter = 0;
             }
         }
         if (UserInterface.operatorController.getRightJoystickY() <= -0.4) { //if is outtaking
