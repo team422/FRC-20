@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
-
 /**
  * Contains instances of all subsystems on the robot.
  */

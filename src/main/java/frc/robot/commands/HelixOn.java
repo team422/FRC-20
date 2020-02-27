@@ -16,12 +16,12 @@ public class HelixOn extends Command {
     }
 
     @Override
-    public void initialize() {
-        Subsystems.helix.setHelixMotors(speed);
-    }
+    public void initialize() {}
 
     @Override
-    public void execute() {}
+    public void execute() {
+        Subsystems.helix.setHelixMotors(speed);
+    }
 
     @Override
     public boolean isFinished() {

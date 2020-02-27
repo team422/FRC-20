@@ -15,7 +15,7 @@ public class Intake extends Subsystem {
     public WPI_TalonSRX intakeMotor;
     public DoubleSolenoid intakeExtension;
     public DigitalInput intakeBeamBreak;
-    
+
     public int cellCount = 3;
 
     public Intake() {

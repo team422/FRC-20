@@ -126,7 +126,7 @@ public class AutonomousSwitch extends CommandGroup {
 
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {
                 description += "intakes from trench.";
-                
+
                 // addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
                 // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
                 // addSequential(new DriveStraight(24, 0.5, 8)); //go to intake 5 cells from whole trench run

@@ -15,7 +15,10 @@ public class IntakeExtendRetract extends Command {
     }
 
     @Override
-    public void initialize() {
+    public void initialize() {}
+
+    @Override
+    public void execute() {
         if (RobotMap.isIntakeDown) {
             Subsystems.intake.intakeRetract();
 			RobotMap.isIntakeDown = false;
@@ -24,9 +27,6 @@ public class IntakeExtendRetract extends Command {
             RobotMap.isIntakeDown = true;
         }
     }
-
-    @Override
-    public void execute() {}
 
     @Override
     public boolean isFinished() {

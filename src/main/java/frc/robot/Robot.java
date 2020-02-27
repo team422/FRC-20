@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry intakeBeamBreakWidget;
     private NetworkTableEntry isSpeedModeWidget;
     private NetworkTableEntry isCamera1Widget;
+    private NetworkTableEntry isIntakeUpWidget;
 
     private NetworkTableEntry blockX;
 
@@ -185,7 +186,7 @@ public class Robot extends TimedRobot {
         } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
-        
+
         //moves robot up and down during climbing
         // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
         //     Subsystems.climber.setClimberMotors(0.8);
@@ -280,7 +281,8 @@ public class Robot extends TimedRobot {
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
         isCamera1Widget = sensorValueLayout.add("Main camera?", true)
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-
+        isIntakeUpWidget = sensorValueLayout.add("Is intake up?", true)
+            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
         //vision
         blockX = visionLayout.add("blockX", 404).getEntry();
@@ -373,6 +375,7 @@ public class Robot extends TimedRobot {
         intakeBeamBreakWidget.setBoolean(Subsystems.intake.getCellEntered());
         isSpeedModeWidget.setBoolean(RobotMap.isSpeedMode);
         isCamera1Widget.setBoolean(RobotMap.isFirstCamera);
+        isIntakeUpWidget.setBoolean(!RobotMap.isIntakeDown);
 
         //pixy values
         try {
@@ -384,6 +387,9 @@ public class Robot extends TimedRobot {
         }
     }
 
+    /**
+     * Counts cells intaken in auto.
+     */
     private void countingAuto() {
         boolean isBroken = Subsystems.intake.getCellEntered();
 
@@ -393,6 +399,9 @@ public class Robot extends TimedRobot {
         oldBroken = isBroken;
     }
 
+    /**
+     * Counts cells intaken or expelled in teleop.
+     */
     private void countingTeleop() {
         boolean isBroken = Subsystems.intake.getCellEntered();
 
