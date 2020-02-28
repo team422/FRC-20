@@ -11,11 +11,9 @@ import frc.robot.RobotMap;
  * The intake. Includes intake motors and pistons for intake extension.
  */
 public class Intake extends Subsystem {
-
     public WPI_TalonSRX intakeMotor;
     public DoubleSolenoid intakeExtension;
     public DigitalInput intakeBeamBreak;
-    
     public int cellCount = 3;
 
     public Intake() {
@@ -29,7 +27,7 @@ public class Intake extends Subsystem {
 
     /**
      * Spins intake motors.
-     * @param power The power at which the intake motors are set (-1 to 1).
+     * @param power The power at which the intake motors are set [-1 to 1].
      */
     public void setIntakeMotors(double power) {
         intakeMotor.set(ControlMode.PercentOutput, power);

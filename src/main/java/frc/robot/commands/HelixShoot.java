@@ -9,7 +9,8 @@ import frc.robot.userinterface.UserInterface;
  */
 public class HelixShoot extends Command {
 
-    double speed = 0.5; //might change with CTO preference
+
+    double speed = 0.85; //might change with CTO preference
 
     public HelixShoot() {
         super("HelixShoot");
@@ -23,9 +24,10 @@ public class HelixShoot extends Command {
 
     @Override
     public void execute() {
-        if(Subsystems.flyboi.leftEncoder.getVelocity() >= 0.789){
+        if(Subsystems.flyboi.getVelocity() >= 0.789){
             Subsystems.helix.setHelixMotors(speed);
-        } else {
+            Subsystems.helix.cellStopIn();
+        } else{
             Subsystems.helix.stopHelixMotors();
         }
     }
