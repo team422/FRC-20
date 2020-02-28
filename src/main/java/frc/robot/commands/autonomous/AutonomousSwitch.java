@@ -59,7 +59,7 @@ public class AutonomousSwitch extends CommandGroup {
             description = "Starts at center, " + description;
 
             addSequential(new StartStopFlywheel()); //get flywheel up to speed
-            addSequential(new DriveStraight(120 - robotLength + 6, 0.5, 8)); //drive to goal, temporarily shorter
+            addSequential(new DriveStraight(120 - robotLength - 12, 0.5, 8)); //drive to goal, temporarily shorter
             addSequential(new CellStopRetract());
             addSequential(new HelixOn()); //shoot 3 cells
             addSequential(new DriveStraight(24, 0.2, 2));
@@ -126,7 +126,7 @@ public class AutonomousSwitch extends CommandGroup {
 
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {
                 description += "intakes from trench.";
-                
+
                 // addSequential(new Turn(45, 0.3, 8)); //turn right towards trench
                 // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
                 // addSequential(new DriveStraight(24, 0.5, 8)); //go to intake 5 cells from whole trench run
