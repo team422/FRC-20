@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
         Subsystems.compressor.start();
 
         //led setup
-        led = new AddressableLED(0);
+        led = new AddressableLED(1);
         ledBuffer = new AddressableLEDBuffer(96);
         led.setLength(ledBuffer.getLength());
 
