@@ -14,9 +14,7 @@ public class IntakeIn extends Command {
     }
 
     @Override
-    public void initialize() {
-        Subsystems.intake.setIntakeMotors(0.8);
-    }
+    public void initialize() {}
 
     @Override
     public void execute() {
@@ -25,17 +23,12 @@ public class IntakeIn extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override
-    public void interrupted() {
-        Subsystems.intake.setIntakeMotors(0);
-    }
+    public void interrupted() {}
 
     @Override
-    public void end() {
-        Subsystems.intake.setIntakeMotors(0);
-    }
-
+    public void end() {}
 }

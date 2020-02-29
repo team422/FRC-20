@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * The helix, the storage mechanism, with a spinning brush and cell stop piston.
  */
 public class Helix extends Subsystem {
-    
+
     public WPI_TalonSRX helicase;
     public DoubleSolenoid cellStop;
 
@@ -19,7 +19,7 @@ public class Helix extends Subsystem {
         this.helicase = new WPI_TalonSRX(RobotMap.helicase);
         this.cellStop = new DoubleSolenoid(RobotMap.cellStopOut, RobotMap.cellStopIn);
     }
-    
+
     protected void initDefaultCommand() {}
 
     /**
