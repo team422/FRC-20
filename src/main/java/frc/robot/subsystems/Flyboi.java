@@ -28,6 +28,10 @@ public class Flyboi extends Subsystem {
         this.rightEncoder = rightFlywheel.getEncoder();
     }
 
+    public double getPower() {
+        return (leftEncoder.getVelocity()/5600);
+    }
+
     public void setShootWithPID(double leftshoot, double rightshoot) {
         leftFlywheel.setVoltage(feedforward.calculate(leftshoot) + shootPID.calculate(leftEncoder.getVelocity(), leftshoot));
         rightFlywheel.setVoltage(feedforward.calculate(rightshoot) + shootPID.calculate(rightEncoder.getVelocity(), rightshoot));
