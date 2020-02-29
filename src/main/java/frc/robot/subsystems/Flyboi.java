@@ -28,8 +28,8 @@ public class Flyboi extends Subsystem {
         this.rightEncoder = rightFlywheel.getEncoder();
     }
 
-    public double getVelocity() {
-        return leftEncoder.getVelocity()/5600;
+    public double getPower() {
+        return (leftEncoder.getVelocity()/5600);
     }
 
     public void setShootWithPID(double leftshoot, double rightshoot) {

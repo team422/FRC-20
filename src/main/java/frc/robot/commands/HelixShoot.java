@@ -9,11 +9,9 @@ import frc.robot.userinterface.UserInterface;
  */
 public class HelixShoot extends Command {
 
-    public boolean isShot = false;
-    public double numCorrect = 0;
-    public double lastVelocity;
+    public Boolean warmedUp = false;
 
-    double speed = 0.85; //might change with CTO preference
+    double speed = 0.75; //might change with CTO preference
 
     public HelixShoot() {
         super("HelixShoot");
@@ -22,31 +20,24 @@ public class HelixShoot extends Command {
 
     @Override
     public void initialize() {
+        warmedUp = false;
         Subsystems.helix.setHelixMotors(speed);
     }
 
     @Override
     public void execute() {
-        if(Subsystems.flyboi.getVelocity() >= 0.789){
-            Subsystems.helix.setHelixMotors(speed);
+        if(Subsystems.flyboi.getPower() >= 0.789) {
             Subsystems.helix.cellStopIn();
+            Subsystems.helix.setHelixMotors(speed);
+            warmedUp = true;
         } else{
             Subsystems.helix.stopHelixMotors();
-        }
-        if (Subsystems.flyboi.getVelocity() < 0.789){
-            numCorrect++;
-            if(numCorrect >= 4 && lastVelocity < Subsystems.flyboi.getVelocity()-0.05){
-                isShot = true;
+            if (warmedUp && Subsystems.flyboi.getPower() < 0.77) {
+                warmedUp = false;
+                Subsystems.intake.cellCount--;
             }
-            lastVelocity = Subsystems.flyboi.getVelocity();
         }
-        else{
-            numCorrect = 0;
-        }
-        if(isShot = true) {
-            Subsystems.intake.cellCount --;
-            isShot = false;
-        }
+
     }
 
     @Override

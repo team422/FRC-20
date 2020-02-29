@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class Shoot extends CommandGroup {
     public Shoot() {
         addSequential(new StartStopFlywheel());
-        // addSequential(new WaitCommand(0.7));
+        // addSequential(new WaitCommand(0.1));
         // addSequential(new CellStopRetract());
         addSequential(new HelixShoot());
     }
