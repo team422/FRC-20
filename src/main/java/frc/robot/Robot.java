@@ -150,12 +150,10 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
         countingTeleop();
 
-        System.out.println(Subsystems.flyboi.leftEncoder.getVelocity() / 5600);
-
         //wait for intake->helix sequence
-        if (in && counter < 13) {
+        if (in && counter < 9) {
             counter++;
-        } else if (in && counter >= 12) {
+        } else if (in) {
             in = false;
             counter = 0;
         }
@@ -180,11 +178,11 @@ public class Robot extends TimedRobot {
 
         //moves helix in/out
         if (UserInterface.operatorController.getPOVAngle() == 0) {
-            Subsystems.helix.setHelixMotors(0.8);
+            Subsystems.helix.setHelixMotors(0.9);
         } else if (in) {
-            Subsystems.helix.setHelixMotors(0.3);
+            Subsystems.helix.setHelixMotors(0.6);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
-            Subsystems.helix.setHelixMotors(-0.8);
+            Subsystems.helix.setHelixMotors(-0.9);
         } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
@@ -410,7 +408,7 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
             if (isBroken && !oldBroken) {
                 Subsystems.intake.cellCount++;
-            } else if (!isBroken && oldBroken) {
+            } else if (oldBroken) {
                 in = true;
                 counter = 0;
             }

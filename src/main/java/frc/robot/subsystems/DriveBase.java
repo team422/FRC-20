@@ -84,8 +84,8 @@ public class DriveBase extends Subsystem {
 
         this.gyro = new ADXRS450_Gyro(kGyroPort);
 
-        drivePID = new PIDController(2.0, 1.0, 0.0);
-        feedforward = new SimpleMotorFeedforward(1.0, 1.0, 1.0);
+        drivePID = new PIDController(8.0, 1.0, 0.0);
+        feedforward = new SimpleMotorFeedforward(1.0, 1.0, 0.0);
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);

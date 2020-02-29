@@ -34,13 +34,13 @@ public class TankDrive extends Command {
             if (block != null) {
                 System.out.println(block);
                 if (block.getX() > (frameWidth / 2)) {
-                    Subsystems.driveBase.setMotors(0.1, 0.3); //consider adding speed to right motors
+                    Subsystems.driveBase.setMotorsWithPID(0.1, 0.3); //consider adding speed to right motors
                     return;
                 } else if (block.getX() < (frameWidth / 2)) {
-                    Subsystems.driveBase.setMotors(0.3, 0.1); //consider adding speed to left motors
+                    Subsystems.driveBase.setMotorsWithPID(0.3, 0.1); //consider adding speed to left motors
                     return;
                 } else if (block.getWidth() > 20) {
-                    Subsystems.driveBase.setMotors(0.1, 0.1);
+                    Subsystems.driveBase.setMotorsWithPID(0.1, 0.1);
                     return;
                 } else {
                     System.out.println("Too small boi");
