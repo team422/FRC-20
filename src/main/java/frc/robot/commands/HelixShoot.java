@@ -26,13 +26,13 @@ public class HelixShoot extends Command {
 
     @Override
     public void execute() {
-        if(Subsystems.flyboi.getPower() >= 0.789) {
+        if(Subsystems.flyboi.getPower() >= 0.796) {
             Subsystems.helix.cellStopIn();
             Subsystems.helix.setHelixMotors(speed);
             warmedUp = true;
         } else{
             Subsystems.helix.stopHelixMotors();
-            if (warmedUp && Subsystems.flyboi.getPower() < 0.77) {
+            if (warmedUp && Subsystems.flyboi.getPower() < 0.776) {
                 warmedUp = false;
                 Subsystems.intake.cellCount--;
             }

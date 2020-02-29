@@ -152,9 +152,9 @@ public class Robot extends TimedRobot {
         System.out.println(Subsystems.flyboi.getPower());
 
         //wait for intake->helix sequence
-        if (in && counter < 25) {
+        if (in && counter < 15) {
             counter++;
-        } else if (in && counter >= 25) {
+        } else if (in && counter >= 15) {
             in = false;
             counter = 0;
         }
