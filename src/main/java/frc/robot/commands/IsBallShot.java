@@ -22,21 +22,22 @@ public class IsBallShot extends Command {
 
     @Override
     public void execute() {
+        
         if (Subsystems.flyboi.getVelocity() < 0.789){
             numCorrect++;
-            if(numCorrect >= 5 && lastVelocity + 0.5 < Subsystems.flyboi.getVelocity()){
+            if(numCorrect >= 5 && lastVelocity < Subsystems.flyboi.getVelocity()-0.2){
                 isShot = true;
             }
             lastVelocity = Subsystems.flyboi.getVelocity();
         }
-        else if(){
+        else{
             numCorrect = 0;
         }
     }
 
     @Override
     public boolean isFinished() {
-        return;
+        return true;
     }
 
     @Override

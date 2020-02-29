@@ -9,6 +9,9 @@ import frc.robot.userinterface.UserInterface;
  */
 public class HelixShoot extends Command {
 
+    public boolean isShot = false;
+    public double numCorrect = 0;
+    public double lastVelocity;
 
     double speed = 0.85; //might change with CTO preference
 
@@ -29,6 +32,20 @@ public class HelixShoot extends Command {
             Subsystems.helix.cellStopIn();
         } else{
             Subsystems.helix.stopHelixMotors();
+        }
+        if (Subsystems.flyboi.getVelocity() < 0.789){
+            numCorrect++;
+            if(numCorrect >= 4 && lastVelocity < Subsystems.flyboi.getVelocity()-0.05){
+                isShot = true;
+            }
+            lastVelocity = Subsystems.flyboi.getVelocity();
+        }
+        else{
+            numCorrect = 0;
+        }
+        if(isShot = true) {
+            Subsystems.intake.cellCount --;
+            isShot = false;
         }
     }
 
