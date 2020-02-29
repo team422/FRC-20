@@ -8,7 +8,7 @@ import frc.robot.subsystems.Subsystems;
  */
 public class HelixOn extends Command {
 
-    double speed = 0.8;
+    double speed = 0.5;
 
     public HelixOn() {
         super("HelixOn");
@@ -16,12 +16,12 @@ public class HelixOn extends Command {
     }
 
     @Override
-    public void initialize() {
-        Subsystems.helix.setHelixMotors(speed);
-    }
+    public void initialize() {}
 
     @Override
-    public void execute() {}
+    public void execute() {
+        Subsystems.helix.setHelixMotors(speed);
+    }
 
     @Override
     public boolean isFinished() {

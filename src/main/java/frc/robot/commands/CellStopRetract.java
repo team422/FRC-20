@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 
 /**
@@ -19,6 +20,7 @@ public class CellStopRetract extends Command {
     @Override
     public void execute() {
         Subsystems.helix.cellStopIn();
+        RobotMap.isCellStopUp = true;
     }
 
     @Override

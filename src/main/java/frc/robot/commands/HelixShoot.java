@@ -3,36 +3,46 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
+import frc.robot.RobotMap;
 
 /**
  * Turns the helix on.
  */
 public class HelixShoot extends Command {
 
-    public Boolean warmedUp = false;
+    private Boolean warmedUp = false;
+    private int counter = 0;
 
-    double speed = 0.75; //might change with CTO preference
+    private final double helixSpeed = 0.75;
+    private final double shootSpeed = 0.815;
 
     public HelixShoot() {
         super("HelixShoot");
         requires(Subsystems.helix);
+        requires(Subsystems.flyboi);
     }
 
     @Override
     public void initialize() {
         warmedUp = false;
-        Subsystems.helix.setHelixMotors(speed);
     }
 
     @Override
     public void execute() {
-        if(Subsystems.flyboi.getPower() >= 0.789) {
-            Subsystems.helix.cellStopIn();
-            Subsystems.helix.setHelixMotors(speed);
-            warmedUp = true;
-        } else{
+        System.out.println(Subsystems.flyboi.getPower());
+        if(Subsystems.flyboi.getPower() >= 0.796) {
+            if (!RobotMap.isCellStopUp) {
+                Subsystems.helix.cellStopIn();
+                RobotMap.isCellStopUp = true;
+            } else if (counter < 5) {
+                counter++;
+            } else {
+                Subsystems.helix.setHelixMotors(helixSpeed);
+                warmedUp = true;
+            }
+        } else {
             Subsystems.helix.stopHelixMotors();
-            if (warmedUp && Subsystems.flyboi.getPower() < 0.77) {
+            if (warmedUp && Subsystems.flyboi.getPower() < 0.776) {
                 warmedUp = false;
                 Subsystems.intake.cellCount--;
             }
@@ -42,7 +52,7 @@ public class HelixShoot extends Command {
 
     @Override
     public boolean isFinished() {
-        return !UserInterface.operatorController.RB.get();
+        return UserInterface.operatorController.getRightTrigger() < 0.4;
     }
 
     @Override

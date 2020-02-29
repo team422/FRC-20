@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * The shooter, composed of a single flywheel.
  */
 public class Flyboi extends Subsystem {
-    private PIDController shootPID = new PIDController(10.0, 1.0, 0.0);
+    // private PIDController shootPID = new PIDController(10.0, 1.0, 0.0);
     private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(1.0, 1.0);
     private CANSparkMax leftFlywheel;
     private CANSparkMax rightFlywheel;
@@ -33,8 +33,8 @@ public class Flyboi extends Subsystem {
     }
 
     public void setShootWithPID(double leftshoot, double rightshoot) {
-        leftFlywheel.setVoltage(feedforward.calculate(leftshoot) + shootPID.calculate(leftEncoder.getVelocity(), leftshoot));
-        rightFlywheel.setVoltage(feedforward.calculate(rightshoot) + shootPID.calculate(rightEncoder.getVelocity(), rightshoot));
+        leftFlywheel.setVoltage(feedforward.calculate(leftshoot*10.9));
+        rightFlywheel.setVoltage(feedforward.calculate(rightshoot*10.9));
     }
 
     public void initDefaultCommand() {}

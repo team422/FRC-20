@@ -13,6 +13,7 @@ public class RobotMap {
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;
+    public static boolean isCellStopUp = false;
     // public static boolean arePinsOut = false;
     // public static boolean isClimberBrakeToggled = false;
     // public static boolean isCellyToggled = false;
@@ -116,10 +117,10 @@ public class RobotMap {
             rightMiddleMaster = 10;
             rightRearFollower = 45;
             wheelDiameter = 6;
+            leftFlywheel = 1;
+            rightFlywheel = 2;
 
             //! ->
-            leftFlywheel = 422;
-            rightFlywheel = 422;
             helicase = 422;
             intakeMotor = 422;
             cellStopIn = 1;
