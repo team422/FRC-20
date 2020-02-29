@@ -135,6 +135,8 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().run();
         printDataToShuffleboard();
         countingAuto();
+
+        System.out.println(-Subsystems.driveBase.leftMiddleMaster.get());
     }
 
     public void teleopInit() {
