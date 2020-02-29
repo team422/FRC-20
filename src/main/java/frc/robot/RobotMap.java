@@ -13,6 +13,7 @@ public class RobotMap {
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;
+    public static boolean isCellStopUp = false;
     // public static boolean arePinsOut = false;
     // public static boolean isClimberBrakeToggled = false;
     // public static boolean isCellyToggled = false;
