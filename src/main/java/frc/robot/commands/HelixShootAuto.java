@@ -28,7 +28,7 @@ public class HelixShootAuto extends Command {
     @Override
     public void execute() {
         System.out.println(Subsystems.flyboi.getPower());
-        if(Subsystems.flyboi.getPower() >= 0.805) {
+        if(Subsystems.flyboi.getPower() >= 0.815) {
             if (!RobotMap.isCellStopUp) {
                 Subsystems.helix.cellStopIn();
                 RobotMap.isCellStopUp = true;
@@ -40,7 +40,7 @@ public class HelixShootAuto extends Command {
             }
         } else {
             Subsystems.helix.stopHelixMotors();
-            if (warmedUp && Subsystems.flyboi.getPower() < 0.780) {
+            if (warmedUp && Subsystems.flyboi.getPower() < 0.800) {
                 warmedUp = false;
                 Subsystems.intake.cellCount--;
                 System.out.println("BALL SHOT, " + Subsystems.intake.cellCount + " BALLS REMAINING");

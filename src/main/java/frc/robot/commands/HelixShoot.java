@@ -28,7 +28,7 @@ public class HelixShoot extends Command {
     @Override
     public void execute() {
         System.out.println(Subsystems.flyboi.getPower());
-        if(Subsystems.flyboi.getPower() >= 0.805) {
+        if(Subsystems.flyboi.getPower() >= 0.795) {
             if (!RobotMap.isCellStopUp) {
                 Subsystems.helix.cellStopIn();
                 RobotMap.isCellStopUp = true;

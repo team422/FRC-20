@@ -67,16 +67,16 @@ public class AutonomousSwitch extends CommandGroup {
             if (IntakeSource == AutonomousSwitch.IntakeSource.TRENCH) {
                 description += "intakes from trench.";
 
-                // addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength): -120), 0.5, 8)); //back away from goal
-                // addSequential(new Turn(-Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
-                // addSequential(new DriveStraight(-Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.7, 8)); //go towards trench until aligned
-                // addSequential(new Turn(-180 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
-                // addSequential(new IntakeExtend()); //turn intake down & on
-                // addSequential(new IntakeIn());
-                // addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.3, 8)); //go to intake 5 cells from whole trench run
-                // addSequential(new IntakeOff()); //turn intake off & up
-                // addSequential(new IntakeRetract());
-                // addSequential(new DriveStraight(-180, 0.5, 8)); //end closer to power port
+                addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength): -120), 0.5, 8)); //back away from goal
+                addSequential(new Turn(90 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
+                addSequential(new DriveStraight(Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
+                addSequential(new Turn(90 - Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
+                addSequential(new IntakeExtend()); //turn intake down & on
+                addSequential(new IntakeIn());
+                addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.3, 8)); //go to intake 5 cells from whole trench run
+                addSequential(new IntakeOff()); //turn intake off & up
+                addSequential(new IntakeRetract());
+                addSequential(new DriveStraight(-180, 0.5, 8)); //end closer to power port
 
             } else if (IntakeSource == AutonomousSwitch.IntakeSource.RENDEZVOUS) {
                 description += "intakes from rendezvous.";
@@ -87,7 +87,7 @@ public class AutonomousSwitch extends CommandGroup {
                 // addSequential(new Turn(90, 0.3, 8)); //turn towards first 2 cells
                 // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
                 // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake those 2 cells & cross 2x4
-                // addSequential(new Turn(90, 0.3, 8)); //turn towards 3 remaining cells
+                // addSequential(new Turn(90, 0.3,   8)); //turn towards 3 remaining cells
                 // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake further cells
                 // addSequential(new Turn(90, 0.3, 8)); //turn towards closer cells
                 // addSequential(new DriveStraight(6, 0.5, 8)); //go to intake last of 3 cells
@@ -99,9 +99,9 @@ public class AutonomousSwitch extends CommandGroup {
                 description += "intakes 3 from trench + 2 from rendezvous.";
 
                 addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength) : -120), 0.5, 8)); //back away from goal
-                addSequential(new Turn(-Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
+                addSequential(new Turn(90 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
                 addSequential(new DriveStraight(Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
-                addSequential(new Turn(-180 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
+                addSequential(new Turn(90 - Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
                 addSequential(new IntakeExtend()); //turn intake down & on
                 addSequential(new IntakeIn());
                 addSequential(new DriveStraight((pushRobot ? 116 + (1.5*robotLength) : 116), 0.4, 8)); //go to intake first 3 cells from trench
