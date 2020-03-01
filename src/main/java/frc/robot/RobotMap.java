@@ -5,11 +5,11 @@ package frc.robot;
  */
 public class RobotMap {
 
-    public static double speedCap = 0.25;
-    public static double rotationCap = 0.5;
+    public static double speedCap = 0.8;
+    public static double rotationCap = 0.7;
     public static double wheelDiameter;
 
-    public static boolean isSpeedMode = false;
+    public static boolean isSpeedMode = true;
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
     public static boolean isShooterOn = false;

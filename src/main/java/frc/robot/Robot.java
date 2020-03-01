@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
-        RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
+        RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
 
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
@@ -89,6 +89,8 @@ public class Robot extends TimedRobot {
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
+        UserInterface.operatorController.Y.whenPressed(new CellStopRetract());
+        UserInterface.operatorController.B.whenPressed(new CellStopExtend());
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH, false); //default
         //setup Shuffleboard interface
@@ -158,9 +160,9 @@ public class Robot extends TimedRobot {
 
         //intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-            Subsystems.intake.setIntakeMotors(0.8);
+            Subsystems.intake.setIntakeMotors(0.9);
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-            Subsystems.intake.setIntakeMotors(-0.8);
+            Subsystems.intake.setIntakeMotors(-0.9);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
