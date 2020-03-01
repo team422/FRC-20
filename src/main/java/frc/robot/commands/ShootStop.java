@@ -9,6 +9,6 @@ public class ShootStop extends CommandGroup {
     public ShootStop () {
         addSequential(new HelixOff());
         addSequential(new CellStopExtend());
-        addSequential(new StartStopFlywheel());
+        addSequential(new StopFlywheel());
     }
 }

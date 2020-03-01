@@ -14,6 +14,8 @@ public class Helix extends Subsystem {
     public WPI_TalonSRX helicase;
     public DoubleSolenoid cellStop;
 
+    public int cellCount = 3;
+
     public Helix() {
         super("Helix");
         this.helicase = new WPI_TalonSRX(RobotMap.helicase);

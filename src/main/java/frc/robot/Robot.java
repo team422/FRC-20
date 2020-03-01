@@ -10,7 +10,7 @@ import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
-import io.github.pseudoresonance.pixy2api.*;
+// import io.github.pseudoresonance.pixy2api.*;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -45,7 +45,8 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry isCamera1Widget;
     private NetworkTableEntry isIntakeUpWidget;
 
-    private NetworkTableEntry blockX;
+    private NetworkTableEntry flywheelSpeedChooser;
+    private NetworkTableEntry currentFlywheelWidget;
 
     //TELEOP
 
@@ -81,7 +82,6 @@ public class Robot extends TimedRobot {
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
-        RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
 
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
@@ -89,8 +89,8 @@ public class Robot extends TimedRobot {
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
-        UserInterface.operatorController.Y.whenPressed(new CellStopRetract());
-        UserInterface.operatorController.B.whenPressed(new CellStopExtend());
+        UserInterface.operatorController.Y.whenPressed(new CellStopRetract()); //Y: Cell up while held + helix runs backwards to unjam power cell
+        UserInterface.operatorController.Y.whenReleased(new CellStopExtend());
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH, false); //default
         //setup Shuffleboard interface
@@ -179,10 +179,12 @@ public class Robot extends TimedRobot {
         //moves helix in/out
         if (UserInterface.operatorController.getPOVAngle() == 0) {
             Subsystems.helix.setHelixMotors(0.9);
-        } else if (in) {
-            Subsystems.helix.setHelixMotors(0.75);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.9);
+        } else if (UserInterface.operatorController.Y.get()) {
+            Subsystems.helix.setHelixMotors(-0.5);
+        } else if (in) {
+            Subsystems.helix.setHelixMotors(0.75);
         } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
@@ -215,7 +217,7 @@ public class Robot extends TimedRobot {
             .withProperties(Map.of("number of columns", 4, "number of rows", 3))
             .withPosition(6, 1)
             .withSize(3, 2);
-        ShuffleboardLayout visionLayout = matchPlayTab.getLayout("vision", BuiltInLayouts.kList)
+        ShuffleboardLayout controlsLayout = matchPlayTab.getLayout("Controls", BuiltInLayouts.kList)
             .withPosition(0, 0)
             .withSize(1, 3);
 
@@ -284,8 +286,11 @@ public class Robot extends TimedRobot {
         isIntakeUpWidget = sensorValueLayout.add("Is intake up?", true)
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
-        //vision
-        blockX = visionLayout.add("blockX", 404).getEntry();
+        //controls
+        flywheelSpeedChooser = controlsLayout.add("Flywheel speed", Subsystems.flyboi.wheelSpeed)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0.770, "max", 0.830, "block increment", 0.001)).getEntry();
+        currentFlywheelWidget = controlsLayout.add("Current speed:", Subsystems.flyboi.wheelSpeed).getEntry();
 
 
         // Buttons tab
@@ -365,8 +370,14 @@ public class Robot extends TimedRobot {
         Math.abs(UserInterface.operatorController.getRightJoystickX()) > 0.1 || Math.abs(UserInterface.operatorController.getRightJoystickY()) > 0.1);
 
         //cell count
-        cellCountWidget.setDouble(Subsystems.intake.cellCount);
-        overflowWidget.setBoolean(Subsystems.intake.cellCount > 5);
+        cellCountWidget.setDouble(Subsystems.helix.cellCount);
+        overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
+
+        //control panel
+        if (Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0 != Subsystems.flyboi.wheelSpeed) {
+            Subsystems.flyboi.wheelSpeed = Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0;
+        }
+        currentFlywheelWidget.setDouble(Subsystems.flyboi.wheelSpeed);
 
         //sensor values
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
@@ -378,13 +389,13 @@ public class Robot extends TimedRobot {
         isIntakeUpWidget.setBoolean(!RobotMap.isIntakeDown);
 
         //pixy values
-        try {
-            Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
-            blockX.setDouble(block.getX());
-        } catch (java.lang.NullPointerException e) {
-            blockX.setDouble(-404);
-            return;
-        }
+        // try {
+        //     Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
+        //     blockX.setDouble(block.getX());
+        // } catch (java.lang.NullPointerException e) {
+        //     blockX.setDouble(-404);
+        //     return;
+        // }
     }
 
     /**
@@ -394,7 +405,7 @@ public class Robot extends TimedRobot {
         boolean isBroken = Subsystems.intake.getCellEntered();
 
         if (isBroken && !oldBroken) {
-            Subsystems.intake.cellCount++;
+            Subsystems.helix.cellCount++;
         }
         oldBroken = isBroken;
     }
@@ -407,8 +418,8 @@ public class Robot extends TimedRobot {
 
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
             if (isBroken && !oldBroken) {
-                Subsystems.intake.cellCount++;
-                System.out.println("BALL INTAKEN, " + Subsystems.intake.cellCount + " BALLS CONTAINED");
+                Subsystems.helix.cellCount++;
+                System.out.println("BALL INTAKEN, " + Subsystems.helix.cellCount + " BALLS CONTAINED");
             } else if (oldBroken) {
                 in = true;
                 counter = 0;
@@ -416,8 +427,8 @@ public class Robot extends TimedRobot {
         }
         if (UserInterface.operatorController.getRightJoystickY() <= -0.4) { //if is outtaking
             if (!isBroken && oldBroken) {
-                Subsystems.intake.cellCount--;
-                System.out.println("BALL OUTTAKEN, " + Subsystems.intake.cellCount + " BALLS REMAINING");
+                Subsystems.helix.cellCount--;
+                System.out.println("BALL OUTTAKEN, " + Subsystems.helix.cellCount + " BALLS REMAINING");
             }
         }
 

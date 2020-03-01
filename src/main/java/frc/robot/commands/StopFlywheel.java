@@ -1,15 +1,16 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Resets the cell count back to 0.
+ * Stops the flywheel.
  */
-public class ClearCellCount extends Command {
+public class StopFlywheel extends Command {
 
-    public ClearCellCount() {
-        super("ClearCellCount");
+    public StopFlywheel() {
+        super("StopFlywheel");
+        requires(Subsystems.flyboi);
     }
 
     @Override
@@ -17,7 +18,8 @@ public class ClearCellCount extends Command {
 
     @Override
     public void execute() {
-        Subsystems.intake.cellCount = 0;
+        Subsystems.flyboi.stopWheel();
+        System.out.println("Flywheel off");
     }
 
     @Override
