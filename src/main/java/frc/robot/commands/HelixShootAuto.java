@@ -2,22 +2,22 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
-import frc.robot.userinterface.UserInterface;
 import frc.robot.RobotMap;
 
 /**
  * Turns the helix when the flywheel is running & up to speed.
  */
-public class HelixShoot extends Command {
+public class HelixShootAuto extends Command {
 
     private Boolean warmedUp = false;
     private int counter = 0;
 
     private final double helixSpeed = 0.75;
 
-    public HelixShoot() {
-        super("HelixShoot");
+    public HelixShootAuto() {
+        super("HelixShootAuto");
         requires(Subsystems.helix);
+        requires(Subsystems.driveBase);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class HelixShoot extends Command {
 
     @Override
     public boolean isFinished() {
-        return UserInterface.operatorController.getRightTrigger() < 0.4;
+        return false;
     }
 
     @Override

@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+// import edu.wpi.first.wpilibj.controller.PIDController;
+// import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
@@ -34,8 +34,8 @@ public class DriveBase extends Subsystem {
     public WPI_TalonSRX rightRearFollowerTalon;
 
     //PID and Feedforward
-    public PIDController drivePID;
-    public SimpleMotorFeedforward feedforward;
+    // public PIDController drivePID;
+    // public SimpleMotorFeedforward feedforward;
 
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
@@ -84,8 +84,8 @@ public class DriveBase extends Subsystem {
 
         this.gyro = new ADXRS450_Gyro(kGyroPort);
 
-        drivePID = new PIDController(10.0, 3.0, 0.0);
-        feedforward = new SimpleMotorFeedforward(4, 3);
+        // drivePID = new PIDController(10.0, 3.0, 0.0);
+        // feedforward = new SimpleMotorFeedforward(4, 3);
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
@@ -151,15 +151,15 @@ public class DriveBase extends Subsystem {
         gyro.reset();
     }
 
-    /**
-     * Sets the voltage of the motors using feed forward & PID. Must be called continuously to work.
-     * @param left The necessary velocity to reach on the left motors
-     * @param right The necessary velocity to reach on the right motors
-     */
-    public void setMotorsWithPID(double left, double right) {
-        leftMiddleMaster.setVoltage(feedforward.calculate(left) + drivePID.calculate(leftMiddleMaster.get(), left));
-        rightMiddleMaster.setVoltage(feedforward.calculate(right) + drivePID.calculate(rightMiddleMaster.get(), right));
-    }
+    // /**
+    //  * Sets the voltage of the motors using feed forward & PID. Must be called continuously to work.
+    //  * @param left The necessary velocity to reach on the left motors
+    //  * @param right The necessary velocity to reach on the right motors
+    //  */
+    // public void setMotorsWithPID(double left, double right) {
+    //     leftMiddleMaster.setVoltage(feedforward.calculate(left) + drivePID.calculate(leftMiddleMaster.get(), left));
+    //     rightMiddleMaster.setVoltage(feedforward.calculate(right) + drivePID.calculate(rightMiddleMaster.get(), right));
+    // }
 
     // /**
     //  * Sets the voltage of the (turning) motors using PID

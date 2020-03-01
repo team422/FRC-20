@@ -22,10 +22,11 @@ public class StartStopFlywheel extends Command {
     @Override
     public void execute() {
         if (RobotMap.isShooterOn) {
+            System.out.println("Flywheel off");
             Subsystems.flyboi.stopWheel();
             RobotMap.isShooterOn = false;
         } else {
-            // Subsystems.flyboi.spinWheel(wheelSpeed);
+            System.out.println("Flywheel on");
             Subsystems.flyboi.setShootWithPID(wheelSpeed, -wheelSpeed);
             RobotMap.isShooterOn = true;
         }

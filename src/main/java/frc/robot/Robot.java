@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     private UsbCamera camera2;
 
     public Robot() {
-        super(0.06);
+        super(0.08);
     }
 
     public void robotInit() {
@@ -95,15 +95,17 @@ public class Robot extends TimedRobot {
         layoutShuffleboard();
     }
 
+    public void robotPeriodic() {
+        Scheduler.getInstance().run();
+        printDataToShuffleboard();
+    }
+
     public void disabledInit() {
         System.out.println("Disabled Initialized");
         Scheduler.getInstance().removeAll();
     }
 
     public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-        printDataToShuffleboard();
-
         if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
             //update auto if changed
             if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected(), enableVisionChooser.getBoolean(false))) {
@@ -132,11 +134,7 @@ public class Robot extends TimedRobot {
     }
 
     public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-        printDataToShuffleboard();
         countingAuto();
-
-        System.out.println(-Subsystems.driveBase.leftMiddleMaster.get());
     }
 
     public void teleopInit() {
@@ -148,8 +146,6 @@ public class Robot extends TimedRobot {
     }
 
     public void teleopPeriodic() {
-        Scheduler.getInstance().run();
-        printDataToShuffleboard();
         countingTeleop();
 
         //wait for intake->helix sequence
@@ -182,7 +178,7 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getPOVAngle() == 0) {
             Subsystems.helix.setHelixMotors(0.9);
         } else if (in) {
-            Subsystems.helix.setHelixMotors(0.6);
+            Subsystems.helix.setHelixMotors(0.75);
         } else if (UserInterface.operatorController.getPOVAngle() == 180) {
             Subsystems.helix.setHelixMotors(-0.9);
         } else if (!isTriggerOn) {
@@ -410,6 +406,7 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) { //if is intaking
             if (isBroken && !oldBroken) {
                 Subsystems.intake.cellCount++;
+                System.out.println("BALL INTAKEN, " + Subsystems.intake.cellCount + " BALLS CONTAINED");
             } else if (oldBroken) {
                 in = true;
                 counter = 0;
@@ -418,6 +415,7 @@ public class Robot extends TimedRobot {
         if (UserInterface.operatorController.getRightJoystickY() <= -0.4) { //if is outtaking
             if (!isBroken && oldBroken) {
                 Subsystems.intake.cellCount--;
+                System.out.println("BALL OUTTAKEN, " + Subsystems.intake.cellCount + " BALLS REMAINING");
             }
         }
 

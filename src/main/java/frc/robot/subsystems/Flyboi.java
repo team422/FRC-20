@@ -13,12 +13,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
  * The shooter, composed of a single flywheel.
  */
 public class Flyboi extends Subsystem {
-    // private PIDController shootPID = new PIDController(10.0, 1.0, 0.0);
-    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(1.0, 1.0);
+
     private CANSparkMax leftFlywheel;
     private CANSparkMax rightFlywheel;
     public CANEncoder leftEncoder;
     public CANEncoder rightEncoder;
+    
+    private SimpleMotorFeedforward feedforward;
 
     public Flyboi() {
         super("Flyboi");
@@ -26,6 +27,8 @@ public class Flyboi extends Subsystem {
         this.rightFlywheel = new CANSparkMax(RobotMap.rightFlywheel, MotorType.kBrushless);
         this.leftEncoder = leftFlywheel.getEncoder();
         this.rightEncoder = rightFlywheel.getEncoder();
+
+        this.feedforward = new SimpleMotorFeedforward(1.0, 1.0);
     }
 
     public double getPower() {
