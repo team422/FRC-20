@@ -8,7 +8,7 @@ import frc.robot.subsystems.Subsystems;
  */
 public class HelixOn extends Command {
 
-    double speed = 0.5;
+    double speed = 0.9;
 
     public HelixOn() {
         super("HelixOn");

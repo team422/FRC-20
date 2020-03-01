@@ -18,10 +18,10 @@ public class SwitchGears extends Command {
     @Override
     public void execute() {
         if (RobotMap.isSpeedMode) {
-            RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
+            RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
             RobotMap.isSpeedMode = false;
         } else {
-            RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
+            RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
             RobotMap.isSpeedMode = true;
         }
     }
