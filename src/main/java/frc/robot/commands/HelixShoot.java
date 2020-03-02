@@ -14,7 +14,7 @@ public class HelixShoot extends Command {
     private Boolean warmedUp = false;
     private int counter = 0;
 
-    private final double helixSpeed = 0.75;
+    private final double helixSpeed = 0.60;
 
     public HelixShoot() {
         super("HelixShoot");

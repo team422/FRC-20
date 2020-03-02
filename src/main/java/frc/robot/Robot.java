@@ -45,8 +45,9 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry isCamera1Widget;
     private NetworkTableEntry isIntakeUpWidget;
 
-    private NetworkTableEntry flywheelSpeedChooser;
+    // private NetworkTableEntry flywheelSpeedChooser;
     private NetworkTableEntry currentFlywheelWidget;
+    private NetworkTableEntry actualFlywheelWidget;
 
     //TELEOP
 
@@ -160,9 +161,9 @@ public class Robot extends TimedRobot {
 
         //intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-            Subsystems.intake.setIntakeMotors(0.9);
+            Subsystems.intake.setIntakeMotors(0.7);
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-            Subsystems.intake.setIntakeMotors(-0.9);
+            Subsystems.intake.setIntakeMotors(-0.7);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
@@ -287,10 +288,11 @@ public class Robot extends TimedRobot {
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
         //controls
-        flywheelSpeedChooser = controlsLayout.add("Flywheel speed", Subsystems.flyboi.wheelSpeed)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", 0.770, "max", 0.830, "block increment", 0.001)).getEntry();
+        // flywheelSpeedChooser = controlsLayout.add("Flywheel speed", Subsystems.flyboi.wheelSpeed)
+        //     .withWidget(BuiltInWidgets.kNumberSlider)
+        //     .withProperties(Map.of("min", 0.770, "max", 0.830, "block increment", 0.001)).getEntry();
         currentFlywheelWidget = controlsLayout.add("Current speed:", Subsystems.flyboi.wheelSpeed).getEntry();
+        actualFlywheelWidget = controlsLayout.add("Actual speed:", 0).getEntry();
 
 
         // Buttons tab
@@ -374,10 +376,11 @@ public class Robot extends TimedRobot {
         overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
 
         //control panel
-        if (Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0 != Subsystems.flyboi.wheelSpeed) {
-            Subsystems.flyboi.wheelSpeed = Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0;
-        }
+        // if (Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0 != Subsystems.flyboi.wheelSpeed) {
+        //     Subsystems.flyboi.wheelSpeed = Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0;
+        // }
         currentFlywheelWidget.setDouble(Subsystems.flyboi.wheelSpeed);
+        actualFlywheelWidget.setDouble(Subsystems.flyboi.getPower());
 
         //sensor values
         leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());

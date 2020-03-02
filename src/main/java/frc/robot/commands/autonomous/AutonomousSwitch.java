@@ -59,7 +59,7 @@ public class AutonomousSwitch extends CommandGroup {
             description = "Starts at center, " + description;
 
             addSequential(new DriveStraight(120 - robotLength - 24, 0.5, 5)); //drive to goal
-            addSequential(new DriveStraight(14, 0.2, 3));
+            addSequential(new DriveStraight(18, 0.1, 3));
             addSequential(new StartFlywheel());
             addSequential(new HelixShoot(), 3.5); //shoot 3 cells
             addSequential(new ShootStop()); //stop shooting
@@ -73,7 +73,7 @@ public class AutonomousSwitch extends CommandGroup {
                 addSequential(new Turn(90 - Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
                 addSequential(new IntakeExtend()); //turn intake down & on
                 addSequential(new IntakeIn());
-                addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.3, 8)); //go to intake 5 cells from whole trench run
+                addSequential(new DriveStraight((pushRobot ? 180 + (1.5*robotLength) : 180), 0.2, 8)); //go to intake 5 cells from whole trench run
                 addSequential(new IntakeOff()); //turn intake off & up
                 addSequential(new IntakeRetract());
                 addSequential(new DriveStraight(-180, 0.5, 8)); //end closer to power port
