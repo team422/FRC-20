@@ -143,6 +143,7 @@ public class Robot extends TimedRobot {
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;
+        
     }
 
     public void teleopPeriodic() {
@@ -150,6 +151,7 @@ public class Robot extends TimedRobot {
         printDataToShuffleboard();
         countingTeleop();
 
+        
         //wait for intake->helix sequence
         if (in && counter < 13) {
             counter++;
