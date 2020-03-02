@@ -5,16 +5,17 @@ package frc.robot;
  */
 public class RobotMap {
 
-    public static double speedCap = 0.25;
-    public static double rotationCap = 0.5;
+    public static double speedCap = 0.8;
+    public static double rotationCap = 0.7;
     public static double wheelDiameter;
 
-    public static boolean isFastMode = false;
+    public static boolean isSpeedMode = true;
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
-    public static boolean isShooterOn = false;
-    public static boolean arePinsOut = false;
-    public static boolean isClimberBrakeToggled = false;
+    public static boolean isCellStopUp = false;
+    // public static boolean arePinsOut = false;
+    // public static boolean isClimberBrakeToggled = false;
+    // public static boolean isCellyToggled = false;
 
     // Drive base ports
 
@@ -31,7 +32,7 @@ public class RobotMap {
     public static int rightFlywheel;
     public static int helicase;
     public static int intakeMotor;
-    public static int climberWinch;
+    // public static int climberWinch;
 
     // Double solenoid ports
 
@@ -48,7 +49,7 @@ public class RobotMap {
 
     // Sensor ports
 
-    public static final int intakeBeamBreak = 6; //!
+    public static final int intakeBeamBreak = 9;
 
     // UI Ports
 
@@ -99,10 +100,10 @@ public class RobotMap {
             rightRearFollower = 4;
             wheelDiameter = 6;
 
-            leftFlywheel = 3;
-            rightFlywheel = 4;
-            helicase = 23;
-            intakeMotor = 33;
+            leftFlywheel = 1;
+            rightFlywheel = 2;
+            helicase = 33;
+            intakeMotor = 23;
             cellStopIn = 0;
             cellStopOut = 7;
             intakeExtensionIn = 1;
@@ -115,10 +116,10 @@ public class RobotMap {
             rightMiddleMaster = 10;
             rightRearFollower = 45;
             wheelDiameter = 6;
+            leftFlywheel = 1;
+            rightFlywheel = 2;
 
             //! ->
-            leftFlywheel = 422;
-            rightFlywheel = 422;
             helicase = 422;
             intakeMotor = 422;
             cellStopIn = 1;

@@ -5,7 +5,7 @@ import io.github.pseudoresonance.pixy2api.links.*;
 import java.util.ArrayList;
 
 /**
- * A Pixy2 camera connected to the roborio via an I2C port.
+ * A Pixy2 camera connected to the roborio via an I2C port, set up to track color blocks.
  */
 public class Pixy {
 
