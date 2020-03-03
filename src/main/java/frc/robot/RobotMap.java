@@ -121,12 +121,10 @@ public class RobotMap {
             rightFlywheel = 2;
             helicase = 32;
             intakeMotor = 12;
-
-            //! ->
-            cellStopIn = 1;
-            cellStopOut = 2;
-            intakeExtensionIn = 3;
-            intakeExtensionOut = 4;
+            cellStopIn = 0;
+            cellStopOut = 7;
+            intakeExtensionIn = 1;
+            intakeExtensionOut = 6;
         }
     }
 
