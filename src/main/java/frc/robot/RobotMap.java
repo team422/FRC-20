@@ -116,12 +116,13 @@ public class RobotMap {
             rightMiddleMaster = 10;
             rightRearFollower = 45;
             wheelDiameter = 6;
+
             leftFlywheel = 1;
             rightFlywheel = 2;
+            helicase = 32;
+            intakeMotor = 12;
 
             //! ->
-            helicase = 422;
-            intakeMotor = 422;
             cellStopIn = 1;
             cellStopOut = 2;
             intakeExtensionIn = 3;

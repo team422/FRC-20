@@ -68,7 +68,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        //set which bot
+        //set which bot - either COMPETITION, PRACTICE, or TOASTER
         RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
