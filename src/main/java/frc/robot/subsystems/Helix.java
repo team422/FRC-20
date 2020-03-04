@@ -29,7 +29,7 @@ public class Helix extends Subsystem {
      * @param power The power with which to spin the brush (-1 to 1).
      */
     public void setHelixMotors(double power) {
-        helicase.set(ControlMode.PercentOutput, -power);
+        helicase.set(ControlMode.PercentOutput, power); //is -power for practice bot
     }
 
     /**
