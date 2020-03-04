@@ -113,12 +113,12 @@ public class RobotMap {
             leftMiddleMaster = 29;
             leftRearFollower = 8;
             rightFrontFollower = 9;
-            rightMiddleMaster = 10;
+            rightMiddleMaster = 58;
             rightRearFollower = 45;
             wheelDiameter = 6;
 
-            leftFlywheel = 1;
-            rightFlywheel = 2;
+            leftFlywheel = 2;
+            rightFlywheel = 1;
             helicase = 32;
             intakeMotor = 12;
             cellStopIn = 0;

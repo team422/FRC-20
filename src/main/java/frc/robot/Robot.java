@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
+        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         //led setup for Helix
