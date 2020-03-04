@@ -211,7 +211,7 @@ public class Robot extends TimedRobot {
 
         
         if (currentAlliance == Alliance.Red) {
-            for(int i = 0; i<Subsystems.flyboi.getPower()*ledBufferShooter.getLength() && i< ledBufferShooter.getLength(); i++) {
+            for(int i = 0; i<(Subsystems.flyboi.getPower()/Subsystems.flyboi.wheelSpeed)*ledBufferShooter.getLength() && i< ledBufferShooter.getLength(); i++) {
                 ledBufferShooter.setRGB(i, 100, 0, 0);
             }
             for(int i = 0; i < ledBufferShooter.getLength(); i++){
@@ -219,7 +219,7 @@ public class Robot extends TimedRobot {
             }
         }
         else if (currentAlliance == Alliance.Blue) {
-            for(int i = 0; i<Subsystems.flyboi.getPower()*ledBufferShooter.getLength() && i< ledBufferShooter.getLength(); i++) {
+            for(int i = 0; i<(Subsystems.flyboi.getPower()/Subsystems.flyboi.wheelSpeed)*ledBufferShooter.getLength()&& i< ledBufferShooter.getLength(); i++) {
                 ledBufferShooter.setRGB(i, 0, 0, 100);
             }
             for(int i = 0; i < ledBufferShooter.getLength(); i++){
