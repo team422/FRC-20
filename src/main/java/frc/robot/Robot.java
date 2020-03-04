@@ -57,8 +57,10 @@ public class Robot extends TimedRobot {
     private UsbCamera camera1;
     private UsbCamera camera2;
 
-    private AddressableLED led;
-    private AddressableLEDBuffer ledBuffer;
+    private AddressableLED ledHelix;
+    private AddressableLEDBuffer ledBufferHelix;
+    private AddressableLED ledShooter;
+    private AddressableLEDBuffer ledBufferShooter;
     private Alliance currentAlliance;
     int ledTimer = 0;
 
@@ -73,13 +75,21 @@ public class Robot extends TimedRobot {
 
         Subsystems.compressor.start();
 
-        //led setup
-        led = new AddressableLED(1);
-        ledBuffer = new AddressableLEDBuffer(96);
-        led.setLength(ledBuffer.getLength());
+        //led setup for Helix
+        ledHelix = new AddressableLED(1);
+        ledBufferHelix = new AddressableLEDBuffer(80);
+        ledHelix.setLength(ledBufferHelix.getLength());
 
-        led.setData(ledBuffer);
-        led.start();
+        ledHelix.setData(ledBufferHelix);
+        ledHelix.start();
+
+        //led setup for Shooter
+        ledShooter = new AddressableLED(2);
+        ledBufferShooter = new AddressableLEDBuffer(12);
+        ledShooter.setLength(ledBufferShooter.getLength());
+
+        ledShooter.setData(ledBufferShooter);
+        ledShooter.start();
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
@@ -103,11 +113,17 @@ public class Robot extends TimedRobot {
         System.out.println("Disabled Initialized");
         Scheduler.getInstance().removeAll();
         
-        for(int i = 0; i<ledBuffer.getLength(); i++){
-            ledBuffer.setRGB(i, 0, 178, 0);
+        for(int i = 0; i<ledBufferHelix.getLength(); i++){
+            ledBufferHelix.setRGB(i, 0, 178, 0);
         }
-        ledBuffer.setRGB(95, 178, 0, 0);
-        led.setData(ledBuffer);
+        ledBufferHelix.setRGB(95, 178, 0, 0);
+        ledHelix.setData(ledBufferHelix);
+
+        for(int i = 0; i<ledBufferShooter.getLength(); i++){
+            ledBufferShooter.setRGB(i, 0, 178, 0);
+        }
+        ledBufferShooter.setRGB(95, 178, 0, 0);
+        ledShooter.setData(ledBufferShooter);
     }
 
     public void disabledPeriodic() {
@@ -199,20 +215,23 @@ public class Robot extends TimedRobot {
 
         
         if (currentAlliance == Alliance.Red) {
-            for(int i = 0; i<ledBuffer.getLength(); i++) {
-                if (i%10<5) {
-                    ledBuffer.setRGB(i, 100, 0, 0);
-                } else{
-                    ledBuffer.setRGB(i,0,100,0);
-                }
+            for(int i = 0; i<Subsystems.flyboi.getPower()*ledBufferShooter.getLength() && i< ledBufferShooter.getLength(); i++) {
+                ledBufferShooter.setRGB(i, 100, 0, 0);
+            }
+            for(int i = 0; i < ledBufferShooter.getLength(); i++){
+                ledBufferHelix.setRGB(i,100,0,0);
             }
         }
         else if (currentAlliance == Alliance.Blue) {
-            for (int i = 0; i < ledBuffer.getLength(); i++) {
-                ledBuffer.setRGB(i, 0, 0, 100);
+            for(int i = 0; i<Subsystems.flyboi.getPower()*ledBufferShooter.getLength() && i< ledBufferShooter.getLength(); i++) {
+                ledBufferShooter.setRGB(i, 0, 0, 100);
+            }
+            for(int i = 0; i < ledBufferShooter.getLength(); i++){
+                ledBufferHelix.setRGB(i,0,0,100);
             }
         }
-        led.setData(ledBuffer);
+        ledShooter.setData(ledBufferShooter);
+        ledHelix.setData(ledBufferHelix);
         ledTimer++;
     }
 
