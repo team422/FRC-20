@@ -81,19 +81,23 @@ public class AutonomousSwitch extends CommandGroup {
             } else if (IntakeSource == AutonomousSwitch.IntakeSource.RENDEZVOUS) {
                 description += "intakes from rendezvous.";
 
-                // addSequential(new DriveStraight(12, 0.5, 8)); //back away from goal
-                // addSequential(new Turn(-45, 0.3, 8)); //turn left away from rendezvous
-                // addSequential(new DriveStraight(12, 0.5, 8)); //go straight
-                // addSequential(new Turn(90, 0.3, 8)); //turn towards first 2 cells
-                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOn()); //turn intake down & on
-                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake those 2 cells & cross 2x4
-                // addSequential(new Turn(90, 0.3,   8)); //turn towards 3 remaining cells
-                // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake further cells
-                // addSequential(new Turn(90, 0.3, 8)); //turn towards closer cells
-                // addSequential(new DriveStraight(6, 0.5, 8)); //go to intake last of 3 cells
-                // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
-                // addSequential(new Turn(135, 0.3, 8)); //turn so shooter faces towards power port
-                // addSequential(new DriveStraight(12, 0.5, 8)); //end across 2x4, closer to power port
+                addSequential(new DriveStraight((pushRobot ? -120 + (1.5*robotLength): -120), 0.5, 8));
+                addSequential(new Turn(-90 - Math.toDegrees(Math.atan((86.63-0.5*robotLength)/115)), 0.3, 8)); //turn left away from rendezvous
+                addSequential(new DriveStraight(115*(1/Math.cos(1/Math.atan((86.63-0.5*robotLength)/115))), 0.5, 8)); //go straight
+                addSequential(new Turn(-Math.toDegrees(Math.atan((86.63-0.5*robotLength)/115))-22.5, 0.3, 8)); //turn towards first 2 cells
+                addSequential(new DriveStraight(115*Math.tan(Math.toDegrees(22.5))*Math.cos(Math.toDegrees(22.5)), 0.5, 8)); //go to intake those 2 cells & cross 2x4
+                addSequential(new Turn(-90, 0.3, 8)); //turn towards 3 remaining cells
+                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                addSequential(new DriveStraight((1/Math.sin(Math.toDegrees(22.5))*(115*Math.toDegrees(Math.tan(22.5)))), 0.5, 8)); //go to intake further cells
+                addSequential(new Turn(90, 0.3, 8)); //turn towards closer cells
+                addSequential(new DriveStraight(90, 0.5, 8)); //go to intake last of 3 cells
+                addSequential(new Turn(-90, 0.3, 8)); //turn so shooter faces towards power port
+                addSequential(new DriveStraight(30, 0.5, 8)); //go to intake last of 3 cells
+                addSequential(new Turn(-90, 0.3, 8)); //turn so shooter faces towards power port
+                addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
+                addSequential(new DriveStraight(80, 0.5, 8)); //go to intake last of 3 cells
+                addSequential(new Turn(90, 0.3, 8)); //turn so shooter faces towards power port
+                addSequential(new DriveStraight(30, 0.5, 8)); //end across 2x4, closer to power port
 
             } else if (IntakeSource == AutonomousSwitch.IntakeSource.MIXED) {
                 description += "intakes 3 from trench + 2 from rendezvous.";
@@ -102,11 +106,20 @@ public class AutonomousSwitch extends CommandGroup {
                 addSequential(new Turn(90 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
                 addSequential(new DriveStraight(Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
                 addSequential(new Turn(90 - Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
-                addSequential(new IntakeExtend()); //turn intake down & on
+                addSequential(new IntakeExtendRetract()); //turn intake down & on
                 addSequential(new IntakeIn());
-                addSequential(new DriveStraight((pushRobot ? 116 + (1.5*robotLength) : 116), 0.4, 8)); //go to intake first 3 cells from trench
-
-                // addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                addSequential(new DriveStraight((pushRobot ? 117 + (1.5*robotLength) : 117), 0.4, 8)); //go to intake first 3 cells from trench
+                addSequential(new IntakeOff());
+                addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                addSequential(new DriveStraight(44.3185, 0.4, 5));
+                addSequential(new Turn(67.5, 0.4, 5));
+                addSequential(new IntakeIn());
+                addSequential(new DriveStraight(110.5575, 0.4, 10));
+                addSequential(new IntakeOff());
+                addSequential(new IntakeExtendRetract());
+                addSequential(new DriveStraight(-47.77875, 0.4, 5));
+                addSequential(new Turn(22.5, 0.4, 3));
+                addSequential(new DriveStraight(310, 0.4, 15));
                 // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
                 // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
                 // addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
