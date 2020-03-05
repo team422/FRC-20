@@ -106,11 +106,20 @@ public class AutonomousSwitch extends CommandGroup {
                 addSequential(new Turn(90 + Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn left towards trench
                 addSequential(new DriveStraight(Math.sqrt(Math.pow(66.91, 2) + Math.pow(86.63 - (robotLength/2), 2)), 0.5, 8)); //go towards trench until aligned
                 addSequential(new Turn(90 - Math.toDegrees(Math.atan(66.91/(86.63-(robotLength/2)))), 0.3, 8)); //turn (same amount) right towards trench
-                addSequential(new IntakeExtend()); //turn intake down & on
+                addSequential(new IntakeExtendRetract()); //turn intake down & on
                 addSequential(new IntakeIn());
-                addSequential(new DriveStraight((pushRobot ? 116 + (1.5*robotLength) : 116), 0.4, 8)); //go to intake first 3 cells from trench
-
-                // addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                addSequential(new DriveStraight((pushRobot ? 117 + (1.5*robotLength) : 117), 0.4, 8)); //go to intake first 3 cells from trench
+                addSequential(new IntakeOff());
+                addSequential(new Turn(90, 0.3, 8)); //turn right towards remaining rendezvous cells
+                addSequential(new DriveStraight(44.3185, 0.4, 5));
+                addSequential(new Turn(67.5, 0.4, 5));
+                addSequential(new IntakeIn());
+                addSequential(new DriveStraight(110.5575, 0.4, 10));
+                addSequential(new IntakeOff());
+                addSequential(new IntakeExtendRetract());
+                addSequential(new DriveStraight(-47.77875, 0.4, 5));
+                addSequential(new Turn(22.5, 0.4, 3));
+                addSequential(new DriveStraight(310, 0.4, 15));
                 // addSequential(new DriveStraight(12, 0.5, 8)); //go to intake 2 final cells
                 // addSequential(new WaitCommand(1)); //addSequential(new IntakeOff()); //turn intake off & up
                 // addSequential(new DriveStraight(-6, 0.5, 8)); //back up a lil
