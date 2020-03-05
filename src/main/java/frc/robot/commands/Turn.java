@@ -41,10 +41,10 @@ public class Turn extends Command {
             Subsystems.driveBase.setMotors(speed, -speed);
         } else if (degrees > 0) {
             // Turned to the right, but correcting to the left
-            Subsystems.driveBase.setMotors(speed / 2, -speed / 2);
+            Subsystems.driveBase.setMotors(speed / 1.5, -speed / 1.5);
         } else {
             // Turned to the left, but correcting to the right
-            Subsystems.driveBase.setMotors(-speed / 2, speed / 2);
+            Subsystems.driveBase.setMotors(-speed / 1.5, speed / 1.5);
         }
     }
 
