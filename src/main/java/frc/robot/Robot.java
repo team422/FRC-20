@@ -144,6 +144,8 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
+        Scheduler.getInstance().add(new ShootStop());
+
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;
     }
@@ -161,9 +163,9 @@ public class Robot extends TimedRobot {
 
         //intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {
-            Subsystems.intake.setIntakeMotors(0.7);
+            Subsystems.intake.setIntakeMotors(0.85);
         } else if (UserInterface.operatorController.getRightJoystickY() <= -0.4) {
-            Subsystems.intake.setIntakeMotors(-0.7);
+            Subsystems.intake.setIntakeMotors(-0.85);
         } else {
             Subsystems.intake.stopIntakeMotors();
         }
@@ -172,6 +174,7 @@ public class Robot extends TimedRobot {
         boolean isTriggerOn = UserInterface.operatorController.getRightTrigger() >= 0.4;
         if (isTriggerOn && !oldTriggerOn) { //if trigger was just pressed
             Scheduler.getInstance().add(new Shoot());
+            System.out.println("Shooter speed is " + Subsystems.flyboi.getPower());
         } else if (!isTriggerOn && oldTriggerOn) { //if trigger was just released
             Scheduler.getInstance().add(new ShootStop());
         }

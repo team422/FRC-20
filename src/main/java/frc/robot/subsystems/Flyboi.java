@@ -18,7 +18,7 @@ public class Flyboi extends Subsystem {
     public CANEncoder rightEncoder;
     private SimpleMotorFeedforward feedforward;
 
-    public double wheelSpeed = 0.760; //0.760
+    public double wheelSpeed = 0.81; 
 
     public Flyboi() {
         super("Flyboi");
@@ -27,7 +27,7 @@ public class Flyboi extends Subsystem {
         this.leftEncoder = leftFlywheel.getEncoder();
         this.rightEncoder = rightFlywheel.getEncoder();
 
-        this.feedforward = new SimpleMotorFeedforward(1.0, 1.0);
+        this.feedforward = new SimpleMotorFeedforward(1.05, 1.0);
     }
 
     public void initDefaultCommand() {}
