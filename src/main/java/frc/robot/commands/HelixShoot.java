@@ -11,7 +11,7 @@ import frc.robot.RobotMap;
  */
 public class HelixShoot extends Command {
 
-    private Boolean warmedUp = false;
+    private boolean warmedUp = false;
     private int counter = 0;
 
     private final double helixSpeed = 0.60;
@@ -31,7 +31,7 @@ public class HelixShoot extends Command {
         System.out.println(Subsystems.flyboi.getPower());
         if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.005) {
             if (!RobotMap.isCellStopUp) {
-                // Subsystems.helix.cellStopIn();
+                Subsystems.helix.cellStopIn();
                 RobotMap.isCellStopUp = true;
             } else if (counter < 5) {
                 counter++;

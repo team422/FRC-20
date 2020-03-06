@@ -10,7 +10,6 @@ import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.*;
-// import io.github.pseudoresonance.pixy2api.*;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -29,7 +28,6 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry pushRobotChooser;
     private SendableChooser<AutonomousSwitch.IntakeSource> intakeChooser;
     private NetworkTableEntry autoLabel;
-    private NetworkTableEntry enableVisionChooser;
 
     private NetworkTableEntry driverControllerWidget;
     private NetworkTableEntry operatorControllerWidget;
@@ -45,7 +43,6 @@ public class Robot extends TimedRobot {
     private NetworkTableEntry isCamera1Widget;
     private NetworkTableEntry isIntakeUpWidget;
 
-    // private NetworkTableEntry flywheelSpeedChooser;
     private NetworkTableEntry currentFlywheelWidget;
     private NetworkTableEntry actualFlywheelWidget;
 
@@ -68,9 +65,7 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
-        System.out.println("Initializing " + RobotMap.botName + "\n");
+        System.out.println("Initializing Argos"); //hardcoded for comp
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
@@ -90,10 +85,9 @@ public class Robot extends TimedRobot {
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
-        UserInterface.operatorController.Y.whenPressed(new CellStopRetract()); //Y: Cell up while held + helix runs backwards to unjam power cell
-        UserInterface.operatorController.Y.whenReleased(new CellStopExtend());
+        UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
 
-        autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH, false); //default
+        autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH); //default
         //setup Shuffleboard interface
         layoutShuffleboard();
     }
@@ -111,8 +105,8 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
         if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
             //update auto if changed
-            if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected(), enableVisionChooser.getBoolean(false))) {
-                autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected(), enableVisionChooser.getBoolean(false));
+            if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected())) {
+                autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
                 autoLabel.setString(autonomous.description);
             }
         } else {
@@ -127,7 +121,7 @@ public class Robot extends TimedRobot {
 
         if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
             //update auto
-            autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected(), enableVisionChooser.getBoolean(false));
+            autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
             autoLabel.setString(autonomous.description);
         } else {
             autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP=" + autonomous.startingPosition + ", D=" + Math.round(autonomous.delay*100.0)/100.0 +
@@ -144,7 +138,7 @@ public class Robot extends TimedRobot {
         System.out.println("TeleOp Initalized");
         Scheduler.getInstance().removeAll();
 
-        Scheduler.getInstance().add(new ShootStop());
+        Scheduler.getInstance().add(new ShootStop()); //in case was disabled while spinning
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;
@@ -159,6 +153,10 @@ public class Robot extends TimedRobot {
         } else if (in) {
             in = false;
             counter = 0;
+        }
+
+        if (UserInterface.operatorController.LS.get()) {
+            return; //remove functionality of spinning while vomiting
         }
 
         //intake cells in/out
@@ -192,15 +190,6 @@ public class Robot extends TimedRobot {
         } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
-
-        //moves robot up and down during climbing
-        // if (UserInterface.operatorController.getLeftJoystickY() >= 0.4){
-        //     Subsystems.climber.setClimberMotors(0.8);
-        // } else if (UserInterface.operatorController.getLeftJoystickY() <= -0.4) {
-        //     Subsystems.climber.setClimberMotors(-0.8);
-        // } else {
-        //     Subsystems.climber.setClimberMotors(0);
-        // }
     }
 
     /**
@@ -246,8 +235,6 @@ public class Robot extends TimedRobot {
         autonomousChooserLayout.add("Intake source", intakeChooser)
             .withWidget(BuiltInWidgets.kComboBoxChooser);
         autoLabel = autonomousChooserLayout.add("Current autonomous", "Starts in center, shoots after a delay of 0, doesn't push robot, intakes from trench").getEntry();
-        enableVisionChooser = autonomousChooserLayout.add("Enable vision mode?", false)
-            .withWidget(BuiltInWidgets.kToggleButton).getEntry();
 
         //Setup controller ID in pre-match
         driverControllerWidget = controllerIDLayout.add("Driver Controller", false)
@@ -291,77 +278,8 @@ public class Robot extends TimedRobot {
             .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
 
         //controls
-        // flywheelSpeedChooser = controlsLayout.add("Flywheel speed", Subsystems.flyboi.wheelSpeed)
-        //     .withWidget(BuiltInWidgets.kNumberSlider)
-        //     .withProperties(Map.of("min", 0.770, "max", 0.830, "block increment", 0.001)).getEntry();
         currentFlywheelWidget = controlsLayout.add("Current speed:", Subsystems.flyboi.wheelSpeed).getEntry();
         actualFlywheelWidget = controlsLayout.add("Actual speed:", 0).getEntry();
-
-
-        // Buttons tab
-
-        ShuffleboardTab buttonTab = Shuffleboard.getTab("Buttons");
-
-        ShuffleboardLayout driverButtonsLayout = buttonTab.getLayout("Driver Controller", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 3, "number of rows", 3, "label position", "HIDDEN"))
-            .withPosition(0, 0)
-            .withSize(4, 3);
-        ShuffleboardLayout operatorButtonsLayout = buttonTab.getLayout("Operator Controller", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 3, "number of rows", 3, "label position", "HIDDEN"))
-            .withPosition(4, 0)
-            .withSize(5, 3);
-
-        ShuffleboardLayout driverUpperLeftLayout = driverButtonsLayout.getLayout("Driver upper left layout", BuiltInLayouts.kList);
-            driverUpperLeftLayout.add("Left trigger", "LT");
-            driverUpperLeftLayout.add("Left bumper", "LB");
-        driverButtonsLayout.add("Left joystick", "LJ"); //middle left
-        ShuffleboardLayout driverLowerLeftLayout = driverButtonsLayout.getLayout("Driver lower left layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            driverLowerLeftLayout.add("POV ^", "POV^");
-            driverLowerLeftLayout.add("POV v", "POVv");
-        ShuffleboardLayout driverUpperMiddleLayout = driverButtonsLayout.getLayout("Driver upper middle layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            driverUpperMiddleLayout.add("Left small", "LS");
-            driverUpperMiddleLayout.add("Right small", "RS");
-        driverButtonsLayout.add("-", "-"); //placeholder for true neutral
-        driverButtonsLayout.add("Right joystick", "RJ"); //lower middle
-        ShuffleboardLayout driverUpperRightLayout = driverButtonsLayout.getLayout("Driver upper right layout", BuiltInLayouts.kList);
-            driverUpperRightLayout.add("Right trigger", "RT");
-            driverUpperRightLayout.add("Right bumper", "RB");
-        ShuffleboardLayout driverMiddleRightLayout = driverButtonsLayout.getLayout("Driver middle right layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            driverMiddleRightLayout.add("X", "X");
-            driverMiddleRightLayout.add("Y", "Y");
-        ShuffleboardLayout driverLowerRightLayout = driverButtonsLayout.getLayout("Driver lower right layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            driverLowerRightLayout.add("A", "A");
-            driverLowerRightLayout.add("B", "B");
-
-        ShuffleboardLayout operatorUpperLeftLayout = operatorButtonsLayout.getLayout("Operator upper left layout", BuiltInLayouts.kList);
-            operatorUpperLeftLayout.add("Left trigger", "LT");
-            operatorUpperLeftLayout.add("Left bumper", "LB");
-        operatorButtonsLayout.add("Left joystick", "LJ"); //middle left
-        ShuffleboardLayout operatorLowerLeftLayout = operatorButtonsLayout.getLayout("Operator lower left layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            operatorLowerLeftLayout.add("POV ^", "POV^");
-            operatorLowerLeftLayout.add("POV v", "POVv");
-        ShuffleboardLayout operatorUpperMiddleLayout = operatorButtonsLayout.getLayout("Operator upper middle layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            operatorUpperMiddleLayout.add("Left small", "LS");
-            operatorUpperMiddleLayout.add("Right small", "RS");
-        operatorButtonsLayout.add("-", "-"); //placeholder for true neutral
-        operatorButtonsLayout.add("Right joystick", "RJ"); //lower middle
-        ShuffleboardLayout operatorUpperRightLayout = operatorButtonsLayout.getLayout("Operator upper right layout", BuiltInLayouts.kList);
-            operatorUpperRightLayout.add("Right trigger", "RT");
-            operatorUpperRightLayout.add("Right bumper", "RB");
-        ShuffleboardLayout operatorMiddleRightLayout = operatorButtonsLayout.getLayout("Operator middle right layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            operatorMiddleRightLayout.add("X", "X");
-            operatorMiddleRightLayout.add("Y", "Y");
-        ShuffleboardLayout operatorLowerRightLayout = operatorButtonsLayout.getLayout("Operator lower right layout", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
-            operatorLowerRightLayout.add("A", "A");
-            operatorLowerRightLayout.add("B", "B");
     }
 
     /**
@@ -379,9 +297,6 @@ public class Robot extends TimedRobot {
         overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
 
         //control panel
-        // if (Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0 != Subsystems.flyboi.wheelSpeed) {
-        //     Subsystems.flyboi.wheelSpeed = Math.round(flywheelSpeedChooser.getDouble(Subsystems.flyboi.wheelSpeed)*1000)/1000.0;
-        // }
         currentFlywheelWidget.setDouble(Subsystems.flyboi.wheelSpeed);
         actualFlywheelWidget.setDouble(Subsystems.flyboi.getPower());
 
@@ -393,15 +308,6 @@ public class Robot extends TimedRobot {
         isSpeedModeWidget.setBoolean(RobotMap.isSpeedMode);
         isCamera1Widget.setBoolean(RobotMap.isFirstCamera);
         isIntakeUpWidget.setBoolean(!RobotMap.isIntakeDown);
-
-        //pixy values
-        // try {
-        //     Pixy2CCC.Block block = Subsystems.pixy.getBiggestBlock();
-        //     blockX.setDouble(block.getX());
-        // } catch (java.lang.NullPointerException e) {
-        //     blockX.setDouble(-404);
-        //     return;
-        // }
     }
 
     /**
