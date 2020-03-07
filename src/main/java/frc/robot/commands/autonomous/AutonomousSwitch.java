@@ -191,7 +191,6 @@ public class AutonomousSwitch extends CommandGroup {
     public boolean matchesSettings(StartingPosition StartingPosition, double Delay, boolean PushRobot, IntakeSource IntakeSource) {
         return (startingPosition == StartingPosition) && (delay == Delay) && (pushRobot == PushRobot) && (intakeSource == IntakeSource);
     }
-
     /**
      * Checks if this is a valid choice.
      * @param StartingPosition
