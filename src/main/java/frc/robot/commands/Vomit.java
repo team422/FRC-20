@@ -17,7 +17,7 @@ public class Vomit extends Command {
 
     @Override
     public void initialize() {
-        Subsystems.helix.cellStopIn();
+        // Subsystems.helix.cellStopIn();
         Subsystems.flyboi.spinWheel(-0.6);
         Subsystems.helix.setHelixMotors(-0.9);
         Subsystems.intake.setIntakeMotors(-0.8);
@@ -33,7 +33,7 @@ public class Vomit extends Command {
 
     @Override
     public void interrupted() {
-        Subsystems.helix.cellStopOut();
+        // Subsystems.helix.cellStopOut();
         Subsystems.flyboi.stopWheel();
         Subsystems.helix.stopHelixMotors();
         Subsystems.intake.stopIntakeMotors();
@@ -41,7 +41,7 @@ public class Vomit extends Command {
 
     @Override
     public void end() {
-        Subsystems.helix.cellStopOut();
+        // Subsystems.helix.cellStopOut();
         Subsystems.flyboi.stopWheel();
         Subsystems.helix.stopHelixMotors();
         Subsystems.intake.stopIntakeMotors();

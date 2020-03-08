@@ -79,6 +79,7 @@ public class Robot extends TimedRobot {
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
 
+        
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
@@ -86,6 +87,9 @@ public class Robot extends TimedRobot {
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
         UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
+        UserInterface.operatorController.RS.whenPressed(new ClearCellCount()); //Right small: set cell count to 0
+        UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
+        UserInterface.operatorController.RB.whenPressed(new HelixTurn(0.3)); //start flywheel early
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH); //default
         //setup Shuffleboard interface
@@ -139,6 +143,9 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 
         Scheduler.getInstance().add(new ShootStop()); //in case was disabled while spinning
+
+        //test
+        Subsystems.helix.cellStopIn();
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;

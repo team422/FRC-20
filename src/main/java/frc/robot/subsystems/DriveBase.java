@@ -2,8 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-// import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import com.analog.adis16470.frc.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+// import com.analog.adis16470.frc.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -23,7 +23,7 @@ public class DriveBase extends Subsystem {
     public WPI_VictorSPX rightFrontFollower;
     public WPI_VictorSPX rightRearFollower;
 
-    public ADIS16470_IMU gyro;
+    public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
     public DifferentialDrive cheesyDrive;
@@ -45,7 +45,8 @@ public class DriveBase extends Subsystem {
         leftFrontFollower.setInverted(true);
         leftRearFollower.setInverted(true);
 
-        this.gyro = new ADIS16470_IMU();
+        // this.gyro = new ADIS16470_IMU();
+        this.gyro = new ADXRS450_Gyro(kGyroPort);
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);

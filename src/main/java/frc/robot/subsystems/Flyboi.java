@@ -18,7 +18,7 @@ public class Flyboi extends Subsystem {
     public CANEncoder rightEncoder;
     private SimpleMotorFeedforward feedforward;
 
-    public double wheelSpeed = 0.810;
+    public double wheelSpeed = 0.80;
 
     public Flyboi() {
         super("Flyboi");

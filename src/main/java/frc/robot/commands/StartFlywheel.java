@@ -8,9 +8,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class StartFlywheel extends Command {
 
+    private double speed;
+
     public StartFlywheel() {
         super("StartFlywheel");
         requires(Subsystems.flyboi);
+        this.speed = Subsystems.flyboi.wheelSpeed;
+    }
+
+    public StartFlywheel(double Speed) {
+        super("StartFlywheel");
+        requires(Subsystems.flyboi);
+        this.speed = Speed;
     }
 
     @Override
@@ -18,7 +27,7 @@ public class StartFlywheel extends Command {
 
     @Override
     public void execute() {
-        Subsystems.flyboi.setShootVoltage(Subsystems.flyboi.wheelSpeed);
+        Subsystems.flyboi.setShootVoltage(speed);
         System.out.println("Flywheel on");
     }
 
