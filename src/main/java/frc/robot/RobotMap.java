@@ -34,14 +34,14 @@ public class RobotMap {
     public static int rightRearFollower = 45;
     public static int wheelDiameter = 6;
 
-    public static int leftFlywheel = 1;
-    public static int rightFlywheel = 2;
+    public static int leftFlywheel = 2;
+    public static int rightFlywheel = 1;
     public static int helicase = 32;
     public static int intakeMotor = 12;
-    public static int cellStopIn = 0;
-    public static int cellStopOut = 7;
-    public static int intakeExtensionIn = 1;
-    public static int intakeExtensionOut = 6;
+    public static int cellStopIn = 7;
+    public static int cellStopOut = 0;
+    public static int intakeExtensionIn = 6;
+    public static int intakeExtensionOut = 1;
 
     /**
      * @return The speed cap for the drive base in teleop.

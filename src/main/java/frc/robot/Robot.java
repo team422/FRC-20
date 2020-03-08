@@ -86,6 +86,7 @@ public class Robot extends TimedRobot {
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
         UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
+        UserInterface.operatorController.RS.whenPressed(new ClearCellCount()); //Right small: set cell count to 0
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH); //default
         //setup Shuffleboard interface
@@ -139,6 +140,9 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 
         Scheduler.getInstance().add(new ShootStop()); //in case was disabled while spinning
+
+        //test
+        Subsystems.helix.cellStopIn();
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;
