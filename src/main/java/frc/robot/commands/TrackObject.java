@@ -25,10 +25,13 @@ public class TrackObject extends Command {
         NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
         NetworkTable table = ntinst.getTable("cellTable");
         NetworkTableEntry correction = table.getEntry("correction");
+        NetworkTableEntry test = table.getEntry("test");
+        System.out.println("team " + test + " <3");
         double correct = correction.getDouble(0);
-        if (Math.abs(correct) > 0.25) {
-            Subsystems.driveBase.setMotors(-0.25*correct, 0.25*correct);
-        }
+        System.out.println("correction is " + correct);
+        // if (Math.abs(correct) > 0.25) {
+        //     Subsystems.driveBase.setMotors(-0.25*correct, 0.25*correct);
+        // }
     }
 
     @Override

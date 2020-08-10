@@ -87,11 +87,13 @@ public class Robot extends TimedRobot {
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
+        UserInterface.driverController.A.whenPressed(new TrackObject());
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
         UserInterface.operatorController.Y.whenPressed(new CellStopRetract()); //Y: Cell up while held + helix runs backwards to unjam power cell
         UserInterface.operatorController.Y.whenReleased(new CellStopExtend());
+        
 
         autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH, false); //default
         //setup Shuffleboard interface
