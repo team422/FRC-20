@@ -2,49 +2,19 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import frc.robot.userinterface.ShuffleboardControl;
 import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
-import frc.robot.commands.autonomous.*;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
-import edu.wpi.first.wpilibj.shuffleboard.*;
-import java.util.Map;
 
 /**
  * The main Robot class whence all things come.
  */
 public class Robot extends TimedRobot {
-
-    //AUTONOMOUS/SHUFFLEBOARD
-
-    private AutonomousSwitch autonomous;
-    private SendableChooser<AutonomousSwitch.StartingPosition> positionChooser;
-    private NetworkTableEntry delayChooser;
-    private NetworkTableEntry pushRobotChooser;
-    private SendableChooser<AutonomousSwitch.IntakeSource> intakeChooser;
-    private NetworkTableEntry autoLabel;
-
-    private NetworkTableEntry driverControllerWidget;
-    private NetworkTableEntry operatorControllerWidget;
-
-    private NetworkTableEntry cellCountWidget;
-    private NetworkTableEntry overflowWidget;
-
-    private NetworkTableEntry leftEncoders;
-    private NetworkTableEntry rightEncoders;
-    private NetworkTableEntry gyroWidget;
-    private NetworkTableEntry intakeBeamBreakWidget;
-    private NetworkTableEntry isSpeedModeWidget;
-    private NetworkTableEntry isCamera1Widget;
-    private NetworkTableEntry isIntakeUpWidget;
-
-    private NetworkTableEntry currentFlywheelWidget;
-    private NetworkTableEntry actualFlywheelWidget;
 
     //TELEOP
 
@@ -80,7 +50,6 @@ public class Robot extends TimedRobot {
 
         //drive settings
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
-
         
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
@@ -93,14 +62,14 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
         UserInterface.operatorController.RB.whenPressed(new HelixTurn(0.3)); //start flywheel early
 
-        autonomous = new AutonomousSwitch(AutonomousSwitch.StartingPosition.CENTER, 0, false, AutonomousSwitch.IntakeSource.TRENCH); //default
-        //setup Shuffleboard interface
-        layoutShuffleboard();
+        //setup Shuffleboard interface & default auto
+        ShuffleboardControl.layoutShuffleboard();
+        ShuffleboardControl.setupAutonomous();
     }
 
     public void robotPeriodic() {
         Scheduler.getInstance().run();
-        printDataToShuffleboard();
+        ShuffleboardControl.printDataToShuffleboard();
     }
 
     public void disabledInit() {
@@ -109,31 +78,15 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledPeriodic() {
-        if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
-            //update auto if changed
-            if (!autonomous.matchesSettings(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected())) {
-                autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
-                autoLabel.setString(autonomous.description);
-            }
-        } else {
-            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP=" + autonomous.startingPosition + ", D=" + Math.round(autonomous.delay*100.0)/100.0 +
-            ", PR=" + autonomous.pushRobot + ", IS=" + autonomous.intakeSource + ").");
-        }
+        ShuffleboardControl.updateAutonomous();
     }
 
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
 
-        if (AutonomousSwitch.doChoicesWork(positionChooser.getSelected(), intakeChooser.getSelected())) {
-            //update auto
-            autonomous = new AutonomousSwitch(positionChooser.getSelected(), delayChooser.getDouble(0), pushRobotChooser.getBoolean(false), intakeChooser.getSelected());
-            autoLabel.setString(autonomous.description);
-        } else {
-            autoLabel.setString("Options don't work. Defaulting to last chosen autonomous (SP=" + autonomous.startingPosition + ", D=" + Math.round(autonomous.delay*100.0)/100.0 +
-            ", PR=" + autonomous.pushRobot + ", IS=" + autonomous.intakeSource + ").");
-        }
-        autonomous.start();
+        ShuffleboardControl.updateAutonomous();
+        ShuffleboardControl.getAutonomous().start();
     }
 
     public void autonomousPeriodic() {
@@ -196,124 +149,6 @@ public class Robot extends TimedRobot {
         } else if (!isTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
-    }
-
-    /**
-     * Arranges the Shuffleboard's layout.
-     */
-    private void layoutShuffleboard() {
-        //Get references to tabs & layouts
-        ShuffleboardTab preMatchTab = Shuffleboard.getTab("Pre-Match");
-        ShuffleboardTab matchPlayTab = Shuffleboard.getTab("Match Play");
-
-        ShuffleboardLayout autonomousChooserLayout = preMatchTab.getLayout("Choose an autonomous...", BuiltInLayouts.kList)
-            .withPosition(0, 0)
-            .withSize(5, 3);
-        ShuffleboardLayout controllerIDLayout = preMatchTab.getLayout("Identify controllers before switching to next tab", BuiltInLayouts.kList)
-            .withPosition(5, 0)
-            .withSize(4, 3);
-        ShuffleboardLayout sensorValueLayout = matchPlayTab.getLayout("Sensor values", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 4, "number of rows", 3))
-            .withPosition(6, 1)
-            .withSize(3, 2);
-        ShuffleboardLayout controlsLayout = matchPlayTab.getLayout("Controls", BuiltInLayouts.kList)
-            .withPosition(0, 0)
-            .withSize(1, 3);
-
-        //Setup autonomous options and layouts
-        positionChooser = new SendableChooser<AutonomousSwitch.StartingPosition>();
-        positionChooser.setDefaultOption("Center", AutonomousSwitch.StartingPosition.CENTER);
-        positionChooser.addOption("Left", AutonomousSwitch.StartingPosition.LEFT);
-        positionChooser.addOption("Right", AutonomousSwitch.StartingPosition.RIGHT);
-
-        intakeChooser = new SendableChooser<AutonomousSwitch.IntakeSource>();
-        intakeChooser.setDefaultOption("Trench", AutonomousSwitch.IntakeSource.TRENCH);
-        intakeChooser.addOption("Rendevous", AutonomousSwitch.IntakeSource.RENDEZVOUS);
-        intakeChooser.addOption("3 from trench and 2 from rendevous", AutonomousSwitch.IntakeSource.MIXED);
-
-        autonomousChooserLayout.add("Starting position", positionChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser);
-        delayChooser = autonomousChooserLayout.add("Delay", 0)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", 0, "max", 10)).getEntry();
-        pushRobotChooser = autonomousChooserLayout.add("Push other robot?", false)
-            .withWidget(BuiltInWidgets.kToggleButton).getEntry();
-        autonomousChooserLayout.add("Intake source", intakeChooser)
-            .withWidget(BuiltInWidgets.kComboBoxChooser);
-        autoLabel = autonomousChooserLayout.add("Current autonomous", "Starts in center, shoots after a delay of 0, doesn't push robot, intakes from trench").getEntry();
-
-        //Setup controller ID in pre-match
-        driverControllerWidget = controllerIDLayout.add("Driver Controller", false)
-            .withWidget(BuiltInWidgets.kBooleanBox)
-            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#00B259")).getEntry();
-        operatorControllerWidget = controllerIDLayout.add("Operator Controller", false)
-            .withWidget(BuiltInWidgets.kBooleanBox)
-            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#00B259")).getEntry();
-
-        //Setup match play options and layouts
-        // ***** ADD FMS INFO WIDGET MANUALLY *****
-        // matchPlayTab.add(SendableCameraWrapper.wrap(camera1)) //if 1 camera used
-        //     .withWidget(BuiltInWidgets.kCameraStream)
-        //     .withPosition(3, 0)
-        //     .withSize(3, 3);
-
-        //cell count
-        cellCountWidget = matchPlayTab.add("Power cell count", 3)
-            .withWidget(BuiltInWidgets.kDial)
-            .withProperties(Map.of("min", 0, "max", 5))
-            .withPosition(1, 0)
-            .withSize(2, 2).getEntry();
-        overflowWidget = matchPlayTab.add("Ball overflow", false)
-            .withWidget(BuiltInWidgets.kBooleanBox)
-            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#8b0000"))
-            .withPosition(1, 2)
-            .withSize(2, 1).getEntry();
-
-        //sensor values
-        leftEncoders = sensorValueLayout.add("Left encoders", 404).getEntry();
-        rightEncoders = sensorValueLayout.add("Right encoders", 404).getEntry();
-        gyroWidget = sensorValueLayout.add("Gyro", 404).getEntry();
-        intakeBeamBreakWidget = sensorValueLayout.add("Intake beam break", false)
-            .withWidget(BuiltInWidgets.kBooleanBox)
-            .withProperties(Map.of("color when false", "#7E8083", "color when true", "#ffe815")).getEntry();
-        isSpeedModeWidget = sensorValueLayout.add("Speed mode?", false)
-            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-        isCamera1Widget = sensorValueLayout.add("Main camera?", true)
-            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-        isIntakeUpWidget = sensorValueLayout.add("Is intake up?", true)
-            .withWidget(BuiltInWidgets.kBooleanBox).getEntry();
-
-        //controls
-        currentFlywheelWidget = controlsLayout.add("Current speed:", Subsystems.flyboi.wheelSpeed).getEntry();
-        actualFlywheelWidget = controlsLayout.add("Actual speed:", 0).getEntry();
-    }
-
-    /**
-     * Updates data used in Shuffleboard. This will be updated even if the robot is disabled.
-     */
-    private void printDataToShuffleboard() {
-        //controller id's
-        driverControllerWidget.setBoolean(Math.abs(UserInterface.driverController.getLeftJoystickX()) > 0.1 || Math.abs(UserInterface.driverController.getLeftJoystickY()) > 0.1 ||
-        Math.abs(UserInterface.driverController.getRightJoystickX()) > 0.1 || Math.abs(UserInterface.driverController.getRightJoystickY()) > 0.1);
-        operatorControllerWidget.setBoolean(Math.abs(UserInterface.operatorController.getLeftJoystickX()) > 0.1 || Math.abs(UserInterface.operatorController.getLeftJoystickY()) > 0.1 ||
-        Math.abs(UserInterface.operatorController.getRightJoystickX()) > 0.1 || Math.abs(UserInterface.operatorController.getRightJoystickY()) > 0.1);
-
-        //cell count
-        cellCountWidget.setDouble(Subsystems.helix.cellCount);
-        overflowWidget.setBoolean(Subsystems.helix.cellCount > 5);
-
-        //control panel
-        currentFlywheelWidget.setDouble(Subsystems.flyboi.wheelSpeed);
-        actualFlywheelWidget.setDouble(Subsystems.flyboi.getPower());
-
-        //sensor values
-        leftEncoders.setDouble(Subsystems.driveBase.getLeftPosition());
-        rightEncoders.setDouble(Subsystems.driveBase.getRightPosition());
-        gyroWidget.setDouble(Subsystems.driveBase.getGyroAngle());
-        intakeBeamBreakWidget.setBoolean(Subsystems.intake.getCellEntered());
-        isSpeedModeWidget.setBoolean(RobotMap.isSpeedMode);
-        isCamera1Widget.setBoolean(RobotMap.isFirstCamera);
-        isIntakeUpWidget.setBoolean(!RobotMap.isIntakeDown);
     }
 
     /**
