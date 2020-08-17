@@ -65,7 +65,9 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        System.out.println("Initializing Argos"); //hardcoded for comp
+        //set which bot - either COMPETITION, PRACTICE, or TOASTER
+        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
+        System.out.println("Initializing " + RobotMap.botName + "\n");
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
@@ -143,9 +145,6 @@ public class Robot extends TimedRobot {
         Scheduler.getInstance().removeAll();
 
         Scheduler.getInstance().add(new ShootStop()); //in case was disabled while spinning
-
-        //test
-        Subsystems.helix.cellStopIn();
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;

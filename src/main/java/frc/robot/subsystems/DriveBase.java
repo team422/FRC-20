@@ -18,10 +18,18 @@ public class DriveBase extends Subsystem {
 
     public WPI_TalonSRX leftMiddleMaster;
     public WPI_TalonSRX rightMiddleMaster;
-    public WPI_VictorSPX leftFrontFollower;
-    public WPI_VictorSPX leftRearFollower;
-    public WPI_VictorSPX rightFrontFollower;
-    public WPI_VictorSPX rightRearFollower;
+
+    // Comp bot/Practice bot
+    public WPI_VictorSPX leftFrontFollowerVictor;
+    public WPI_VictorSPX leftRearFollowerVictor;
+    public WPI_VictorSPX rightFrontFollowerVictor;
+    public WPI_VictorSPX rightRearFollowerVictor;
+
+    //Toaster
+    public WPI_TalonSRX leftFrontFollowerTalon;
+    public WPI_TalonSRX leftRearFollowerTalon;
+    public WPI_TalonSRX rightFrontFollowerTalon;
+    public WPI_TalonSRX rightRearFollowerTalon;
 
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
@@ -36,14 +44,33 @@ public class DriveBase extends Subsystem {
         super("DriveBase");
         this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster);
         this.rightMiddleMaster = new WPI_TalonSRX(RobotMap.rightMiddleMaster);
-        this.leftFrontFollower = new WPI_VictorSPX(RobotMap.leftFrontFollower);
-        this.leftRearFollower = new WPI_VictorSPX(RobotMap.leftRearFollower);
-        this.rightFrontFollower = new WPI_VictorSPX(RobotMap.rightFrontFollower);
-        this.rightRearFollower = new WPI_VictorSPX(RobotMap.rightRearFollower);
+        
+        if (RobotMap.botName == RobotMap.BotNames.COMPETITION || RobotMap.botName == RobotMap.BotNames.PRACTICE) {
+            //Practice/comp bot
+            this.leftFrontFollowerVictor = new WPI_VictorSPX(RobotMap.leftFrontFollower);
+            this.leftRearFollowerVictor = new WPI_VictorSPX(RobotMap.leftRearFollower);
+            this.rightFrontFollowerVictor = new WPI_VictorSPX(RobotMap.rightFrontFollower);
+            this.rightRearFollowerVictor = new WPI_VictorSPX(RobotMap.rightRearFollower);
 
-        leftMiddleMaster.setInverted(true);
-        leftFrontFollower.setInverted(true);
-        leftRearFollower.setInverted(true);
+            leftFrontFollowerVictor.setInverted(true);
+            leftRearFollowerVictor.setInverted(true);
+
+            this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerVictor, leftRearFollowerVictor);
+            this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerVictor, rightRearFollowerVictor);
+
+        } else if (RobotMap.botName == RobotMap.BotNames.TOASTER) {
+            //Toaster
+            this.leftFrontFollowerTalon = new WPI_TalonSRX(RobotMap.leftFrontFollower);
+            this.leftRearFollowerTalon = new WPI_TalonSRX(RobotMap.leftRearFollower);
+            this.rightFrontFollowerTalon = new WPI_TalonSRX(RobotMap.rightFrontFollower);
+            this.rightRearFollowerTalon = new WPI_TalonSRX(RobotMap.rightRearFollower);
+
+            leftFrontFollowerTalon.setInverted(true);
+            leftRearFollowerTalon.setInverted(true);
+
+            this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerTalon, leftRearFollowerTalon);
+            this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerTalon, rightRearFollowerTalon);
+        }
 
         // this.gyro = new ADIS16470_IMU();
         this.gyro = new ADXRS450_Gyro(kGyroPort);
@@ -51,8 +78,6 @@ public class DriveBase extends Subsystem {
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
 
-        this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollower, leftRearFollower);
-        this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollower, rightRearFollower);
         this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
     }
 
