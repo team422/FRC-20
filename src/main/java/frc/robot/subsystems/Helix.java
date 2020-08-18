@@ -12,14 +12,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Helix extends Subsystem {
 
     public WPI_TalonSRX helicase;
-    public DoubleSolenoid cellStop;
 
     public int cellCount = 3;
 
     public Helix() {
         super("Helix");
         this.helicase = new WPI_TalonSRX(RobotMap.helicase);
-        this.cellStop = new DoubleSolenoid(RobotMap.cellStopOut, RobotMap.cellStopIn);
     }
 
     protected void initDefaultCommand() {}
@@ -37,19 +35,5 @@ public class Helix extends Subsystem {
      */
     public void stopHelixMotors() {
         helicase.set(ControlMode.PercentOutput, 0);
-    }
-
-    /**
-     * Extends the cell stop.
-     */
-    public void cellStopOut() {
-        cellStop.set(DoubleSolenoid.Value.kForward);
-    }
-
-    /**
-     * Retracts the cell stop.
-     */
-    public void cellStopIn() {
-        cellStop.set(DoubleSolenoid.Value.kReverse);
     }
 }

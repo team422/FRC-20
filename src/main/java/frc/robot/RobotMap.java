@@ -13,7 +13,6 @@ public class RobotMap {
     public static boolean isSpeedMode = true;
     public static boolean isFirstCamera = true;
     public static boolean isIntakeDown = false;
-    public static boolean isCellStopUp = false;
 
     // Drive base ports
 
@@ -35,8 +34,6 @@ public class RobotMap {
 
     // Double solenoid ports
 
-    public static int cellStopOut;
-    public static int cellStopIn;
     public static int intakeExtensionOut;
     public static int intakeExtensionIn;
 
@@ -76,8 +73,6 @@ public class RobotMap {
             rightFlywheel = 422;
             helicase = 422;
             intakeMotor = 422;
-            cellStopIn = 1;
-            cellStopOut = 2;
             intakeExtensionIn = 3;
             intakeExtensionOut = 4;
         } else if (bot == BotNames.PRACTICE) {
@@ -93,8 +88,6 @@ public class RobotMap {
             rightFlywheel = 2;
             helicase = 33;
             intakeMotor = 23;
-            cellStopIn = 0;
-            cellStopOut = 7;
             intakeExtensionIn = 1;
             intakeExtensionOut = 6;
         } else if (bot == BotNames.COMPETITION) {
@@ -110,8 +103,6 @@ public class RobotMap {
             rightFlywheel = 2;
             helicase = 32;
             intakeMotor = 12;
-            cellStopIn = 0;
-            cellStopOut = 7;
             intakeExtensionIn = 1;
             intakeExtensionOut = 6;
         }
