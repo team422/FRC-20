@@ -21,26 +21,26 @@ public class HelixTurn extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         Subsystems.helix.setHelixMotors(-0.8);
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return isTimedOut();
     }
 
     @Override
-    public void interrupted() {
+    protected void interrupted() {
         Subsystems.helix.stopHelixMotors();
     }
 
     @Override
-    public void end() {
+    protected void end() {
         Subsystems.helix.stopHelixMotors();
     }
 

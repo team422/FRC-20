@@ -21,12 +21,12 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         warmedUp = false;
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         System.out.println(Subsystems.flyboi.getPower());
         if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.010) {
             if (counter < 6) {
@@ -46,7 +46,7 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         if (DriverStation.getInstance().isAutonomous()) {
             return false;
         } else {
@@ -55,9 +55,9 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public void interrupted() {}
+    protected void interrupted() {}
 
     @Override
-    public void end() {}
+    protected void end() {}
 
 }
