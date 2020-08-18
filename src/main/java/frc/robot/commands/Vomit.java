@@ -16,31 +16,32 @@ public class Vomit extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         Subsystems.flyboi.spinWheel(-0.6);
         Subsystems.helix.setHelixMotors(-0.9);
         Subsystems.intake.setIntakeMotors(-0.8);
     }
 
     @Override
-    public void execute() {}
+    protected void execute() {}
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return false;
     }
 
     @Override
-    public void interrupted() {
+    protected void interrupted() {
         Subsystems.flyboi.stopWheel();
         Subsystems.helix.stopHelixMotors();
         Subsystems.intake.stopIntakeMotors();
     }
 
     @Override
-    public void end() {
+    protected void end() {
         Subsystems.flyboi.stopWheel();
         Subsystems.helix.stopHelixMotors();
         Subsystems.intake.stopIntakeMotors();
     }
+
 }

@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import frc.robot.userinterface.ShuffleboardControl;
 import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;

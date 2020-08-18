@@ -14,23 +14,13 @@ public class HelixOff extends Command {
     }
 
     @Override
-    public void initialize() {
-    }
-
-    @Override
-    public void execute() {
+    protected void execute() {
         Subsystems.helix.stopHelixMotors();
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
-
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 
 }

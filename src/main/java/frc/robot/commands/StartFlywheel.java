@@ -23,22 +23,14 @@ public class StartFlywheel extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
+    protected void execute() {
         Subsystems.flyboi.setShootVoltage(speed);
         System.out.println("Flywheel on");
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }

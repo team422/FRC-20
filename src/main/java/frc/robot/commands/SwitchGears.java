@@ -13,10 +13,7 @@ public class SwitchGears extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
+    protected void execute() {
         if (RobotMap.isSpeedMode) {
             RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
             RobotMap.isSpeedMode = false;
@@ -27,13 +24,8 @@ public class SwitchGears extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }

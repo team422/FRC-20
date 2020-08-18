@@ -1,12 +1,12 @@
-package frc.robot.userinterface;
+package frc.robot;
 
 import java.util.Map;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.RobotMap;
 import frc.robot.commands.autonomous.AutonomousSwitch;
 import frc.robot.subsystems.Subsystems;
+import frc.robot.userinterface.UserInterface;
 
 public class ShuffleboardControl {
 
