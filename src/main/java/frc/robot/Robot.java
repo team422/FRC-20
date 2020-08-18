@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import frc.robot.userinterface.ShuffleboardControl;
 import frc.robot.userinterface.UserInterface;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
@@ -64,7 +63,7 @@ public class Robot extends TimedRobot {
 
         //setup Shuffleboard interface & default auto
         ShuffleboardControl.layoutShuffleboard();
-        ShuffleboardControl.setupAutonomous();
+        ShuffleboardControl.setAutonomous();
     }
 
     public void robotPeriodic() {
@@ -78,14 +77,13 @@ public class Robot extends TimedRobot {
     }
 
     public void disabledPeriodic() {
-        ShuffleboardControl.updateAutonomous();
+        ShuffleboardControl.disabledPeriodic();
     }
 
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
         Scheduler.getInstance().removeAll();
 
-        ShuffleboardControl.updateAutonomous();
         ShuffleboardControl.getAutonomous().start();
     }
 
