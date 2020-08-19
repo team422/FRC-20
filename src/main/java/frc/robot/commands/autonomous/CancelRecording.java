@@ -3,10 +3,10 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 // import frc.robot.ShuffleboardControl;
 
-public class ImportAuto extends Command {
+public class CancelRecording extends Command {
 
-    public ImportAuto() {
-        super("Import");
+    public CancelRecording() {
+        super("Cancel");
     }
 
     @Override

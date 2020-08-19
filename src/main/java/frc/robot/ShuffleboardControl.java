@@ -19,8 +19,9 @@ public class ShuffleboardControl {
     private static NetworkTableEntry selectedAutoLabelWidget;
     private static NetworkTableEntry autoSetupSuccessfulWidget;
     private static NetworkTableEntry pathWidget;
-    private static NetworkTableEntry recordAutoWidget;
-    private static SendableChooser<String> autoDeleterWidget;
+    private static NetworkTableEntry countdownWidget;
+    private static NetworkTableEntry recordingTimerWidget;
+    private static NetworkTableEntry filenameWidget;
 
     private static NetworkTableEntry setSpeedWidget;
     private static NetworkTableEntry actualSpeedWidget;
@@ -51,16 +52,14 @@ public class ShuffleboardControl {
         ShuffleboardLayout chooseAutoLayout = autonomousTab.getLayout("Choose auto", BuiltInLayouts.kList)
             .withPosition(0, 0)
             .withSize(2, 3);
-        ShuffleboardLayout deleteAutoLayout = autonomousTab.getLayout("Delete auto", BuiltInLayouts.kList)
-            .withPosition(7, 1)
-            .withSize(2, 2);
+        ShuffleboardLayout recordAutoLayout = autonomousTab.getLayout("Record new auto", BuiltInLayouts.kList)
+            .withProperties(Map.of("label position", "HIDDEN"))
+            .withPosition(0, 0)
+            .withSize(2, 3);
         ShuffleboardLayout timeValueLayout = teleopTab.getLayout("Match time & Sensor values", BuiltInLayouts.kList)
             .withProperties(Map.of("label position", "HIDDEN"))
             .withPosition(6, 1)
             .withSize(3, 2);
-        ShuffleboardLayout sensorValueLayout = timeValueLayout.getLayout("Sensor values", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 3, "number of rows", 2))
-            .withSize(0, 1); // = withPosition
         ShuffleboardLayout controlsLayout = teleopTab.getLayout("Controls", BuiltInLayouts.kList)
             .withPosition(0, 0)
             .withSize(1, 3);
@@ -68,11 +67,9 @@ public class ShuffleboardControl {
         //Setup autonomous tab
 
         autoChooserWidget = new SendableChooser<String>();
-        autoDeleterWidget = new SendableChooser<String>();
         ShuffleboardControl.updateAutoFiles(autoChooserWidget);
-        ShuffleboardControl.updateAutoFiles(autoDeleterWidget);
 
-        chooseAutoLayout.add("Select file", autoChooserWidget)
+        chooseAutoLayout.add("Browse autos", autoChooserWidget)
             .withWidget(BuiltInWidgets.kComboBoxChooser);
         chooseAutoLayout.add("Choose selected", new SetAuto())
             .withWidget(BuiltInWidgets.kCommand);
@@ -87,20 +84,33 @@ public class ShuffleboardControl {
             .withWidget("Path")
             .withPosition(2, 0)
             .withSize(3, 3).getEntry();
-        
-        recordAutoWidget = autonomousTab.add("Record new auto", "") //TODO
-            .withWidget("Record auto")
-            .withPosition(5, 0)
-            .withSize(2, 3).getEntry();
 
-        autonomousTab.add("Load new auto from file", new ImportAuto())
+        ShuffleboardLayout startCancelRecordingLayout = recordAutoLayout.getLayout("Start/cancel recording", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1, "label position", "HIDDEN"));
+        startCancelRecordingLayout.add("Start", new StartRecording())
             .withWidget(BuiltInWidgets.kCommand)
-            .withPosition(7, 0)
-            .withSize(2, 1);
+            .withSize(0, 0);
+        startCancelRecordingLayout.add("Cancel", new CancelRecording())
+            .withWidget(BuiltInWidgets.kCommand)
+            .withSize(1, 0);
         
-        deleteAutoLayout.add("Select file to delete", autoDeleterWidget)
-            .withWidget(BuiltInWidgets.kComboBoxChooser);
-        chooseAutoLayout.add("Delete selected", new DeleteAuto())
+        countdownWidget = recordAutoLayout.add("Countdown to recording", "").getEntry();
+
+        recordingTimerWidget = recordAutoLayout.add("Time passed since recording", 0)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(Map.of("min", 0, "max", 15, "num tick marks", 4)).getEntry();
+        
+        recordAutoLayout.add("Replay", new ReplayRecording())
+            .withWidget(BuiltInWidgets.kCommand);
+        
+        ShuffleboardLayout saveRecordingLayout = recordAutoLayout.getLayout("Save recording", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+        saveRecordingLayout.add("Save as", new SaveRecording())
+            .withWidget(BuiltInWidgets.kCommand)
+            .withSize(0, 0);
+        filenameWidget = saveRecordingLayout.add("Filename", "").getEntry();
+
+        recordAutoLayout.add("Discard", new DiscardRecording())
             .withWidget(BuiltInWidgets.kCommand);
 
         // Setup teleoperated tab
@@ -125,6 +135,9 @@ public class ShuffleboardControl {
             .withWidget("Match time")
             .withSize(0, 0).getEntry();
 
+        ShuffleboardLayout sensorValueLayout = timeValueLayout.getLayout("Sensor values", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 3, "number of rows", 2))
+            .withSize(0, 1); // = withPosition
         encodersWidget = sensorValueLayout.add("Encoders", "404")
             .withSize(0, 0).getEntry();
         gyroWidget = sensorValueLayout.add("Gyro", "404")

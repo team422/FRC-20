@@ -3,10 +3,10 @@ package frc.robot.commands.autonomous;
 import edu.wpi.first.wpilibj.command.Command;
 // import frc.robot.ShuffleboardControl;
 
-public class DeleteAuto extends Command {
+public class SaveRecording extends Command {
 
-    public DeleteAuto() {
-        super("Delete");
+    public SaveRecording() {
+        super("Save");
     }
 
     @Override
