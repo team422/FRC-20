@@ -103,6 +103,7 @@ public class Robot extends TimedRobot {
 
     public void teleopPeriodic() {
         countingTeleop();
+        if (ShuffleboardControl.isRecording()) ShuffleboardControl.recordingPeriodic();
 
         //wait for intake->helix sequence
         if (in && counter < 9) {
@@ -112,9 +113,7 @@ public class Robot extends TimedRobot {
             counter = 0;
         }
 
-        if (UserInterface.operatorController.LS.get()) {
-            return; //remove functionality of spinning while vomiting
-        }
+        if (UserInterface.operatorController.LS.get()) return; //remove functionality of spinning while vomiting
 
         //intake cells in/out
         if (UserInterface.operatorController.getRightJoystickY() >= 0.4) {

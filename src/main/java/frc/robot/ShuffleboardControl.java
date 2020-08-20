@@ -1,16 +1,25 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
+import java.util.Date;
 import java.util.Map;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.autonomous.*;
+import frc.robot.commands.autonomous.Autonomous;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 
+/**
+ * Manages the Shuffleboard layout, creating autonomoi by passing file names to the Autonomous constructor, and recording autos.
+ * A helper class. Everything is static; do not create an instance of this class.
+ */
 public class ShuffleboardControl {
 
     private static Autonomous autonomous;
@@ -38,10 +47,16 @@ public class ShuffleboardControl {
     private static NetworkTableEntry operatorControllerWidget;
     private static NetworkTableEntry driverControllerWidget;
 
+    private static boolean recordingStarted = false;
+    private static boolean recordingComplete = false;
+    private static final Timer timer = new Timer();
+    private static final int autoLength = 15;
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd_HHmmss");
+
     // SHUFFLEBOARD
 
     /**
-     * Arranges the Shuffleboard layout.
+     * Arranges the Shuffleboard layout. An initiation method; should only be called once, in Robot.robotInit().
      */
     public static void layoutShuffleboard() {
         //Get references to tabs & layouts
@@ -49,15 +64,16 @@ public class ShuffleboardControl {
         ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleoperated");
         ShuffleboardTab buttonsTab = Shuffleboard.getTab("Buttons");
 
-        ShuffleboardLayout chooseAutoLayout = autonomousTab.getLayout("Choose auto", BuiltInLayouts.kList)
+        ShuffleboardLayout chooseAutoLayout = autonomousTab.getLayout("Choose auto", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 1, "number of rows", 3))
             .withPosition(0, 0)
             .withSize(2, 3);
-        ShuffleboardLayout recordAutoLayout = autonomousTab.getLayout("Record new auto", BuiltInLayouts.kList)
-            .withProperties(Map.of("label position", "HIDDEN"))
+        ShuffleboardLayout recordAutoLayout = autonomousTab.getLayout("Record new auto", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 1, "number of rows", 6, "label position", "HIDDEN"))
             .withPosition(0, 0)
             .withSize(2, 3);
-        ShuffleboardLayout timeValueLayout = teleopTab.getLayout("Match time & Sensor values", BuiltInLayouts.kList)
-            .withProperties(Map.of("label position", "HIDDEN"))
+        ShuffleboardLayout timeValueLayout = teleopTab.getLayout("Match time & Sensor values", BuiltInLayouts.kGrid)
+            .withProperties(Map.of("number of columns", 1, "number of rows", 2, "label position", "HIDDEN"))
             .withPosition(6, 1)
             .withSize(3, 2);
         ShuffleboardLayout controlsLayout = teleopTab.getLayout("Controls", BuiltInLayouts.kList)
@@ -70,10 +86,13 @@ public class ShuffleboardControl {
         ShuffleboardControl.updateAutoFiles(autoChooserWidget);
 
         chooseAutoLayout.add("Browse autos", autoChooserWidget)
-            .withWidget(BuiltInWidgets.kComboBoxChooser);
+            .withWidget(BuiltInWidgets.kComboBoxChooser)
+            .withSize(0, 0); // = withPosition
         chooseAutoLayout.add("Choose selected", new SetAuto())
-            .withWidget(BuiltInWidgets.kCommand);
-        selectedAutoLabelWidget = chooseAutoLayout.add("Currently selected auto:", "Default").getEntry();
+            .withWidget(BuiltInWidgets.kCommand)
+            .withSize(0, 1);
+        selectedAutoLabelWidget = chooseAutoLayout.add("Currently selected auto:", "Default")
+            .withSize(0, 2).getEntry();
 
         autoSetupSuccessfulWidget = autonomousTab.add("Auto setup successful", false)
             .withWidget(BuiltInWidgets.kBooleanBox)
@@ -86,7 +105,8 @@ public class ShuffleboardControl {
             .withSize(3, 3).getEntry();
 
         ShuffleboardLayout startCancelRecordingLayout = recordAutoLayout.getLayout("Start/cancel recording", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1, "label position", "HIDDEN"));
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1, "label position", "HIDDEN"))
+            .withSize(0, 0);
         startCancelRecordingLayout.add("Start", new StartRecording())
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 0);
@@ -94,24 +114,30 @@ public class ShuffleboardControl {
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(1, 0);
         
-        countdownWidget = recordAutoLayout.add("Countdown to recording", "").getEntry();
+        countdownWidget = recordAutoLayout.add("Countdown to recording", "")
+            .withSize(0, 1).getEntry();
 
         recordingTimerWidget = recordAutoLayout.add("Time passed since recording", 0)
             .withWidget(BuiltInWidgets.kNumberBar)
-            .withProperties(Map.of("min", 0, "max", 15, "num tick marks", 4)).getEntry();
+            .withProperties(Map.of("min", 0, "max", autoLength, "num tick marks", 4))
+            .withSize(0, 2).getEntry();
         
         recordAutoLayout.add("Replay", new ReplayRecording())
-            .withWidget(BuiltInWidgets.kCommand);
+            .withWidget(BuiltInWidgets.kCommand)
+            .withSize(0, 3);
         
         ShuffleboardLayout saveRecordingLayout = recordAutoLayout.getLayout("Save recording", BuiltInLayouts.kGrid)
-            .withProperties(Map.of("number of columns", 2, "number of rows", 1));
+            .withProperties(Map.of("number of columns", 2, "number of rows", 1))
+            .withSize(0, 4);
         saveRecordingLayout.add("Save as", new SaveRecording())
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 0);
-        filenameWidget = saveRecordingLayout.add("Filename", "").getEntry();
+        filenameWidget = saveRecordingLayout.add("Filename", "")
+            .withSize(1, 0).getEntry();
 
         recordAutoLayout.add("Discard", new DiscardRecording())
-            .withWidget(BuiltInWidgets.kCommand);
+            .withWidget(BuiltInWidgets.kCommand)
+            .withSize(0, 5);
 
         // Setup teleoperated tab
         // ***** ADD CAMERA & FMS INFO WIDGET MANUALLY *****
@@ -137,7 +163,7 @@ public class ShuffleboardControl {
 
         ShuffleboardLayout sensorValueLayout = timeValueLayout.getLayout("Sensor values", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 3, "number of rows", 2))
-            .withSize(0, 1); // = withPosition
+            .withSize(0, 1);
         encodersWidget = sensorValueLayout.add("Encoders", "404")
             .withSize(0, 0).getEntry();
         gyroWidget = sensorValueLayout.add("Gyro", "404")
@@ -163,26 +189,27 @@ public class ShuffleboardControl {
             .withProperties(Map.ofEntries(  new AbstractMap.SimpleEntry<String, String>("a descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("b descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("x descr", "intake extend/retract"),
-                                            new AbstractMap.SimpleEntry<String, String>("y descr", "run helix & intake back (unjam cell)"),
-                                            new AbstractMap.SimpleEntry<String, String>("lb descr", "climber brake"),
-                                            new AbstractMap.SimpleEntry<String, String>("rb descr", ""),
-                                            new AbstractMap.SimpleEntry<String, String>("ls descr", ""),
-                                            new AbstractMap.SimpleEntry<String, String>("rs descr", ""),
-                                            new AbstractMap.SimpleEntry<String, String>("left joystick descr", "winch"),
+                                            new AbstractMap.SimpleEntry<String, String>("y descr", ""),
+                                            new AbstractMap.SimpleEntry<String, String>("lb descr", "[climber brake]"),
+                                            new AbstractMap.SimpleEntry<String, String>("rb descr", "start flywheel early"),
+                                            new AbstractMap.SimpleEntry<String, String>("ls descr", "run helix & intake back (unjam cell)"),
+                                            new AbstractMap.SimpleEntry<String, String>("rs descr", "reset cell count to 0"),
+                                            new AbstractMap.SimpleEntry<String, String>("left joystick descr", "[winch]"),
                                             new AbstractMap.SimpleEntry<String, String>("right joystick descr", "intake in/out"),
-                                            new AbstractMap.SimpleEntry<String, String>("left trigger descr", "extend climber"),
+                                            new AbstractMap.SimpleEntry<String, String>("left trigger descr", "[extend climber]"),
                                             new AbstractMap.SimpleEntry<String, String>("right trigger descr", "flywheel program"),
                                             new AbstractMap.SimpleEntry<String, String>("pov descr", "helix in/out"),
                                             
                                             new AbstractMap.SimpleEntry<String, String>("background color", "#333333"),
                                             new AbstractMap.SimpleEntry<String, String>("button color", "#666666"),
-                                            new AbstractMap.SimpleEntry<String, String>("text color 1", "#f2f2f2")))
+                                            new AbstractMap.SimpleEntry<String, String>("text color 1", "#f2f2f2"),
+                                            new AbstractMap.SimpleEntry<String, String>("text color 2", "#cccccc")))
             .withPosition(0, 0)
             .withSize(4, 3).getEntry();
 
         driverControllerWidget = buttonsTab.add("Driver Controller", empty)
             .withWidget("Xbox Controller")
-            .withProperties(Map.ofEntries(  new AbstractMap.SimpleEntry<String, String>("a descr", "intake + vision takeover"),
+            .withProperties(Map.ofEntries(  new AbstractMap.SimpleEntry<String, String>("a descr", "[intake + vision takeover]"),
                                             new AbstractMap.SimpleEntry<String, String>("b descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("x descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("y descr", ""),
@@ -190,8 +217,8 @@ public class ShuffleboardControl {
                                             new AbstractMap.SimpleEntry<String, String>("rb descr", "slow/fast toggle"),
                                             new AbstractMap.SimpleEntry<String, String>("ls descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("rs descr", ""),
-                                            new AbstractMap.SimpleEntry<String, String>("left joystick descr", "make robot go brrrrr"),
-                                            new AbstractMap.SimpleEntry<String, String>("right joystick descr", "make robo go wheee"),
+                                            new AbstractMap.SimpleEntry<String, String>("left joystick descr", "rotation"),
+                                            new AbstractMap.SimpleEntry<String, String>("right joystick descr", "velocity"),
                                             new AbstractMap.SimpleEntry<String, String>("left trigger descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("right trigger descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("pov descr", ""),
@@ -227,7 +254,7 @@ public class ShuffleboardControl {
     }
 
     /**
-     * Updates data used in Shuffleboard. Used for data that is only useful when the robot isn't being operated, such as pre-match checks.
+     * Updates data used in Shuffleboard. Used for data that is only useful when the robot isn't being operated, such as pre-match checks or auto refreshing.
      */
     public static void disabledPeriodic() {
         //buttons
@@ -249,18 +276,18 @@ public class ShuffleboardControl {
     public static void setAutonomous() {
         try {
             autonomous = new Autonomous(autoChooserWidget.getSelected());
+            pathWidget.setDoubleArray(autonomous.path);
             autoSetupSuccessfulWidget.setBoolean(true);
             selectedAutoLabelWidget.setString(Autonomous.getNameFromFile(autoChooserWidget.getSelected()));
         } catch (IOException e) {
-            System.out.println("AUTONOMOUS ERROR: File " + autoChooserWidget.getSelected() + " not found or other I/O error");
+            selectedAutoLabelWidget.setString("File " + autoChooserWidget.getSelected() + " not found or other I/O error");
+            autoSetupSuccessfulWidget.setBoolean(false);
+            e.printStackTrace();
             try {
                 autonomous = new Autonomous();
-                selectedAutoLabelWidget.setString("Default: " + Autonomous.getNameFromFile(Autonomous.defaultPath));
             } catch (IOException e1) {
-                selectedAutoLabelWidget.setString("DEFAULT NOT FOUND OR I/O ERROR");
+                selectedAutoLabelWidget.setString("Neither selected file " + autoChooserWidget.getSelected() + " nor default file " + Autonomous.defaultPath + " found or other I/O error");
                 e1.printStackTrace();
-            } finally {
-                autoSetupSuccessfulWidget.setBoolean(false);
             }
         }
     }
@@ -269,12 +296,163 @@ public class ShuffleboardControl {
      * Updates the auto files available to choose from.
      */
     private static void updateAutoFiles(SendableChooser<String> chooser) {
-        chooser.setDefaultOption("Default: " + Autonomous.getNameFromFile(Autonomous.defaultPath), Autonomous.defaultPath);
-        chooser.addOption("Left", "/path/to/Left.txt"); //TODO
-        chooser.addOption("Right", "/path/to/Right.txt");
+        chooser.setDefaultOption("Default: " + Autonomous.getNameFromFile(Autonomous.defaultPath) + " (" + Autonomous.defaultPath.split("/")[0] + " path)", Autonomous.defaultPath);
+        for (java.io.File dir : Filesystem.getDeployDirectory().listFiles()) {
+            if (dir.isDirectory() && (dir.getPath().contains("deploy/generated") || dir.getPath().contains("deploy/recorded"))) {
+                String type = dir.getPath().contains("deploy/generated") ? "generated" : "recorded";
+                for (String filename : dir.list()) {
+                    String path = type + "/" + filename;
+                    chooser.addOption(Autonomous.getNameFromFile(path) + " (" + type + " path)", path);
+                }
+            }
+        }
     }
 
     public static Autonomous getAutonomous() {
         return autonomous;
+    }
+
+
+    // RECORDING
+    // [not started & not complete] -> [started but not complete] -> [complete] -> [not started & not complete]
+
+    private static void startRecording() {
+        if (!recordingStarted && !recordingComplete) {
+            timer.reset();
+            timer.start();
+            recordingStarted = true;
+            //TODO: create file to write into
+        } else {
+            countdownWidget.setString("You cannot start a new recording until you have saved or discarded your last one.");
+        }
+    }
+
+    private static void cancelRecording() {
+        if (recordingStarted && !recordingComplete) {
+            timer.stop();
+            timer.reset();
+            countdownWidget.setString("");
+            recordingTimerWidget.setDouble(0);
+            recordingStarted = false;
+        } else {
+            countdownWidget.setString(recordingComplete ? "It is too late to cancel this recording. Save or discard it instead." : "There is no recording in progress to cancel.");
+        }
+    }
+
+    private static void replayRecording() {
+        if (recordingComplete) {
+            //TODO: replay recording
+        } else {
+            countdownWidget.setString("There is no completed recording to play back.");
+        }
+    }
+
+    private static void saveRecording() {
+        if (recordingComplete) {
+            //TODO: save recording
+        } else {
+            countdownWidget.setString("There is no completed recording to save.");
+        }
+    }
+
+    private static void discardRecording() {
+        if (recordingComplete) {
+            //TODO: discard recording
+
+            timer.reset();
+            countdownWidget.setString("");
+            recordingTimerWidget.setDouble(0);
+            recordingStarted = false;
+        } else {
+            countdownWidget.setString("There is no completed recording to discard.");
+        }
+    }
+
+    /**
+     * Returns true if Shuffleboard is in the process of recording a new auto.
+     */
+    public static boolean isRecording() {
+        return recordingStarted && !recordingComplete;
+    }
+
+    /**
+     * Called when Shuffleboard is in the process of recording a new auto in teleop.
+     */
+    public static void recordingPeriodic() {
+        double time = timer.get();
+        if (time > autoLength + 3) {
+            timer.stop();
+            recordingTimerWidget.setDouble(autoLength);
+            filenameWidget.setString(formatter.format(new Date()));
+            recordingComplete = true;
+        } else if (time >= 3) {
+            recordingTimerWidget.setDouble(time - 3);
+
+            //TODO: record in file
+        } else {
+            recordingTimerWidget.setDouble(0);
+        }
+
+        if (time < 1) {
+            countdownWidget.setString("3...");
+        } else if (time < 2) {
+            countdownWidget.setString("3... 2...");
+        } else if (time < 3) {
+            countdownWidget.setString("3... 2... 1...");
+        } else if (time < 3.2) {
+            countdownWidget.setString("3... 2... 1... GO");
+        }
+    }
+
+
+
+    // COMMANDS - Redirect to methods
+
+    private static class CancelRecording extends Command {
+        public CancelRecording() { super("Cancel"); }
+        @Override
+        protected void execute() { cancelRecording(); }
+        @Override
+        protected boolean isFinished() { return true; }
+    }
+
+    private static class DiscardRecording extends Command {
+        public DiscardRecording() { super("Discard"); }
+        @Override
+        protected void execute() { discardRecording(); }
+        @Override
+        protected boolean isFinished() { return true; }
+    }
+
+    private static class ReplayRecording extends Command {
+        public ReplayRecording() { super("Replay"); }
+        @Override
+        protected void execute() { replayRecording(); }
+        @Override
+        protected boolean isFinished() { return true; }
+    }
+
+    private static class SaveRecording extends Command {
+        public SaveRecording() { super("Save"); }
+        @Override
+        protected void execute() { saveRecording(); }
+        @Override
+        protected boolean isFinished() { return true; }
+    }
+
+    private static class SetAuto extends Command {
+        public SetAuto() { super("Select"); }
+        @Override
+        protected void execute() { setAutonomous(); }
+        @Override
+        protected boolean isFinished() { return true; }
+    }
+
+    private static class StartRecording extends Command {
+        public StartRecording() { super("Start"); }
+        @Override
+        protected void execute() { startRecording(); }
+        @Override
+        protected boolean isFinished() { return true; }
     }
 }
