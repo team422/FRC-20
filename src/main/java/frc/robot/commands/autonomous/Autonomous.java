@@ -15,10 +15,11 @@ public class Autonomous extends CommandGroup {
 
     public static final String defaultPath = "generated/ExampleTrajectory.txt";
 
+    /** The path of this autonomous, in inches from the top left corner. Used in the Path shuffleboard widget. */
     public double[] path = {};
 
     /**
-     * Creates an autonomous from the file chosen in Shuffleboard.
+     * Creates an autonomous from a file.
      * 
      * @param filename The path to the file.
      * @throws IOException
@@ -34,13 +35,5 @@ public class Autonomous extends CommandGroup {
      */
     public Autonomous() throws IOException {
         this(defaultPath);
-    }
-
-    /**
-     * Gets the readable name of the file from its filename, e.g. Default from path/to/Default.txt.
-     */
-    public static String getNameFromFile(String filename) {
-        String[] input = filename.split("/");
-        return input[input.length-1].split(".")[0];
     }
 }

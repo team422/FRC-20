@@ -17,8 +17,9 @@ import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 
 /**
- * Manages the Shuffleboard layout, creating autonomoi by passing file names to the Autonomous constructor, and recording autos.
- * A helper class. Everything is static; do not create an instance of this class.
+ * Manages the Shuffleboard layout, creates autonomoi by passing file names to the Autonomous constructor, and records autos.
+ * 
+ * A utility class. Do not create an instance of this class.
  */
 public class ShuffleboardControl {
 
@@ -99,10 +100,12 @@ public class ShuffleboardControl {
             .withPosition(0, 2)
             .withSize(2, 1).getEntry();
         
-        pathWidget = autonomousTab.add("Path", "") //TODO
+        double[] emptyDouble = new double[0];
+        pathWidget = autonomousTab.add("Path", emptyDouble)
             .withWidget("Path")
+            .withProperties(Map.of("year", 2020, "field width", 26*12 + 11.25, "field height", 52*12 + 5.25))
             .withPosition(2, 0)
-            .withSize(3, 3).getEntry();
+            .withSize(3, 4).getEntry();
 
         ShuffleboardLayout startCancelRecordingLayout = recordAutoLayout.getLayout("Start/cancel recording", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1, "label position", "HIDDEN"))
@@ -183,8 +186,8 @@ public class ShuffleboardControl {
 
         // Setup buttons tab
 
-        boolean[] empty = new boolean[13];
-        operatorControllerWidget = buttonsTab.add("Operator Controller", empty)
+        boolean[] emptyBool = new boolean[13];
+        operatorControllerWidget = buttonsTab.add("Operator Controller", emptyBool)
             .withWidget("Xbox Controller")
             .withProperties(Map.ofEntries(  new AbstractMap.SimpleEntry<String, String>("a descr", ""),
                                             new AbstractMap.SimpleEntry<String, String>("b descr", ""),
@@ -207,7 +210,7 @@ public class ShuffleboardControl {
             .withPosition(0, 0)
             .withSize(4, 3).getEntry();
 
-        driverControllerWidget = buttonsTab.add("Driver Controller", empty)
+        driverControllerWidget = buttonsTab.add("Driver Controller", emptyBool)
             .withWidget("Xbox Controller")
             .withProperties(Map.ofEntries(  new AbstractMap.SimpleEntry<String, String>("a descr", "[intake + vision takeover]"),
                                             new AbstractMap.SimpleEntry<String, String>("b descr", ""),
@@ -278,7 +281,7 @@ public class ShuffleboardControl {
             autonomous = new Autonomous(autoChooserWidget.getSelected());
             pathWidget.setDoubleArray(autonomous.path);
             autoSetupSuccessfulWidget.setBoolean(true);
-            selectedAutoLabelWidget.setString(Autonomous.getNameFromFile(autoChooserWidget.getSelected()));
+            selectedAutoLabelWidget.setString(getNameFromFile(autoChooserWidget.getSelected()));
         } catch (IOException e) {
             selectedAutoLabelWidget.setString("File " + autoChooserWidget.getSelected() + " not found or other I/O error");
             autoSetupSuccessfulWidget.setBoolean(false);
@@ -296,13 +299,13 @@ public class ShuffleboardControl {
      * Updates the auto files available to choose from.
      */
     private static void updateAutoFiles(SendableChooser<String> chooser) {
-        chooser.setDefaultOption("Default: " + Autonomous.getNameFromFile(Autonomous.defaultPath) + " (" + Autonomous.defaultPath.split("/")[0] + " path)", Autonomous.defaultPath);
+        chooser.setDefaultOption("Default: " + getNameFromFile(Autonomous.defaultPath) + " (" + Autonomous.defaultPath.split("/")[0] + " path)", Autonomous.defaultPath);
         for (java.io.File dir : Filesystem.getDeployDirectory().listFiles()) {
             if (dir.isDirectory() && (dir.getPath().contains("deploy/generated") || dir.getPath().contains("deploy/recorded"))) {
                 String type = dir.getPath().contains("deploy/generated") ? "generated" : "recorded";
                 for (String filename : dir.list()) {
                     String path = type + "/" + filename;
-                    chooser.addOption(Autonomous.getNameFromFile(path) + " (" + type + " path)", path);
+                    chooser.addOption(getNameFromFile(path) + " (" + type + " path)", path);
                 }
             }
         }
@@ -454,5 +457,16 @@ public class ShuffleboardControl {
         protected void execute() { startRecording(); }
         @Override
         protected boolean isFinished() { return true; }
+    }
+
+
+    // HELPER METHODS
+
+    /**
+     * Gets the readable name of the file from its filename, e.g. Default from path/to/Default.txt.
+     */
+    private static String getNameFromFile(String filename) {
+        String[] input = filename.split("/");
+        return input[input.length-1].split(".")[0];
     }
 }
