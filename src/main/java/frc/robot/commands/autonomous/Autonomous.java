@@ -21,11 +21,11 @@ public class Autonomous extends CommandGroup {
     /**
      * Creates an autonomous from a file.
      * 
-     * @param filename The path to the file.
+     * @param filename The path to the file, relative to the deploy directory.
      * @throws IOException
      */
     public Autonomous(String filename) throws IOException {
-        BufferedReader f = new BufferedReader(new FileReader(Filesystem.getDeployDirectory().getAbsolutePath() + filename));
+        BufferedReader f = new BufferedReader(new FileReader(Filesystem.getDeployDirectory().getAbsolutePath() + "/" + filename));
         //TODO: create auto from file
         f.close();
     }

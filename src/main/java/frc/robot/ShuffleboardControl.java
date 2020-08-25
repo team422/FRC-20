@@ -1,6 +1,8 @@
 package frc.robot;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Date;
@@ -50,6 +52,7 @@ public class ShuffleboardControl {
 
     private static boolean recordingStarted = false;
     private static boolean recordingComplete = false;
+    private static File temp;
     private static final Timer timer = new Timer();
     private static final int autoLength = 15;
     private static final SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd_HHmmss");
@@ -60,7 +63,7 @@ public class ShuffleboardControl {
      * Arranges the Shuffleboard layout. An initiation method; should only be called once, in Robot.robotInit().
      */
     public static void layoutShuffleboard() {
-        //Get references to tabs & layouts
+        // Get references to tabs & layouts
         ShuffleboardTab autonomousTab = Shuffleboard.getTab("Autonomous");
         ShuffleboardTab teleopTab = Shuffleboard.getTab("Teleoperated");
         ShuffleboardTab buttonsTab = Shuffleboard.getTab("Buttons");
@@ -71,7 +74,7 @@ public class ShuffleboardControl {
             .withSize(2, 3);
         ShuffleboardLayout recordAutoLayout = autonomousTab.getLayout("Record new auto", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 1, "number of rows", 6, "label position", "HIDDEN"))
-            .withPosition(0, 0)
+            .withPosition(6, 0)
             .withSize(2, 3);
         ShuffleboardLayout timeValueLayout = teleopTab.getLayout("Match time & Sensor values", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 1, "number of rows", 2, "label position", "HIDDEN"))
@@ -81,10 +84,22 @@ public class ShuffleboardControl {
             .withPosition(0, 0)
             .withSize(1, 3);
 
-        //Setup autonomous tab
+        // Setup autonomous tab
 
         autoChooserWidget = new SendableChooser<String>();
-        ShuffleboardControl.updateAutoFiles(autoChooserWidget);
+
+        //set each found file as an option
+        autoChooserWidget.setDefaultOption("Default: " + getNameFromFile(Autonomous.defaultPath) + " (" + Autonomous.defaultPath.split("/")[0] + " path)", Autonomous.defaultPath);
+        for (File dir : Filesystem.getDeployDirectory().listFiles()) {
+            if (dir.isDirectory()) {
+                String[] folders = dir.getPath().split("/");
+                String type = folders[folders.length-2];
+                for (String filename : dir.list()) {
+                    String path = type + "/" + filename;
+                    autoChooserWidget.addOption(getNameFromFile(path) + " (" + type + " path)", path);
+                }
+            }
+        }
 
         chooseAutoLayout.add("Browse autos", autoChooserWidget)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
@@ -230,6 +245,18 @@ public class ShuffleboardControl {
                                             new AbstractMap.SimpleEntry<String, String>("button color", "#999999")))
             .withPosition(5, 0)
             .withSize(4, 3).getEntry();
+
+
+        //Setup file system for recording
+        File recentDir = new File(Filesystem.getDeployDirectory().getAbsolutePath() + "/recently recorded");
+        recentDir.mkdir();
+
+        //delete recently created files
+        //TODO: check if the "recently created" folder is automatically deleted on deploy; if so, don't bother with this
+        File files[] = recentDir.listFiles();
+        for (File file : files) {
+            file.delete();
+        }
     }
 
     /**
@@ -274,41 +301,32 @@ public class ShuffleboardControl {
     // AUTONOMOUS
 
     /**
-     * Sets the current autonomous according to the choices on Shuffleboard.
+     * Sets the current autonomous to the specified file.
      */
-    public static void setAutonomous() {
+    public static void setAutonomous(String filename) {
         try {
-            autonomous = new Autonomous(autoChooserWidget.getSelected());
+            autonomous = new Autonomous(filename);
             pathWidget.setDoubleArray(autonomous.path);
             autoSetupSuccessfulWidget.setBoolean(true);
-            selectedAutoLabelWidget.setString(getNameFromFile(autoChooserWidget.getSelected()));
+            selectedAutoLabelWidget.setString(getNameFromFile(filename));
         } catch (IOException e) {
-            selectedAutoLabelWidget.setString("File " + autoChooserWidget.getSelected() + " not found or other I/O error");
+            selectedAutoLabelWidget.setString("File " + filename + " not found or other I/O error");
             autoSetupSuccessfulWidget.setBoolean(false);
             e.printStackTrace();
             try {
                 autonomous = new Autonomous();
             } catch (IOException e1) {
-                selectedAutoLabelWidget.setString("Neither selected file " + autoChooserWidget.getSelected() + " nor default file " + Autonomous.defaultPath + " found or other I/O error");
+                selectedAutoLabelWidget.setString("Neither selected file " + filename + " nor default file " + Autonomous.defaultPath + " found or other I/O error");
                 e1.printStackTrace();
             }
         }
     }
 
     /**
-     * Updates the auto files available to choose from.
+     * Sets the current autonomous to the choice selected in Shuffleboard.
      */
-    private static void updateAutoFiles(SendableChooser<String> chooser) {
-        chooser.setDefaultOption("Default: " + getNameFromFile(Autonomous.defaultPath) + " (" + Autonomous.defaultPath.split("/")[0] + " path)", Autonomous.defaultPath);
-        for (java.io.File dir : Filesystem.getDeployDirectory().listFiles()) {
-            if (dir.isDirectory() && (dir.getPath().contains("deploy/generated") || dir.getPath().contains("deploy/recorded"))) {
-                String type = dir.getPath().contains("deploy/generated") ? "generated" : "recorded";
-                for (String filename : dir.list()) {
-                    String path = type + "/" + filename;
-                    chooser.addOption(getNameFromFile(path) + " (" + type + " path)", path);
-                }
-            }
-        }
+    public static void setAutonomous() {
+        setAutonomous(autoChooserWidget.getSelected());
     }
 
     public static Autonomous getAutonomous() {
@@ -324,7 +342,13 @@ public class ShuffleboardControl {
             timer.reset();
             timer.start();
             recordingStarted = true;
-            //TODO: create file to write into
+            try { temp = File.createTempFile("rec", "txt", new File(Filesystem.getDeployDirectory().getAbsolutePath() + "/recently recorded")); }
+            catch (IOException e) {
+                timer.stop();
+                timer.reset();
+                countdownWidget.setString("File could not be created. Fetch programming.");
+                e.printStackTrace();
+            }
         } else {
             countdownWidget.setString("You cannot start a new recording until you have saved or discarded your last one.");
         }
@@ -344,7 +368,7 @@ public class ShuffleboardControl {
 
     private static void replayRecording() {
         if (recordingComplete) {
-            //TODO: replay recording
+            setAutonomous("recently recorded/" + temp.getName());
         } else {
             countdownWidget.setString("There is no completed recording to play back.");
         }
@@ -352,7 +376,21 @@ public class ShuffleboardControl {
 
     private static void saveRecording() {
         if (recordingComplete) {
-            //TODO: save recording
+            File target = new File(Filesystem.getDeployDirectory() + "/recently recorded/" + filenameWidget.getString("") + ".txt");
+            if (target.exists() || new File(Filesystem.getDeployDirectory() + "/recorded/" + filenameWidget.getString("") + ".txt").exists()) {
+                countdownWidget.setString("A recorded auto with this name already exists.");
+            } else if (filenameWidget.getString("") == "") {
+                countdownWidget.setString("You must specify a filename to save as.");
+            } else {
+                try {
+                    Files.copy(temp.toPath(), target.toPath());
+                    temp.delete();
+                    autoChooserWidget.addOption(filenameWidget.getString("") + " (recorded path)", "recently recorded/" + filenameWidget.getString("") + ".txt");
+                } catch (IOException e) {
+                    countdownWidget.setString("I/O error occurred trying to save file. Fetch programming.");
+                    e.printStackTrace();
+                }
+            }
         } else {
             countdownWidget.setString("There is no completed recording to save.");
         }
@@ -360,7 +398,7 @@ public class ShuffleboardControl {
 
     private static void discardRecording() {
         if (recordingComplete) {
-            //TODO: discard recording
+            temp.delete();
 
             timer.reset();
             countdownWidget.setString("");
