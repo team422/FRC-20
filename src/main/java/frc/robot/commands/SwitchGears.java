@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 
 /**
- * A command to toggle between slow and fast mode. 
+ * Toggles between slow and fast mode.
  */
 public class SwitchGears extends Command {
 
@@ -13,27 +13,19 @@ public class SwitchGears extends Command {
     }
 
     @Override
-    public void initialize() {
-        if (RobotMap.isFastMode) {
-            RobotMap.setSpeedAndRotationCaps(0.3, 0.2);
-            RobotMap.isFastMode = false;
+    protected void execute() {
+        if (RobotMap.isSpeedMode) {
+            RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
+            RobotMap.isSpeedMode = false;
         } else {
-            RobotMap.setSpeedAndRotationCaps(1, 0.35);
-            RobotMap.isFastMode = true;
+            RobotMap.setSpeedAndRotationCaps(0.8, 0.7);
+            RobotMap.isSpeedMode = true;
         }
     }
 
     @Override
-    public void execute() {}
-
-    @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }
