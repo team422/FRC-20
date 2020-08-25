@@ -3,10 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 import edu.wpi.first.networktables.*;
+
 /**
  * Uses pixy to face towards a power cell and prepare to consume.
  */
-public class TrackObject extends Command {   
+public class TrackObject extends Command {
 
     public TrackObject() {
         super("TrackObject");

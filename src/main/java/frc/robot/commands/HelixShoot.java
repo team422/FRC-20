@@ -4,14 +4,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.RobotMap;
 
 /**
  * Turns the helix when the flywheel is running & up to speed. If this is executed in auto, it must have a timeout.
  */
 public class HelixShoot extends Command {
 
-    private Boolean warmedUp = false;
+    private boolean warmedUp = false;
     private int counter = 0;
 
     private final double helixSpeed = 0.60;
@@ -22,18 +21,15 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         warmedUp = false;
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         System.out.println(Subsystems.flyboi.getPower());
-        if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.005) {
-            if (!RobotMap.isCellStopUp) {
-                // Subsystems.helix.cellStopIn();
-                RobotMap.isCellStopUp = true;
-            } else if (counter < 5) {
+        if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.010) {
+            if (counter < 6) {
                 counter++;
             } else {
                 Subsystems.helix.setHelixMotors(helixSpeed);
@@ -50,7 +46,7 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         if (DriverStation.getInstance().isAutonomous()) {
             return false;
         } else {
@@ -59,9 +55,9 @@ public class HelixShoot extends Command {
     }
 
     @Override
-    public void interrupted() {}
+    protected void interrupted() {}
 
     @Override
-    public void end() {}
+    protected void end() {}
 
 }

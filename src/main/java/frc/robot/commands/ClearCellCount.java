@@ -3,19 +3,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
-/**
- * Stops the intake wheels.
- */
-public class IntakeOff extends Command {
+public class ClearCellCount extends Command {
 
-    public IntakeOff() {
-        super("IntakeOff");
-        requires(Subsystems.intake);
+    public ClearCellCount() {
+        super("ClearCellCount");
     }
 
     @Override
     protected void execute() {
-        Subsystems.intake.stopIntakeMotors();
+        Subsystems.helix.cellCount = 0;
     }
 
     @Override

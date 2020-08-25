@@ -22,10 +22,7 @@ public class SwitchCameras extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
+    protected void execute() {
         if (RobotMap.isFirstCamera) {
 			switchedCamera.setSource(camera2);
 			RobotMap.isFirstCamera = false;
@@ -36,13 +33,8 @@ public class SwitchCameras extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }
