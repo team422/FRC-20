@@ -1,17 +1,18 @@
 package frc.robot.subsystems;
 
-import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.TankDrive;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+// import com.analog.adis16470.frc.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.RobotMap;
+import frc.robot.commands.TankDrive;
 
 /**
- * The drive base of the robot. Includes all drive train motor controllers as well as sensors such as gyros and encoders.
+ * The drive base of the robot. Includes all drive train motor controllers as well as sensors such as gyros and encoders, and can use PID to set its motor speeds.
  */
 public class DriveBase extends Subsystem {
 
@@ -43,9 +44,7 @@ public class DriveBase extends Subsystem {
         super("DriveBase");
         this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster);
         this.rightMiddleMaster = new WPI_TalonSRX(RobotMap.rightMiddleMaster);
-
-        leftMiddleMaster.setInverted(true);
-
+        
         if (RobotMap.botName == RobotMap.BotNames.COMPETITION || RobotMap.botName == RobotMap.BotNames.PRACTICE) {
             //Practice/comp bot
             this.leftFrontFollowerVictor = new WPI_VictorSPX(RobotMap.leftFrontFollower);
@@ -58,7 +57,6 @@ public class DriveBase extends Subsystem {
 
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerVictor, leftRearFollowerVictor);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerVictor, rightRearFollowerVictor);
-            this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
 
         } else if (RobotMap.botName == RobotMap.BotNames.TOASTER) {
             //Toaster
@@ -72,13 +70,15 @@ public class DriveBase extends Subsystem {
 
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerTalon, leftRearFollowerTalon);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerTalon, rightRearFollowerTalon);
-            this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
         }
 
+        // this.gyro = new ADIS16470_IMU();
         this.gyro = new ADXRS450_Gyro(kGyroPort);
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
+
+        this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
     }
 
     public void initDefaultCommand() {
@@ -125,9 +125,7 @@ public class DriveBase extends Subsystem {
     }
 
     /**
-     * <p>Sends a message to the encoders for them to zero.</p>
-     * This does not currently take place immediately; if you call this method and use the encoder values right afterwards,
-     * you will likely be using old values.
+     * Resets the reference point used to calculate distance traveled. Does not physically change the encoder value.
      */
     public void zeroEncoderPosition() {
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
