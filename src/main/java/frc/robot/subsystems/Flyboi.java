@@ -18,7 +18,7 @@ public class Flyboi extends Subsystem {
     public CANEncoder rightEncoder;
     private SimpleMotorFeedforward feedforward;
 
-    public double wheelSpeed = 0.760;
+    public double wheelSpeed = 0.80;
 
     public Flyboi() {
         super("Flyboi");
@@ -27,13 +27,13 @@ public class Flyboi extends Subsystem {
         this.leftEncoder = leftFlywheel.getEncoder();
         this.rightEncoder = rightFlywheel.getEncoder();
 
-        this.feedforward = new SimpleMotorFeedforward(1.0, 1.0);
+        this.feedforward = new SimpleMotorFeedforward(1.05, 1.0);
     }
 
     public void initDefaultCommand() {}
 
     /**
-     * Spins wheel motors.
+     * Spins wheel motors. Recommended to use <code>setShootVoltage</code> instead.
      * @param speed The speed to set the flywheel to (-1 to 1).
      */
     public void spinWheel(double speed) {

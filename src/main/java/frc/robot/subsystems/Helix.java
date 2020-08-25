@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.RobotMap;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * The helix, the storage mechanism, with a spinning brush and cell stop piston.
@@ -12,14 +11,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 public class Helix extends Subsystem {
 
     public WPI_TalonSRX helicase;
-    public DoubleSolenoid cellStop;
 
     public int cellCount = 3;
 
     public Helix() {
         super("Helix");
         this.helicase = new WPI_TalonSRX(RobotMap.helicase);
-        this.cellStop = new DoubleSolenoid(RobotMap.cellStopOut, RobotMap.cellStopIn);
     }
 
     protected void initDefaultCommand() {}
@@ -37,19 +34,5 @@ public class Helix extends Subsystem {
      */
     public void stopHelixMotors() {
         helicase.set(ControlMode.PercentOutput, 0);
-    }
-
-    /**
-     * Extends the cell stop.
-     */
-    public void cellStopOut() {
-        cellStop.set(DoubleSolenoid.Value.kForward);
-    }
-
-    /**
-     * Retracts the cell stop.
-     */
-    public void cellStopIn() {
-        cellStop.set(DoubleSolenoid.Value.kReverse);
     }
 }

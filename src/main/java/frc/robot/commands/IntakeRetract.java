@@ -15,24 +15,14 @@ public class IntakeRetract extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
+    protected void execute() {
         Subsystems.intake.intakeRetract();
         RobotMap.isIntakeDown = false;
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {
-    }
-
-    @Override
-    public void end() {
-    }
 }

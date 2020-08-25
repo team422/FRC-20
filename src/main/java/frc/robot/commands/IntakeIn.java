@@ -14,21 +14,13 @@ public class IntakeIn extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
-        Subsystems.intake.setIntakeMotors(0.8);
+    protected void execute() {
+        Subsystems.intake.setIntakeMotors(0.85);
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }
