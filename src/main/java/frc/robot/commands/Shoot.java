@@ -1,17 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  * Warms up the flywheel, then starts shooting out power cells.
  */
 public class Shoot extends CommandGroup {
     public Shoot() {
-        addSequential(new StartStopFlywheel());
-        addSequential(new WaitCommand(0.6));
-        addSequential(new CellStopRetract());
-        addSequential(new HelixOn());
-        addSequential(new ClearCellCount());
+        addSequential(new HelixTurn(), 0.3);
+        addSequential(new StartFlywheel());
+        addSequential(new HelixShoot());
     }
 }

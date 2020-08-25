@@ -14,21 +14,13 @@ public class IntakeOff extends Command {
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
-    public void execute() {
+    protected void execute() {
         Subsystems.intake.stopIntakeMotors();
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }

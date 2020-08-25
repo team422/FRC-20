@@ -29,14 +29,14 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         System.out.println("Starting driveStraight!");
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         double correction = Subsystems.driveBase.getGyroAngle();
         correction *= 0.05;
         correction += 1.0;
@@ -48,19 +48,19 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         int leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
         int rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
         return (leftPosition > ticks) || (rightPosition > ticks) || isTimedOut();
     }
 
     @Override
-    public void interrupted() {
+    protected void interrupted() {
         Subsystems.driveBase.setMotors(0,0);
     }
 
     @Override
-    public void end() {
+    protected void end() {
         Subsystems.driveBase.setMotors(0,0);
     }
 

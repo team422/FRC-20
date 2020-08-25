@@ -16,8 +16,6 @@ public class Intake extends Subsystem {
     public DoubleSolenoid intakeExtension;
     public DigitalInput intakeBeamBreak;
 
-    public int cellCount = 3;
-
     public Intake() {
         super("Intake");
         this.intakeMotor = new WPI_TalonSRX(RobotMap.intakeMotor);
@@ -29,7 +27,7 @@ public class Intake extends Subsystem {
 
     /**
      * Spins intake motors.
-     * @param power The power at which the intake motors are set (-1 to 1).
+     * @param power The power at which the intake motors are set [-1 to 1].
      */
     public void setIntakeMotors(double power) {
         intakeMotor.set(ControlMode.PercentOutput, power);
@@ -47,7 +45,6 @@ public class Intake extends Subsystem {
      */
     public void intakeExtend() {
         intakeExtension.set(DoubleSolenoid.Value.kForward);
-        System.out.println("Going down");
     }
 
     /**
@@ -55,7 +52,6 @@ public class Intake extends Subsystem {
      */
     public void intakeRetract() {
         intakeExtension.set(DoubleSolenoid.Value.kReverse);
-        System.out.println("Going up");
     }
 
     /**

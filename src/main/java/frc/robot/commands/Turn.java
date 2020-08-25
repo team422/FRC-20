@@ -26,13 +26,13 @@ public class Turn extends Command {
         setTimeout(Timeout);
     }
 
-    public void initialize() {
+    protected void initialize() {
         System.out.println("Starting turn!");
         Subsystems.driveBase.zeroGyroAngle();
         Subsystems.driveBase.zeroEncoderPosition();
     }
 
-    public void execute() {
+    protected void execute() {
         if ((degrees > 0) && !isCorrecting) {
             // Turning to the right
             Subsystems.driveBase.setMotors(-speed, speed);
@@ -41,14 +41,14 @@ public class Turn extends Command {
             Subsystems.driveBase.setMotors(speed, -speed);
         } else if (degrees > 0) {
             // Turned to the right, but correcting to the left
-            Subsystems.driveBase.setMotors(speed / 2, -speed / 2);
+            Subsystems.driveBase.setMotors(speed / 1.5, -speed / 1.5);
         } else {
             // Turned to the left, but correcting to the right
-            Subsystems.driveBase.setMotors(-speed / 2, speed / 2);
+            Subsystems.driveBase.setMotors(-speed / 1.5, speed / 1.5);
         }
     }
 
-    public boolean isFinished() {
+    protected boolean isFinished() {
         double angle = Subsystems.driveBase.getGyroAngle();
         if (degrees > 0) {
             // Turning to the right
@@ -71,11 +71,11 @@ public class Turn extends Command {
         }
     }
 
-    public void interrupted() {
+    protected void interrupted() {
         Subsystems.driveBase.setMotors(0,0);
     }
 
-    public void end() {
+    protected void end() {
         Subsystems.driveBase.setMotors(0,0);
     }
 
