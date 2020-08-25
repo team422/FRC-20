@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.RobotMap;
 
 /**
@@ -13,10 +14,12 @@ public class Intake extends Subsystem {
 
     public WPI_TalonSRX intakeMotor;
     public DoubleSolenoid intakeExtension;
+    public DigitalInput intakeBeamBreak;
 
     public Intake() {
         super("Intake");
         this.intakeMotor = new WPI_TalonSRX(RobotMap.intakeMotor);
+        this.intakeBeamBreak = new DigitalInput(RobotMap.intakeBeamBreak);
         this.intakeExtension = new DoubleSolenoid(RobotMap.intakeExtensionOut, RobotMap.intakeExtensionIn);
     }
 
@@ -24,10 +27,10 @@ public class Intake extends Subsystem {
 
     /**
      * Spins intake motors.
-     * @param power The power at which the intake motors are set.
+     * @param power The power at which the intake motors are set [-1 to 1].
      */
     public void setIntakeMotors(double power) {
-        intakeMotor.set(ControlMode.PercentOutput, -power);
+        intakeMotor.set(ControlMode.PercentOutput, power);
     }
 
     /**
@@ -49,5 +52,12 @@ public class Intake extends Subsystem {
      */
     public void intakeRetract() {
         intakeExtension.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    /**
+     * @return Whether the intake beam break currently detects something.
+     */
+    public boolean getCellEntered() {
+        return !intakeBeamBreak.get();
     }
 }

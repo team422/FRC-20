@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A command to spin the intake wheels in to absorb lemonade cargo.
+ * Spins the intake wheels in to absorb lemonade cargo.
  */
 public class IntakeIn extends Command {
 
@@ -14,28 +14,13 @@ public class IntakeIn extends Command {
     }
 
     @Override
-    public void initialize() {
-        Subsystems.intake.setIntakeMotors(0.3);
+    protected void execute() {
+        Subsystems.intake.setIntakeMotors(0.85);
     }
 
     @Override
-    public void execute() {
-        //motors still on
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void interrupted() {
-        Subsystems.intake.setIntakeMotors(0);
-    }
-
-    @Override
-    public void end() {
-        Subsystems.intake.setIntakeMotors(0);
+    protected boolean isFinished() {
+        return true;
     }
 
 }
