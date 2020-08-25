@@ -5,8 +5,8 @@ import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.UsbCamera;
 import frc.robot.RobotMap;
 
-/** 
- * A command to toggle between driver cameras seen in Shuffleboard.
+/**
+ * Toggles between driver cameras seen in Shuffleboard.
  */
 public class SwitchCameras extends Command {
 
@@ -22,7 +22,7 @@ public class SwitchCameras extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void execute() {
         if (RobotMap.isFirstCamera) {
 			switchedCamera.setSource(camera2);
 			RobotMap.isFirstCamera = false;
@@ -33,16 +33,8 @@ public class SwitchCameras extends Command {
     }
 
     @Override
-    public void execute() {}
-
-    @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         return true;
     }
 
-    @Override
-    public void interrupted() {}
-
-    @Override
-    public void end() {}
 }

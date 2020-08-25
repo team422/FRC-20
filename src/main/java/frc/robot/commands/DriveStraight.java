@@ -5,7 +5,7 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 
 /**
- * A command to drive the robot in a straight line.
+ * Drives the robot in a straight line.
  */
 public class DriveStraight extends Command {
 
@@ -29,38 +29,38 @@ public class DriveStraight extends Command {
     }
 
     @Override
-    public void initialize() {
+    protected void initialize() {
         System.out.println("Starting driveStraight!");
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
     }
 
     @Override
-    public void execute() {
-        // double correction = Subsystems.driveBase.getGyroAngle();
-        // correction *= 0.075;
-        // correction += 1.0;
+    protected void execute() {
+        double correction = Subsystems.driveBase.getGyroAngle();
+        correction *= 0.05;
+        correction += 1.0;
         if (forward) {
-            Subsystems.driveBase.setMotors(-speed, -speed);
+            Subsystems.driveBase.setMotors(-speed, -speed * correction);
         } else {
-            Subsystems.driveBase.setMotors(speed, speed);
+            Subsystems.driveBase.setMotors(speed * correction, speed);
         }
     }
 
     @Override
-    public boolean isFinished() {
+    protected boolean isFinished() {
         int leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
         int rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
         return (leftPosition > ticks) || (rightPosition > ticks) || isTimedOut();
     }
 
     @Override
-    public void interrupted() {
+    protected void interrupted() {
         Subsystems.driveBase.setMotors(0,0);
     }
 
     @Override
-    public void end() {
+    protected void end() {
         Subsystems.driveBase.setMotors(0,0);
     }
 

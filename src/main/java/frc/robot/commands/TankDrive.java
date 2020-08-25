@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
-import io.github.pseudoresonance.pixy2api.*;
+import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 
 /**
  * Uses joystick values to drive the bot in teleop.
@@ -64,9 +64,9 @@ public class TankDrive extends Command {
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
         * for driveBase to the right stick X-axis on on the driverXboxController */
         if (UserInterface.driverController.getRightJoystickY() < -0.1) {
-            speed = -(Math.pow(UserInterface.driverController.getRightJoystickY(), 2));
-        } else if (UserInterface.driverController.getRightJoystickY() > 0.1) {
             speed = (Math.pow(UserInterface.driverController.getRightJoystickY(), 2));
+        } else if (UserInterface.driverController.getRightJoystickY() > 0.1) {
+            speed = -(Math.pow(UserInterface.driverController.getRightJoystickY(), 2));
         } else {
             speed = 0;
         }
@@ -105,4 +105,5 @@ public class TankDrive extends Command {
     protected void interrupted() {}
 
     protected void end() {}
+
 }
