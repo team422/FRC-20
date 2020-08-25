@@ -37,8 +37,8 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
-        //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
+        //set which bot
+        RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         //camera setup
