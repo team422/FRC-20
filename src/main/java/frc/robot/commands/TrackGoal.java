@@ -7,10 +7,10 @@ import edu.wpi.first.networktables.*;
 /**
  * Uses pixy to face towards a power cell and prepare to consume.
  */
-public class TrackObject extends Command {
+public class TrackGoal extends Command {
 
-    public TrackObject() {
-        super("TrackObject");
+    public TrackGoal() {
+        super("TrackGoal");
         requires(Subsystems.driveBase);
     }
 
@@ -23,18 +23,7 @@ public class TrackObject extends Command {
 
     @Override
     public void execute() { 
-        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-        NetworkTable table = ntinst.getTable("visionTable");
-
-        NetworkTableEntry testEntry = table.getEntry("test");
-        double test = testEntry.getDouble(-1);
-        System.out.println("test is " + test);
-
-        // NetworkTableEntry correctionEntry = table.getEntry("correction");
-        // double correction = correctionEntry.getDouble(-1);
-        // if (Math.abs(correction) > 0.25) {
-        //     Subsystems.driveBase.setMotors(-0.25*correction, 0.25*correction);
-        // }
+        Subsystems.driveBase.ringLightOn();
     }
 
     @Override
@@ -45,10 +34,12 @@ public class TrackObject extends Command {
     @Override
     public void interrupted() {
         Subsystems.driveBase.setMotors(0, 0);
+        Subsystems.driveBase.ringLightOff();
     }
 
     @Override
     public void end() {
         Subsystems.driveBase.setMotors(0, 0);
+        Subsystems.driveBase.ringLightOff();
     }
 }

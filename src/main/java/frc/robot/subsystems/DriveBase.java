@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 // import com.analog.adis16470.frc.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -36,6 +37,7 @@ public class DriveBase extends Subsystem {
     private SpeedControllerGroup rightSide;
     public DifferentialDrive cheesyDrive;
     private static final SPI.Port kGyroPort = SPI.Port.kOnboardCS0;
+    public Solenoid ringLight;
 
     public int leftMotorTicks = 0;
     public int rightMotorTicks = 0;
@@ -44,7 +46,8 @@ public class DriveBase extends Subsystem {
         super("DriveBase");
         this.leftMiddleMaster = new WPI_TalonSRX(RobotMap.leftMiddleMaster);
         this.rightMiddleMaster = new WPI_TalonSRX(RobotMap.rightMiddleMaster);
-        
+        this.ringLight = new Solenoid(RobotMap.ringLight);
+
         if (RobotMap.botName == RobotMap.BotNames.COMPETITION || RobotMap.botName == RobotMap.BotNames.PRACTICE) {
             //Practice/comp bot
             this.leftFrontFollowerVictor = new WPI_VictorSPX(RobotMap.leftFrontFollower);
@@ -137,5 +140,19 @@ public class DriveBase extends Subsystem {
      */
     public void zeroGyroAngle() {
         gyro.reset();
+    }
+
+    /**
+     * Turns the ring light on for reflective tape tracking
+     */
+    public void ringLightOn() {
+        ringLight.set(true);
+    }
+
+    /**
+     * Turns the ring light off for reflective tape tracking
+     */
+    public void ringLightOff() {
+        ringLight.set(false);
     }
 }

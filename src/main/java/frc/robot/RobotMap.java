@@ -46,6 +46,8 @@ public class RobotMap {
     public static final int driverXboxController = 1;
     public static final int operatorXboxController = 2;
 
+    //Fake solenoid PCM port
+    public static int ringLight;
 
     public enum BotNames {
         COMPETITION, PRACTICE, TOASTER
@@ -67,6 +69,9 @@ public class RobotMap {
             rightMiddleMaster = 14;
             rightRearFollower = 57;
             wheelDiameter = 8;
+
+            //set once we know what it is
+            ringLight = 422;
 
             //doesn't physically exist; unused values
             leftFlywheel = 422;
@@ -90,6 +95,10 @@ public class RobotMap {
             intakeMotor = 23;
             intakeExtensionIn = 1;
             intakeExtensionOut = 6;
+
+            //set once we know what it is
+            ringLight = 422;
+
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;
@@ -105,6 +114,10 @@ public class RobotMap {
             intakeMotor = 12;
             intakeExtensionIn = 1;
             intakeExtensionOut = 6;
+
+            //set once we know what it is
+            ringLight = 422;
+
         }
     }
 
