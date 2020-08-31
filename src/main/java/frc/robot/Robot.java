@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
+        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         //camera setup
@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
         UserInterface.driverController.A.whenPressed(new TrackObject());
+        UserInterface.driverController.B.whenPressed(new TrackGoal());
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake

@@ -71,7 +71,7 @@ public class RobotMap {
             wheelDiameter = 8;
 
             //set once we know what it is
-            ringLight = 422;
+            //ringLight = 422;
 
             //doesn't physically exist; unused values
             leftFlywheel = 422;
@@ -97,7 +97,7 @@ public class RobotMap {
             intakeExtensionOut = 6;
 
             //set once we know what it is
-            ringLight = 422;
+            ringLight = 0;
 
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
@@ -116,7 +116,7 @@ public class RobotMap {
             intakeExtensionOut = 6;
 
             //set once we know what it is
-            ringLight = 422;
+            //ringLight = 422;
 
         }
     }
