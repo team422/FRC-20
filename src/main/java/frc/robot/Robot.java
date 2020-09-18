@@ -53,8 +53,8 @@ public class Robot extends TimedRobot {
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
-        UserInterface.driverController.A.whenPressed(new TrackObject());
-        UserInterface.driverController.B.whenPressed(new TrackGoal());
+        UserInterface.driverController.A.whileHeld(new TrackObject());
+        UserInterface.driverController.B.whileHeld(new TrackGoal());
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake

@@ -23,13 +23,12 @@ public class TrackObject extends Command {
 
     @Override
     public void execute() { 
-        // NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-        // NetworkTable table = new NetworkTable("visionTable");
-        // table = ntinst.getTable("visionTable");
+        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+        NetworkTable table = ntinst.getTable("visionTable");
 
-        // NetworkTableEntry testEntry = table.getEntry("test");
-        // double test = testEntry.getDouble(-1);
-        // System.out.println("test is " + test);
+        NetworkTableEntry testEntry = table.getEntry("test");
+        double test = testEntry.getDouble(-1);
+        System.out.println("test is " + test);
 
         // NetworkTableEntry correctionEntry = table.getEntry("correction");
         // double correction = correctionEntry.getDouble(-1);
