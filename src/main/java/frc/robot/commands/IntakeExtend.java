@@ -1,27 +1,25 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Subsystems;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 
 /**
  * Extends the intake.
  */
-public class IntakeExtend extends Command {
+public class IntakeExtend extends CommandBase {
 
     public IntakeExtend() {
-        super("IntakeExtend");
-        requires(Subsystems.intake);
+        setName("IntakeExtend");
+        addRequirements(Subsystems.intake);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.intake.intakeExtend();
         RobotMap.isIntakeDown = true;
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

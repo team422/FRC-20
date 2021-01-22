@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 /**
  * Turns the helix when the flywheel is running & up to speed. If this is executed in auto, it must have a timeout.
  */
-public class HelixShoot extends Command {
+public class HelixShoot extends CommandBase {
 
     private boolean warmedUp = false;
     private int counter = 0;
@@ -16,17 +16,15 @@ public class HelixShoot extends Command {
     private final double helixSpeed = 0.60;
 
     public HelixShoot() {
-        super("HelixShoot");
-        requires(Subsystems.helix);
+        setName("HelixShoot");
+        addRequirements(Subsystems.helix);
     }
 
-    @Override
-    protected void initialize() {
+    public void initialize() {
         warmedUp = false;
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         System.out.println(Subsystems.flyboi.getPower());
         if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.010) {
             if (counter < 6) {
@@ -45,19 +43,11 @@ public class HelixShoot extends Command {
         }
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         if (DriverStation.getInstance().isAutonomous()) {
             return false;
         } else {
             return UserInterface.operatorController.getRightTrigger() < 0.4;
         }
     }
-
-    @Override
-    protected void interrupted() {}
-
-    @Override
-    protected void end() {}
-
 }

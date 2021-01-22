@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
@@ -8,20 +8,18 @@ import frc.robot.userinterface.UserInterface;
 /**
  * Uses joystick values to drive the bot in teleop.
  */
-public class TankDrive extends Command {
+public class TankDrive extends CommandBase {
 
     private double updatedSpeed = 0;
     private double updatedRotation = 0;
     private final double maxChange = 0.5; //maxChange is acceleration
 
     public TankDrive() {
-        super("TankDrive");
-        requires(Subsystems.driveBase);
+        setName("TankDrive");
+        addRequirements(Subsystems.driveBase);
     }
 
-    protected void initialize() {}
-
-    protected void execute() {
+    public void execute() {
         double speed;
         double rotation;
 
@@ -34,7 +32,6 @@ public class TankDrive extends Command {
         } else {
             speed = 0;
         }
-        updatedSpeed = speed;
         if (UserInterface.driverController.getLeftJoystickX() < -0.05) {
             rotation = (Math.pow(UserInterface.driverController.getLeftJoystickX(), 5));
         } else if (UserInterface.driverController.getLeftJoystickX() > 0.05) {
@@ -42,7 +39,6 @@ public class TankDrive extends Command {
         } else {
             rotation = 0;
         }
-        updatedRotation = -rotation;
         double speedDifference = speed - updatedSpeed;
         if (speedDifference > maxChange) {
             speed = updatedSpeed + maxChange;
@@ -52,22 +48,16 @@ public class TankDrive extends Command {
         double rotationDifference = rotation - updatedRotation;
         if (rotationDifference > maxChange) {
             rotation = updatedRotation + maxChange;
-            } else if (rotationDifference < -maxChange) {
+        } else if (rotationDifference < -maxChange) {
             rotation = updatedRotation - maxChange;
         }
+
+        updatedSpeed = speed;
+        updatedRotation = rotation;
 
         /*  Because of a weird glitch with how curvatureDrive is set up,
          *  the rotation actually goes in as the first input, followed by the speed,
          *  rather than speed then rotation */
         Subsystems.driveBase.cheesyDrive.curvatureDrive(RobotMap.getRotationCap() * rotation, RobotMap.getSpeedCap() * speed, true);
     }
-
-    protected boolean isFinished() {
-        return false;
-    }
-
-    protected void interrupted() {}
-
-    protected void end() {}
-
 }
