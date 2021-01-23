@@ -53,6 +53,7 @@ public class DriveBase extends SubsystemBase {
             this.rightRearFollowerVictor = new WPI_VictorSPX(RobotMap.rightRearFollower);
 
             leftFrontFollowerVictor.setInverted(true);
+            leftMiddleMaster.setInverted(true);
             leftRearFollowerVictor.setInverted(true);
 
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerVictor, leftRearFollowerVictor);
