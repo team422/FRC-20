@@ -1,19 +1,18 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 
 /**
  * Toggles between slow and fast mode.
  */
-public class SwitchGears extends Command {
+public class SwitchGears extends CommandBase {
 
     public SwitchGears() {
-        super("SwitchGears");
+        setName("SwitchGears");
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         if (RobotMap.isSpeedMode) {
             RobotMap.setSpeedAndRotationCaps(0.3, 0.5);
             RobotMap.isSpeedMode = false;
@@ -23,8 +22,7 @@ public class SwitchGears extends Command {
         }
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

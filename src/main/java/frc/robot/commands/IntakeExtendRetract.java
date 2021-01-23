@@ -1,21 +1,20 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Subsystems;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 
 /**
  * Toggles between the intake extended and the intake retracted.
  */
-public class IntakeExtendRetract extends Command {
+public class IntakeExtendRetract extends CommandBase {
 
     public IntakeExtendRetract() {
-        super("IntakeExtendRetract");
-        requires(Subsystems.intake);
+        setName("IntakeExtendRetract");
+        addRequirements(Subsystems.intake);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         if (RobotMap.isIntakeDown) {
             Subsystems.intake.intakeRetract();
 			RobotMap.isIntakeDown = false;
@@ -25,8 +24,7 @@ public class IntakeExtendRetract extends Command {
         }
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 
