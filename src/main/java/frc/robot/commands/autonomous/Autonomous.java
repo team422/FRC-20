@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj.command.WaitCommand;
 // import frc.robot.commands.*;
 
 /**
  * Creates an autonomous from a file.
  */
-public class Autonomous extends CommandGroup {
+public class Autonomous extends SequentialCommandGroup {
 
     public static final String defaultPath = "generated/ExampleTrajectory.txt";
 

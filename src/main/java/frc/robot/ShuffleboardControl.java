@@ -11,12 +11,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.autonomous.Autonomous;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * Manages the Shuffleboard layout, creates autonomoi by passing file names to the Autonomous constructor, and records autos.
@@ -104,7 +104,7 @@ public class ShuffleboardControl {
         chooseAutoLayout.add("Browse autos", autoChooserWidget)
             .withWidget(BuiltInWidgets.kComboBoxChooser)
             .withSize(0, 0); // = withPosition
-        chooseAutoLayout.add("Choose selected", new SetAuto())
+        chooseAutoLayout.add("Choose selected", new InstantCommand(ShuffleboardControl::setAutonomous))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 1);
         selectedAutoLabelWidget = chooseAutoLayout.add("Currently selected auto:", "Default")
@@ -125,10 +125,10 @@ public class ShuffleboardControl {
         ShuffleboardLayout startCancelRecordingLayout = recordAutoLayout.getLayout("Start/cancel recording", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1, "label position", "HIDDEN"))
             .withSize(0, 0);
-        startCancelRecordingLayout.add("Start", new StartRecording())
+        startCancelRecordingLayout.add("Start", new InstantCommand(ShuffleboardControl::startRecording))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 0);
-        startCancelRecordingLayout.add("Cancel", new CancelRecording())
+        startCancelRecordingLayout.add("Cancel", new InstantCommand(ShuffleboardControl::cancelRecording))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(1, 0);
         
@@ -140,20 +140,20 @@ public class ShuffleboardControl {
             .withProperties(Map.of("min", 0, "max", autoLength, "num tick marks", 4))
             .withSize(0, 2).getEntry();
         
-        recordAutoLayout.add("Replay", new ReplayRecording())
+        recordAutoLayout.add("Replay", new InstantCommand(ShuffleboardControl::replayRecording))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 3);
         
         ShuffleboardLayout saveRecordingLayout = recordAutoLayout.getLayout("Save recording", BuiltInLayouts.kGrid)
             .withProperties(Map.of("number of columns", 2, "number of rows", 1))
             .withSize(0, 4);
-        saveRecordingLayout.add("Save as", new SaveRecording())
+        saveRecordingLayout.add("Save as", new InstantCommand(ShuffleboardControl::saveRecording))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 0);
         filenameWidget = saveRecordingLayout.add("Filename", "")
             .withSize(1, 0).getEntry();
 
-        recordAutoLayout.add("Discard", new DiscardRecording())
+        recordAutoLayout.add("Discard", new InstantCommand(ShuffleboardControl::discardRecording))
             .withWidget(BuiltInWidgets.kCommand)
             .withSize(0, 5);
 
@@ -444,61 +444,6 @@ public class ShuffleboardControl {
             countdownWidget.setString("3... 2... 1... GO");
         }
     }
-
-
-
-    // COMMANDS - Redirect to methods
-
-    private static class CancelRecording extends Command {
-        public CancelRecording() { super("Cancel"); }
-        @Override
-        protected void execute() { cancelRecording(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-    private static class DiscardRecording extends Command {
-        public DiscardRecording() { super("Discard"); }
-        @Override
-        protected void execute() { discardRecording(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-    private static class ReplayRecording extends Command {
-        public ReplayRecording() { super("Replay"); }
-        @Override
-        protected void execute() { replayRecording(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-    private static class SaveRecording extends Command {
-        public SaveRecording() { super("Save"); }
-        @Override
-        protected void execute() { saveRecording(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-    private static class SetAuto extends Command {
-        public SetAuto() { super("Select"); }
-        @Override
-        protected void execute() { setAutonomous(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-    private static class StartRecording extends Command {
-        public StartRecording() { super("Start"); }
-        @Override
-        protected void execute() { startRecording(); }
-        @Override
-        protected boolean isFinished() { return true; }
-    }
-
-
-    // HELPER METHODS
 
     /**
      * Gets the readable name of the file from its filename, e.g. Default from path/to/Default.txt.
