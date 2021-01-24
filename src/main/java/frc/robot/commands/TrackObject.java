@@ -1,17 +1,17 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 import edu.wpi.first.networktables.*;
 
 /**
  * Uses pixy to face towards a power cell and prepare to consume.
  */
-public class TrackObject extends Command {
+public class TrackObject extends CommandBase {
 
     public TrackObject() {
-        super("TrackObject");
-        requires(Subsystems.driveBase);
+        setName("TrackObject");
+        addRequirements(Subsystems.driveBase);
     }
 
     @Override
@@ -38,17 +38,7 @@ public class TrackObject extends Command {
     }
 
     @Override
-    public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void interrupted() {
-        Subsystems.driveBase.setMotors(0, 0);
-    }
-
-    @Override
-    public void end() {
+    public void end(boolean interrupted) {
         Subsystems.driveBase.setMotors(0, 0);
     }
 }
