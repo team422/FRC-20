@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
         Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         
         //driver controls (buttons)
+        UserInterface.driverController.Y.whileHeld(new CellVision()); //Y: hold to test cell vision
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
         UserInterface.driverController.A.whileHeld(new TrackObject());
