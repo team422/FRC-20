@@ -1,25 +1,23 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 
 /**
  * Spins the intake wheels in to absorb lemonade cargo.
  */
-public class IntakeIn extends Command {
+public class IntakeIn extends CommandBase {
 
     public IntakeIn() {
-        super("IntakeIn");
-        requires(Subsystems.intake);
+        setName("IntakeIn");
+        addRequirements(Subsystems.intake);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.intake.setIntakeMotors(0.85);
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

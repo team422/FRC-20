@@ -1,21 +1,19 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 
-public class ClearCellCount extends Command {
+public class ClearCellCount extends CommandBase {
 
     public ClearCellCount() {
-        super("ClearCellCount");
+        setName("ClearCellCount");
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.helix.cellCount = 0;
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

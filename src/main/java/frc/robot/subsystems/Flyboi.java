@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -10,7 +10,7 @@ import frc.robot.RobotMap;
 /**
  * The shooter, composed of a single flywheel.
  */
-public class Flyboi extends Subsystem {
+public class Flyboi extends SubsystemBase {
 
     private CANSparkMax leftFlywheel;
     private CANSparkMax rightFlywheel;
@@ -21,7 +21,7 @@ public class Flyboi extends Subsystem {
     public double wheelSpeed = 0.80;
 
     public Flyboi() {
-        super("Flyboi");
+        setSubsystem("Flyboi");
         this.leftFlywheel = new CANSparkMax(RobotMap.leftFlywheel, MotorType.kBrushless);
         this.rightFlywheel = new CANSparkMax(RobotMap.rightFlywheel, MotorType.kBrushless);
         this.leftEncoder = leftFlywheel.getEncoder();

@@ -93,11 +93,10 @@ public class RobotMap {
             rightFlywheel = 2;
             helicase = 33;
             intakeMotor = 23;
-            intakeExtensionIn = 1;
-            intakeExtensionOut = 6;
+            intakeExtensionIn = 0;
+            intakeExtensionOut = 7;
 
             ringLight = 0;
-
         } else if (bot == BotNames.COMPETITION) {
             leftFrontFollower = 7;
             leftMiddleMaster = 29;

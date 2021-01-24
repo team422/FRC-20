@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 
 /**
  * Turns the bot a set number of degrees.
  */
-public class Turn extends Command {
+public class Turn extends CommandBase {
 
     private double degrees;
     private double speed;
@@ -16,23 +16,21 @@ public class Turn extends Command {
      * Turns the bot a set number of degrees.
      * @param Degrees The number of degrees to turn - negative to the left, positive to the right.
      * @param Speed The speed at which to turn (0 to 1). Speeds over x are not recommended for maximal accuracy.
-     * @param Timeout The timeout, in seconds.
      */
-    public Turn(double Degrees, double Speed, double Timeout) {
-        super("Turn");
-        requires(Subsystems.driveBase);
+    public Turn(double Degrees, double Speed) {
+        setName("Turn");
+        addRequirements(Subsystems.driveBase);
         degrees = Degrees;
         speed = Speed;
-        setTimeout(Timeout);
     }
 
-    protected void initialize() {
+    public void initialize() {
         System.out.println("Starting turn!");
         Subsystems.driveBase.zeroGyroAngle();
         Subsystems.driveBase.zeroEncoderPosition();
     }
 
-    protected void execute() {
+    public void execute() {
         if ((degrees > 0) && !isCorrecting) {
             // Turning to the right
             Subsystems.driveBase.setMotors(-speed, speed);
@@ -48,7 +46,7 @@ public class Turn extends Command {
         }
     }
 
-    protected boolean isFinished() {
+    public boolean isFinished() {
         double angle = Subsystems.driveBase.getGyroAngle();
         if (degrees > 0) {
             // Turning to the right
@@ -56,26 +54,22 @@ public class Turn extends Command {
                 if (angle > degrees) {
                     isCorrecting = true;
                 }
-                return isTimedOut();
+                return false;
             }
-            return (angle < degrees) || isTimedOut();
+            return (angle < degrees);
         } else {
             // Turning to the left
             if (!isCorrecting) {
                 if (angle < degrees) {
                     isCorrecting = true;
                 }
-                return isTimedOut();
+                return false;
             }
-            return (angle > degrees) || isTimedOut();
+            return (angle > degrees);
         }
     }
 
-    protected void interrupted() {
-        Subsystems.driveBase.setMotors(0,0);
-    }
-
-    protected void end() {
+    public void end(boolean interrupted) {
         Subsystems.driveBase.setMotors(0,0);
     }
 

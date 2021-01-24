@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.userinterface.UserInterface;
@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
         UserInterface.operatorController.RS.whenPressed(new ClearCellCount()); //Right small: set cell count to 0
         UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
-        UserInterface.operatorController.RB.whenPressed(new HelixTurn(0.3)); //start flywheel early
+        UserInterface.operatorController.RB.whenPressed(new HelixTurn().withTimeout(0.3)); //start flywheel early
 
         //setup Shuffleboard interface & default auto
         ShuffleboardControl.layoutShuffleboard();
@@ -70,13 +70,13 @@ public class Robot extends TimedRobot {
     }
 
     public void robotPeriodic() {
-        Scheduler.getInstance().run();
+        CommandScheduler.getInstance().run();
         ShuffleboardControl.printDataToShuffleboard();
     }
 
     public void disabledInit() {
         System.out.println("Disabled Initialized");
-        Scheduler.getInstance().removeAll();
+        CommandScheduler.getInstance().cancelAll();
     }
 
     public void disabledPeriodic() {
@@ -85,10 +85,10 @@ public class Robot extends TimedRobot {
 
     public void autonomousInit() {
         System.out.println("Autonomous Initalized");
-        Scheduler.getInstance().removeAll();
+        CommandScheduler.getInstance().cancelAll();
 
         ShuffleboardControl.updateAutonomous();
-        ShuffleboardControl.getAutonomous().start();
+        ShuffleboardControl.getAutonomous().schedule();
     }
 
     public void autonomousPeriodic() {
@@ -97,9 +97,9 @@ public class Robot extends TimedRobot {
 
     public void teleopInit() {
         System.out.println("TeleOp Initalized");
-        Scheduler.getInstance().removeAll();
+        CommandScheduler.getInstance().cancelAll();
 
-        Scheduler.getInstance().add(new ShootStop()); //in case was disabled while spinning
+        new ShootStop().schedule(); //in case was disabled while spinning
 
         switchedCamera.setSource(camera1);
         RobotMap.isFirstCamera = true;
@@ -132,10 +132,10 @@ public class Robot extends TimedRobot {
         //flyboi control
         boolean isTriggerOn = UserInterface.operatorController.getRightTrigger() >= 0.4;
         if (isTriggerOn && !oldTriggerOn) { //if trigger was just pressed
-            Scheduler.getInstance().add(new Shoot());
+            new Shoot().schedule();
             System.out.println("Shooter speed is " + Subsystems.flyboi.getPower());
         } else if (!isTriggerOn && oldTriggerOn) { //if trigger was just released
-            Scheduler.getInstance().add(new ShootStop());
+            new ShootStop().schedule();
         }
         oldTriggerOn = isTriggerOn;
 

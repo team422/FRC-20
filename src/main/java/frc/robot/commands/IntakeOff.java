@@ -1,25 +1,23 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 
 /**
  * Stops the intake wheels.
  */
-public class IntakeOff extends Command {
+public class IntakeOff extends CommandBase {
 
     public IntakeOff() {
-        super("IntakeOff");
-        requires(Subsystems.intake);
+        setName("IntakeOff");
+        addRequirements(Subsystems.intake);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.intake.stopIntakeMotors();
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 
