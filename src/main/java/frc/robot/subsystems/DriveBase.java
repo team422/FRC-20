@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
-import frc.robot.commands.TankDrive;
 
 /**
  * The drive base of the robot. Includes all drive train motor controllers as well as sensors such as gyros and encoders, and can use PID to set its motor speeds.
@@ -67,6 +66,7 @@ public class DriveBase extends SubsystemBase {
             this.rightRearFollowerTalon = new WPI_TalonSRX(RobotMap.rightRearFollower);
 
             leftFrontFollowerTalon.setInverted(true);
+            leftMiddleMaster.setInverted(true);
             leftRearFollowerTalon.setInverted(true);
 
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerTalon, leftRearFollowerTalon);
