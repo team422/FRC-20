@@ -38,6 +38,8 @@ public class Robot extends TimedRobot {
         RobotMap.setBot(RobotMap.BotNames.COMPETITION);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
+        Subsystems.driveBase.setDefaultCommand(new TankDrive());
+
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
         camera2 = CameraServer.getInstance().startAutomaticCapture(1);

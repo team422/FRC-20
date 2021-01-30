@@ -80,8 +80,6 @@ public class DriveBase extends SubsystemBase {
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
 
         this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
-
-        this.setDefaultCommand(new TankDrive());
     }
 
     /**
