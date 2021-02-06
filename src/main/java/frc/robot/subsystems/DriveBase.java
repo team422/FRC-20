@@ -68,6 +68,7 @@ public class DriveBase extends SubsystemBase {
 
             leftFrontFollowerTalon.setInverted(true);
             leftRearFollowerTalon.setInverted(true);
+            leftMiddleMaster.setInverted(true);
 
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerTalon, leftRearFollowerTalon);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerTalon, rightRearFollowerTalon);

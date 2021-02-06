@@ -12,7 +12,8 @@ public class TankDrive extends CommandBase {
 
     private double updatedSpeed = 0;
     private double updatedRotation = 0;
-    private final double maxChange = 0.5; //maxChange is acceleration
+    private final double maxSpeedChange = 0.325; //maxChange is acceleration
+    private final double maxRotationChange = 0.15;
 
     public TankDrive() {
         setName("TankDrive");
@@ -40,16 +41,16 @@ public class TankDrive extends CommandBase {
             rotation = 0;
         }
         double speedDifference = speed - updatedSpeed;
-        if (speedDifference > maxChange) {
-            speed = updatedSpeed + maxChange;
-        } else if (speedDifference < -maxChange) {
-            speed = updatedSpeed - maxChange;
+        if (speedDifference > maxSpeedChange) {
+            speed = updatedSpeed + maxSpeedChange;
+        } else if (speedDifference < -maxSpeedChange) {
+            speed = updatedSpeed - maxSpeedChange;
         }
         double rotationDifference = rotation - updatedRotation;
-        if (rotationDifference > maxChange) {
-            rotation = updatedRotation + maxChange;
-        } else if (rotationDifference < -maxChange) {
-            rotation = updatedRotation - maxChange;
+        if (rotationDifference > maxRotationChange) {
+            rotation = updatedRotation + maxRotationChange;
+        } else if (rotationDifference < -maxRotationChange) {
+            rotation = updatedRotation - maxRotationChange;
         }
 
         updatedSpeed = speed;
