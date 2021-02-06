@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.COMPETITION);
+        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         Subsystems.driveBase.setDefaultCommand(new TankDrive());
@@ -48,9 +48,6 @@ public class Robot extends TimedRobot {
 
         switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
         switchedCamera.setSource(camera1);
-
-        //drive settings
-        Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
 
         //operator controls (buttons)
         UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake

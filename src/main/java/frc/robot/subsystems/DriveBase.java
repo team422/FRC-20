@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 // import com.analog.adis16470.frc.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 
 /**
@@ -32,7 +31,6 @@ public class DriveBase extends SubsystemBase {
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
-    public DifferentialDrive cheesyDrive;
 
     public double leftMotorTicks = 0;
     public double rightMotorTicks = 0;
@@ -76,8 +74,6 @@ public class DriveBase extends SubsystemBase {
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
-
-        this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
     }
 
     /**
