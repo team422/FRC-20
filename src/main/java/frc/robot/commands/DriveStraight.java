@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 
 /**
  * Drives the robot in a straight line.
  */
-public class DriveStraight extends Command {
+public class DriveStraight extends CommandBase {
 
     private double ticks;
     private boolean forward;
@@ -17,26 +17,22 @@ public class DriveStraight extends Command {
      * Drives the robot in a straight line.
      * @param Inches Distance forwards or backwards in inches.
      * @param Speed Speed at which the bot travels (0 to 1).
-     * @param Timeout The timeout, in seconds.
      */
-    public DriveStraight(double Inches, double Speed, double Timeout) {
-        super("DriveStraight");
-        requires(Subsystems.driveBase);
+    public DriveStraight(double Inches, double Speed) {
+        setName("DriveStraight");
+        addRequirements(Subsystems.driveBase);
         ticks = convertToTicks(Math.abs(Inches));
         forward = Inches > 0;
         speed = Speed;
-        setTimeout(Timeout);
     }
 
-    @Override
-    protected void initialize() {
+    public void initialize() {
         System.out.println("Starting driveStraight!");
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         double correction = Subsystems.driveBase.getGyroAngle();
         correction *= 0.05;
         correction += 1.0;
@@ -47,20 +43,13 @@ public class DriveStraight extends Command {
         }
     }
 
-    @Override
-    protected boolean isFinished() {
-        int leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
-        int rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
-        return (leftPosition > ticks) || (rightPosition > ticks) || isTimedOut();
+    public boolean isFinished() {
+        double leftPosition = Math.abs(Subsystems.driveBase.getLeftPosition());
+        double rightPosition = Math.abs(Subsystems.driveBase.getRightPosition());
+        return (leftPosition > ticks) || (rightPosition > ticks);
     }
 
-    @Override
-    protected void interrupted() {
-        Subsystems.driveBase.setMotors(0,0);
-    }
-
-    @Override
-    protected void end() {
+    public void end(boolean interrupted) {
         Subsystems.driveBase.setMotors(0,0);
     }
 

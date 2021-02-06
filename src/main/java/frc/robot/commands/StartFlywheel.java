@@ -1,35 +1,33 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Subsystems;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * Runs the flywheel.
  */
-public class StartFlywheel extends Command {
+public class StartFlywheel extends CommandBase {
 
     private double speed;
 
     public StartFlywheel() {
-        super("StartFlywheel");
-        requires(Subsystems.flyboi);
+        setName("StartFlywheel");
+        addRequirements(Subsystems.flyboi);
         this.speed = Subsystems.flyboi.wheelSpeed;
     }
 
     public StartFlywheel(double Speed) {
-        super("StartFlywheel");
-        requires(Subsystems.flyboi);
+        setName("StartFlywheel");
+        addRequirements(Subsystems.flyboi);
         this.speed = Speed;
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.flyboi.setShootVoltage(speed);
         System.out.println("Flywheel on");
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

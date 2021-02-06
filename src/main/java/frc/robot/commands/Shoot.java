@@ -1,14 +1,14 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * Warms up the flywheel, then starts shooting out power cells.
  */
-public class Shoot extends CommandGroup {
+public class Shoot extends SequentialCommandGroup {
     public Shoot() {
-        addSequential(new HelixTurn(), 0.3);
-        addSequential(new StartFlywheel());
-        addSequential(new HelixShoot());
+        addCommands(new HelixTurn().withTimeout(0.3));
+        addCommands(new StartFlywheel());
+        addCommands(new HelixShoot());
     }
 }

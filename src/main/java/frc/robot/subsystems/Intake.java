@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -10,20 +10,18 @@ import frc.robot.RobotMap;
 /**
  * The intake. Includes intake motors and pistons for intake extension.
  */
-public class Intake extends Subsystem {
+public class Intake extends SubsystemBase {
 
     public WPI_TalonSRX intakeMotor;
     public DoubleSolenoid intakeExtension;
     public DigitalInput intakeBeamBreak;
 
     public Intake() {
-        super("Intake");
+        setSubsystem("Intake");
         this.intakeMotor = new WPI_TalonSRX(RobotMap.intakeMotor);
         this.intakeBeamBreak = new DigitalInput(RobotMap.intakeBeamBreak);
         this.intakeExtension = new DoubleSolenoid(RobotMap.intakeExtensionOut, RobotMap.intakeExtensionIn);
     }
-
-    protected void initDefaultCommand() {}
 
     /**
      * Spins intake motors.

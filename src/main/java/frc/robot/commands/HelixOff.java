@@ -1,25 +1,23 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Subsystems;
 
 /**
  * Turns the helix off.
  */
-public class HelixOff extends Command {
+public class HelixOff extends CommandBase {
 
     public HelixOff() {
-        super("HelixOff");
-        requires(Subsystems.helix);
+        setName("HelixOff");
+        addRequirements(Subsystems.helix);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.helix.stopHelixMotors();
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

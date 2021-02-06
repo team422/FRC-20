@@ -1,28 +1,25 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.Subsystems;
 import frc.robot.userinterface.UserInterface;
-import frc.robot.RobotMap;
 
-/**Uses joystick values to drive the bot in teleop.
-*/
-public class TankDrive extends Command {
+/**
+ * Uses joystick values to drive the bot in teleop.
+ */
+public class TankDrive extends CommandBase {
 
     private double updatedLeftSpeed = 0;
     private double updatedRightSpeed = 0;
     private static final double maxChange = 0.5; //maxChange is acceleration
 
     public TankDrive() {
-        super("TankDrive");
-        requires(Subsystems.driveBase);
+        setName("TankDrive");
+        addRequirements(Subsystems.driveBase);
     }
 
-    @Override
-    protected void initialize() {}
-  
-    @Override
-    protected void execute() {
+    public void execute() {
         double leftSpeed, rightSpeed;
 
         /* Sets throttle for driveBase to the left stick Y-axis and sets the rotation
@@ -62,16 +59,5 @@ public class TankDrive extends Command {
 
         Subsystems.driveBase.setMotors(leftSpeed * RobotMap.getSpeedCap(), rightSpeed * RobotMap.getSpeedCap());
     }
-
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    protected void interrupted() {}
-
-    @Override
-    protected void end() {}
 
 }

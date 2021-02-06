@@ -1,27 +1,25 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.Subsystems;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotMap;
 
 /**
  * Retracts the intake.
  */
-public class IntakeRetract extends Command {
+public class IntakeRetract extends CommandBase {
 
     public IntakeRetract() {
-        super("IntakeRetract");
-        requires(Subsystems.intake);
+        setName("IntakeRetract");
+        addRequirements(Subsystems.intake);
     }
 
-    @Override
-    protected void execute() {
+    public void execute() {
         Subsystems.intake.intakeRetract();
         RobotMap.isIntakeDown = false;
     }
 
-    @Override
-    protected boolean isFinished() {
+    public boolean isFinished() {
         return true;
     }
 

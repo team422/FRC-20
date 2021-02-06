@@ -1,13 +1,13 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * Returns the shooter and helix to their resting positions/stops Shoot.
  */
-public class ShootStop extends CommandGroup {
+public class ShootStop extends SequentialCommandGroup {
     public ShootStop () {
-        addSequential(new HelixOff());
-        addSequential(new StopFlywheel());
+        addCommands(new HelixOff());
+        addCommands(new StopFlywheel());
     }
 }
