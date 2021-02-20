@@ -33,7 +33,6 @@ public class DriveBase extends SubsystemBase {
     public ADXRS450_Gyro gyro;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
-    public DifferentialDrive cheesyDrive;
     private static final SPI.Port kGyroPort = SPI.Port.kOnboardCS0;
 
     public double leftMotorTicks = 0;
@@ -79,8 +78,6 @@ public class DriveBase extends SubsystemBase {
 
         leftMotorTicks = leftMiddleMaster.getSelectedSensorPosition(0);
         rightMotorTicks = rightMiddleMaster.getSelectedSensorPosition(0);
-
-        this.cheesyDrive = new DifferentialDrive(leftSide, rightSide);
     }
 
     /**

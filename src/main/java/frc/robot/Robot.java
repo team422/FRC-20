@@ -48,20 +48,17 @@ public class Robot extends TimedRobot {
 
         switchedCamera = CameraServer.getInstance().addSwitchedCamera("Camera feeds");
         switchedCamera.setSource(camera1);
-
-        //drive settings
-        Subsystems.driveBase.cheesyDrive.setSafetyEnabled(false);
         
         //driver controls (buttons)
         UserInterface.driverController.LB.whenPressed(new SwitchCameras(switchedCamera, camera1, camera2)); //LBump: Toggle cameras
         UserInterface.driverController.RB.whenPressed(new SwitchGears()); //RBump: Toggle slow/fast mode
 
         //operator controls (buttons)
-        UserInterface.operatorController.X.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
+        UserInterface.operatorController.RB.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
         UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
         UserInterface.operatorController.RS.whenPressed(new ClearCellCount()); //Right small: set cell count to 0
-        UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
-        UserInterface.operatorController.RB.whenPressed(new HelixTurn().withTimeout(0.3)); //start flywheel early
+        // UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
+        // UserInterface.operatorController.RB.whenPressed(new HelixTurn().withTimeout(0.3)); //start flywheel early
 
         //setup Shuffleboard interface & default auto
         ShuffleboardControl.layoutShuffleboard();
