@@ -63,7 +63,7 @@ public class RobotMap {
         botName = bot;
         if (bot == BotNames.TOASTER) {
             leftFrontFollower = 43;
-            leftMiddleMaster = 18;
+            leftMiddleMaster = 26;
             leftRearFollower = 2;
             rightFrontFollower = 60;
             rightMiddleMaster = 14;

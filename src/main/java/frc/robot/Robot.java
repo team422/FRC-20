@@ -35,8 +35,10 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
+        RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
+
+        Subsystems.driveBase.setDefaultCommand(new TankDrive());
 
         //camera setup
         camera1 = CameraServer.getInstance().startAutomaticCapture(0);
