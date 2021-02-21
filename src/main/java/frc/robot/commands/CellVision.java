@@ -10,6 +10,9 @@ public class CellVision extends CommandBase {
 
     NetworkTable table;
     NetworkTableEntry cellRunnerEntry;
+    NetworkTableEntry cellLateralTranslationEntry;
+    NetworkTableEntry cellLongitudinalTranslationEntry;
+    NetworkTableEntry cellRotationEntry;
 
     public CellVision() {
         setName("CellVision");
@@ -21,13 +24,13 @@ public class CellVision extends CommandBase {
         NetworkTable table = ntinst.getTable("visionTable");
         cellRunnerEntry = table.getEntry("CellVisionRunner");
         cellRunnerEntry.forceSetBoolean(true);
+        cellLateralTranslationEntry = table.getEntry("CellVisionLateralTranslation");
+        cellLongitudinalTranslationEntry = table.getEntry("CellVisionLongitudinalTranslation");
+        cellRotationEntry = table.getEntry("CellVisionRotation");
     }
 
     @Override
     public void execute() {
-        NetworkTableEntry cellLateralTranslationEntry = table.getEntry("CellVisionLateralTranslation");
-        NetworkTableEntry cellLongitudinalTranslationEntry = table.getEntry("CellVisionLongitudinalTranslation");
-        NetworkTableEntry cellRotationEntry = table.getEntry("CellVisionRotation");
         System.out.print("cell lateral translation is " + cellLateralTranslationEntry.getDouble(-1));
         System.out.print("cell longitudinal translation is " + cellLongitudinalTranslationEntry.getDouble(-1));
         System.out.print("cell rotation is " + cellRotationEntry.getDouble(0));

@@ -9,6 +9,12 @@ import edu.wpi.first.networktables.*;
  */
 public class TrackObject extends CommandBase {
 
+    NetworkTable table;
+    NetworkTableEntry cellRunnerEntry;
+    NetworkTableEntry cellDistanceEntry;
+    NetworkTableEntry cellRotationEntry;
+
+
     public TrackObject() {
         setName("TrackObject");
         addRequirements(Subsystems.driveBase);
@@ -18,23 +24,18 @@ public class TrackObject extends CommandBase {
     public void initialize() {
         Subsystems.driveBase.zeroEncoderPosition();
         Subsystems.driveBase.zeroGyroAngle();
-       
+
+        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
+        NetworkTable table = ntinst.getTable("visionTable");
+        cellRunnerEntry = table.getEntry("CellVisionRunner");
+        cellRunnerEntry.forceSetBoolean(true);
+        cellRotationEntry = table.getEntry("CellVisionRotation");
+        cellDistanceEntry = table.getEntry("CellVisionDistance");
     }
 
     @Override
     public void execute() { 
-        NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-        NetworkTable table = ntinst.getTable("visionTable");
-
-        NetworkTableEntry testEntry = table.getEntry("test");
-        double test = testEntry.getDouble(-1);
-        System.out.println("test is " + test);
-
-        // NetworkTableEntry correctionEntry = table.getEntry("correction");
-        // double correction = correctionEntry.getDouble(-1);
-        // if (Math.abs(correction) > 0.25) {
-        //     Subsystems.driveBase.setMotors(-0.25*correction, 0.25*correction);
-        // }
+        System.out.print("cell rotation is " + cellRotationEntry.getDouble(0));
     }
 
     @Override

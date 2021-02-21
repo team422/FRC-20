@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import frc.robot.userinterface.UserInterface;
@@ -9,6 +10,8 @@ import frc.robot.subsystems.Subsystems;
 import frc.robot.commands.*;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.VideoSource;
+
+import edu.wpi.first.networktables.*;
 
 /**
  * The main Robot class whence all things come.
@@ -23,6 +26,12 @@ public class Robot extends TimedRobot {
 
     private boolean oldTriggerOn = false;
 
+    NetworkTableInstance ntinst;
+    NetworkTable visionTable;
+    NetworkTableEntry cellRunnerEntry;
+    NetworkTableEntry cellRotationEntry;
+    NetworkTableEntry cellDistanceEntry;
+
     //SENSORS/CAMERAS
 
     private VideoSink switchedCamera;
@@ -34,6 +43,14 @@ public class Robot extends TimedRobot {
     }
 
     public void robotInit() {
+        //setup vision networktables
+        ntinst = NetworkTableInstance.getDefault();
+        visionTable = ntinst.getTable("visionTable");
+        cellRunnerEntry = visionTable.getEntry("CellVisionRunner");
+        cellRotationEntry = visionTable.getEntry("CellVisionRotation");
+        cellDistanceEntry = visionTable.getEntry("CellVisionDistance");
+        cellRunnerEntry.forceSetBoolean(true);
+
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
         RobotMap.setBot(RobotMap.BotNames.TOASTER);
         System.out.println("Initializing " + RobotMap.botName + "\n");
@@ -89,8 +106,10 @@ public class Robot extends TimedRobot {
         System.out.println("Autonomous Initalized");
         CommandScheduler.getInstance().cancelAll();
 
-        ShuffleboardControl.updateAutonomous();
-        ShuffleboardControl.getAutonomous().schedule();
+        new SequentialCommandGroup(new Turn(cellRotationEntry.getDouble(0), 0.2), new DriveStraight(-cellDistanceEntry.getDouble(0) + 6, 0.3)).schedule();
+
+        // ShuffleboardControl.updateAutonomous();
+        // ShuffleboardControl.getAutonomous().schedule();
     }
 
     public void autonomousPeriodic() {
