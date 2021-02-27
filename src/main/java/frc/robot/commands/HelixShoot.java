@@ -26,7 +26,7 @@ public class HelixShoot extends CommandBase {
 
     public void execute() {
         System.out.println(Subsystems.flyboi.getPower());
-        if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.010) {
+        if(Subsystems.flyboi.getPower() >= Subsystems.flyboi.wheelSpeed-0.070) {
             if (counter < 6) {
                 counter++;
             } else {

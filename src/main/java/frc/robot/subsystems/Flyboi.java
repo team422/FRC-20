@@ -27,6 +27,9 @@ public class Flyboi extends SubsystemBase {
         this.leftEncoder = leftFlywheel.getEncoder();
         this.rightEncoder = rightFlywheel.getEncoder();
 
+        leftFlywheel.setInverted(true);
+        rightFlywheel.setInverted(true);
+
         this.feedforward = new SimpleMotorFeedforward(1.05, 1.0);
     }
 

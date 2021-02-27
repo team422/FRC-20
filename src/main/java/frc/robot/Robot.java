@@ -21,7 +21,9 @@ public class Robot extends TimedRobot {
     private boolean in = false;
     private int counter = 0;
 
-    private boolean oldTriggerOn = false;
+    private boolean oldLeftTriggerOn = false;
+    private boolean oldRightTriggerOn = false;
+
 
     //SENSORS/CAMERAS
 
@@ -35,7 +37,7 @@ public class Robot extends TimedRobot {
 
     public void robotInit() {
         //set which bot - either COMPETITION, PRACTICE, or TOASTER
-        RobotMap.setBot(RobotMap.BotNames.TOASTER);
+        RobotMap.setBot(RobotMap.BotNames.PRACTICE);
         System.out.println("Initializing " + RobotMap.botName + "\n");
 
         Subsystems.driveBase.setDefaultCommand(new TankDrive());
@@ -57,8 +59,6 @@ public class Robot extends TimedRobot {
         UserInterface.operatorController.RB.whenPressed(new IntakeExtendRetract()); //X: Toggles extend/retract intake
         UserInterface.operatorController.LS.whileHeld(new Vomit()); //Left small: SPIT WITH ALL YOU HAVE
         UserInterface.operatorController.RS.whenPressed(new ClearCellCount()); //Right small: set cell count to 0
-        // UserInterface.operatorController.RB.whenPressed(new StartFlywheel(0.7)); //start flywheel early
-        // UserInterface.operatorController.RB.whenPressed(new HelixTurn().withTimeout(0.3)); //start flywheel early
 
         //setup Shuffleboard interface & default auto
         ShuffleboardControl.layoutShuffleboard();
@@ -126,14 +126,23 @@ public class Robot extends TimedRobot {
         }
 
         //flyboi control
-        boolean isTriggerOn = UserInterface.operatorController.getRightTrigger() >= 0.4;
-        if (isTriggerOn && !oldTriggerOn) { //if trigger was just pressed
+        boolean isLeftTriggerOn = UserInterface.operatorController.getLeftTrigger() >= 0.4;
+        if (isLeftTriggerOn && !oldLeftTriggerOn) { //if trigger was just pressed
+            new StartFlywheel(0.7).schedule();
+            new HelixTurn().withTimeout(0.3).schedule(); //start flywheel early
+            System.out.println("Shooter speed is " + Subsystems.flyboi.getPower());
+        } else if (!isLeftTriggerOn && oldLeftTriggerOn) { //if trigger was just released
+        }
+        oldLeftTriggerOn = isLeftTriggerOn;
+
+        boolean isRightTriggerOn = UserInterface.operatorController.getRightTrigger() >= 0.4;
+        if (isRightTriggerOn && !oldRightTriggerOn) { //if trigger was just pressed
             new Shoot().schedule();
             System.out.println("Shooter speed is " + Subsystems.flyboi.getPower());
-        } else if (!isTriggerOn && oldTriggerOn) { //if trigger was just released
+        } else if (!isRightTriggerOn && oldRightTriggerOn) { //if trigger was just released
             new ShootStop().schedule();
         }
-        oldTriggerOn = isTriggerOn;
+        oldRightTriggerOn = isRightTriggerOn;
 
         //moves helix in/out
         if (UserInterface.operatorController.getPOVAngle() == 0) {
@@ -144,7 +153,7 @@ public class Robot extends TimedRobot {
             Subsystems.helix.setHelixMotors(-0.5);
         } else if (in) {
             Subsystems.helix.setHelixMotors(0.75);
-        } else if (!isTriggerOn) {
+        } else if (!isLeftTriggerOn && !isRightTriggerOn) {
             Subsystems.helix.setHelixMotors(0);
         }
     }

@@ -54,6 +54,10 @@ public class DriveBase extends SubsystemBase {
             leftMiddleMaster.setInverted(true);
             leftRearFollowerVictor.setInverted(true);
 
+            rightFrontFollowerVictor.setInverted(true);
+            rightMiddleMaster.setInverted(true);
+            rightRearFollowerVictor.setInverted(true);
+
             this.leftSide = new SpeedControllerGroup(leftMiddleMaster, leftFrontFollowerVictor, leftRearFollowerVictor);
             this.rightSide = new SpeedControllerGroup(rightMiddleMaster, rightFrontFollowerVictor, rightRearFollowerVictor);
 

@@ -86,8 +86,8 @@ public class RobotMap {
 
             leftFlywheel = 1;
             rightFlywheel = 2;
-            helicase = 33;
-            intakeMotor = 23;
+            helicase = 35;
+            intakeMotor = 33;
             intakeExtensionIn = 0;
             intakeExtensionOut = 7;
         } else if (bot == BotNames.COMPETITION) {
