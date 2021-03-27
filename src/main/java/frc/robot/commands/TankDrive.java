@@ -57,6 +57,17 @@ public class TankDrive extends CommandBase {
         updatedLeftSpeed = leftSpeed;
         updatedRightSpeed = rightSpeed;
 
-        Subsystems.driveBase.setMotors(leftSpeed * RobotMap.getSpeedCap(), rightSpeed * RobotMap.getSpeedCap());
+        System.out.println("right speed is " + rightSpeed + "left speed is " + leftSpeed);
+        if (rightSpeed * leftSpeed > 0){ //turn
+            Subsystems.driveBase.setMotors(leftSpeed * RobotMap.getRotationCap(), rightSpeed * RobotMap.getRotationCap());
+            System.out.println("turning with Rotation cap " + RobotMap.getRotationCap());
+        }
+        else { //straight
+            Subsystems.driveBase.setMotors(leftSpeed * RobotMap.getSpeedCap(), rightSpeed * RobotMap.getSpeedCap());
+            System.out.println("going straight with Speed cap " + RobotMap.getSpeedCap());
+        }
+
+        
+        // System.out.println("speed cap is " + RobotMap.getSpeedCap());
     }
 }
